@@ -1,0 +1,16 @@
+# Quarto build outputs
+_site/
+# docs/          # ignore if you plan to publish from /docs (see Option B)
+# Quarto caches
+_freeze/
+# R/Posit clutter
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+.Rbuildignore
+.Rprofile
+# OS/editor
+.DS_Store
+Thumbs.db
+*.swp
