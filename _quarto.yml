@@ -1,8 +1,9 @@
 project:
-  type: book
+  type: website
+  output-dir: docs
   resources: 
-    - styles.css
-    - copy-all-code.html
+    # - Extras/styles.css
+    # - Extras/copy-all-code.html
     - images/**
 
 
@@ -31,10 +32,10 @@ book:
 format:
   html:
     theme: cosmo
-    css: styles.css
+    css: Extras/styles.css
     toc: true
     toc-title: "On this page" 
-    include-in-header: copy-all-code.html
+    include-in-header: Extras/copy-all-code.html
     link-external-newwindow: true
     embed-resources: true
 pdf:

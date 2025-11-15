@@ -5,6 +5,7 @@
 #| eval: true
 library(glue)
 library(knitr)
+library(Pmetrics)
 
 pmetrics <- function(){
     knitr::asis_output("[Pmetrics]{style=\"color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;\"}")
@@ -21,6 +22,8 @@ gh_help <- function(name) {
 }
 ```
 
+# Running NPAG
+
 First, you must always load the `r pmetrics()` library in your R script or Quarto document.
 
 ```{r}
@@ -29,13 +32,6 @@ First, you must always load the `r pmetrics()` library in your R script or Quart
 library(Pmetrics)
 ```
 
-```{r}
-#| eval: true
-#| echo: false
-devtools::load_all()
-```
-
-# Running NPAG
 
 ### Working directory
 
@@ -111,7 +107,7 @@ Pmetrics always needs data and a model to run, so let's create a new data object
 
 ```{r}
 #| eval: true
-exData <- PM_data$new(data = "../Examples/src/ex.csv")
+exData <- PM_data$new(data = "Data/src/ex.csv")
 ```
 
 `r pmetrics()` standardizes the data, checks for errors, and provides an error and attempted fix report fo any found.
@@ -206,7 +202,7 @@ We have another file "model.txt" that contains the old representation of the sam
 
 ```{r}
 #| eval: true
-system("cat ../Examples/src/model.txt")
+system("cat Data/src/model.txt")
 ```
 
 You can also open it in a text editor.
@@ -214,7 +210,7 @@ You can also open it in a text editor.
 `PM_model$new()` also accepts the path to a model file to create the same model using the file.
 
 ```{r}
-mod1b <- PM_model$new("../Examples/src/model.txt")
+mod1b <- PM_model$new("Data/src/model.txt")
 mod1b # look at it
 ```
 
@@ -237,14 +233,6 @@ mod1b <- mod1$clone()
 
 Simply using `mod1b <- mod1` will cause `mod1b` to be changed if `mod1` is changed, as R6 objects use reference semantics. For more details you can refer to [Advanced R](https://adv-r.hadley.nz/r6.html), Section 14.4.
 
-Lastly, `r pmetrics()` has a model building app!
-
-```{r}
-#| eval: false
-build_model() #start from scratch
-build_model(exData) #start with data to match covariates
-build_model(mod1) #start with a model and update it
-```
 
 ### Fit the model to the data
 
@@ -252,7 +240,7 @@ To keep everything tidy, we are working in a folder specifically to store the ru
 
 ```{r}
 #| eval: false
-run1 <- mod1$fit(data = exData, run = 1, overwrite = TRUE, path = "../Examples/Runs") 
+run1 <- mod1$fit(data = exData, run = 1, overwrite = TRUE, path = "Data/Runs") 
 ```
 
 The `r gh_help("PM_model")` class has a `$fit()` method that fits the model to the data.
@@ -266,6 +254,6 @@ After the run is complete the results are returned to the assigned object, here 
 
 ```{r}
 #| eval: false
-run1 <- PM_load(1, path = "../Examples/Runs") # load the results from run 1 if returning to this script later
+run1 <- PM_load(1, path = "Data/Runs") # load the results from run 1 if returning to this script later
 ```
 

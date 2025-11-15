@@ -30,7 +30,7 @@ Recall that in the previous exercises, we loaded our run results with the follow
 ```{r}
 #| eval: false
 #| echo: true
-run1 <- PM_load(1, path = "../Examples/Runs")
+run1 <- PM_load(1, path = "Data/Runs")
 ```
 
 `run1` is now a `r gh_help("PM_result")` R6 object that contains all the results from the NPAG run. Let's dig into it in more detail.

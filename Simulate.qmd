@@ -2,8 +2,8 @@
 #| eval: true
 #| echo: false
 #| message: false
-#library(Pmetrics)
-devtools::load_all()
+library(Pmetrics)
+#devtools::load_all()
 ```
 
 
@@ -13,9 +13,9 @@ devtools::load_all()
 #| echo: false
 #| eval: true
 
-exData <- PM_data$new(data = "../Examples/src/ex.csv", loq = 1)
-mod1 <- PM_model$new("../Examples/src/model.txt")
-run2 <- PM_load(file = "../Examples/Runs/2/outputs/PMout.Rdata")
+exData <- PM_data$new(data = "Data/src/ex.csv", loq = 1)
+mod1 <- PM_model$new("Data/src/model.txt")
+run2 <- PM_load(run = 2, path = "Data/Runs")
 ```
 
 
@@ -61,7 +61,7 @@ Simulate from a model with new data.
 ```{r}
 #| eval: true
 sim_new <- run2$sim(
-  data = "../Examples/src/ptaex1.csv",
+  data = "Data/src/ptaex1.csv",
   include = 2, limits = NA,
   predInt = c(120, 144, 1)
 )
@@ -73,12 +73,17 @@ sim_new <- run2$sim(
 Plot them; `?plot.PM_sim` for help.
 
 ```{r}
-#| eval: true
-simdata$plot() %>% plotlygg()
-simOther$plot() %>% plotlygg()
-sim_new$plot(log = FALSE) %>% plotlygg()
+simdata$plot()
+simOther$plot() 
+sim_new$plot(log = FALSE) 
 ```
 
+```{r}
+#| eval: true
+plotly::plotly_build(simdata$plot())
+plotly::plotly_build(simOther$plot()) 
+plotly::plotly_build(sim_new$plot(log = FALSE))
+```
 
 Simulate using multiple subjects as templates.
 
@@ -91,13 +96,16 @@ Plot the third simulation; use include/exclude to specify the ID numbers, which 
 
 
 ```{r}
-#| eval: true
-simdata$plot(include = 3) %>% plotlygg() # one regimen
-simdata$plot(exclude = 3) %>% plotlygg() # all but one regimen; notice the jagged profiles arising from combining different regimens
+simdata$plot(include = 3) # one regimen
+simdata$plot(exclude = 3) # all but one regimen; notice the jagged profiles arising from combining different regimens
 ```
 
 
-
+```{r}
+#| eval: true
+plotly::plotly_build(simdata$plot(include = 3)) # one regimen
+plotly::plotly_build(simdata$plot(exclude = 3)) # all but one regimen; notice the jagged profiles arising from combining different regimens
+```
 
 ## Simulate with covariates
 In this case we use the covariate-parameter correlations from run 2, which are found in the `cov` field. We re-define the mean weight to be 50 with SD of 20, and limits of 10 to 70 kg.  We fix africa, gender and height covariates, but allow age (the last covariate) to be simulated, using the mean, sd, and limits in the original population, since we didn't specify them. See ?SIMrun for more help on this.
@@ -126,12 +134,15 @@ simdata3 <- run2$sim(include = 1:4, limits = NA, nsim = 100, covariate = covaria
 There are subtle differences between simulations with and without covariates simulated, all other inputs the same.
 
 ```{r}
-#| eval: true
-simdata$plot(include = 4) %>% plotlygg() # without covariates
-simdata3$plot(include = 4) %>% plotlygg() # ...and with covariates simulated
+simdata$plot(include = 4)  # without covariates
+simdata3$plot(include = 4) # ...and with covariates simulated
 ```
 
-
+```{r}
+#| eval: true
+plotly::plotly_build(simdata$plot(include = 4))  # without covariates
+plotly::plotly_build(simdata3$plot(include = 4)) # ...and with covariates simulated
+```
 
 Here are the simulated parameters and covariates for the first subject's
 template; note that both wt and age are simulated, using proper covariances
@@ -149,4 +160,4 @@ We can summarize simulations too. See `?summary.PM_sim` for help.
 simdata3$summary(field = "obs", include = 3)
 ```
 
-Next, we'll see the first of two applications of simulation: internal validation of a model.
+Next, we'll see the first of two applications of simulation: probability of target attainment.

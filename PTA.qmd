@@ -3,5 +3,5 @@
 
 ::: {.callout-tip} 
 ## Learn more
-Refer to the reference article: [Simulation](https://lapkb.github.io/Pmetrics/articles/simulation.html) 
+Refer to the reference article: [Simulation](https://lapkb.github.io/Pmetrics_rust/articles/simulation.html) 
 :::

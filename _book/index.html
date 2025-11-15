@@ -3916,7 +3916,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <span class="navbar-title">Learn Pmetrics</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
+            <div id="quarto-search" class title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -3937,7 +3937,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>  <span class="chapter-title">Introduction</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -3956,31 +3956,31 @@ document.addEventListener('DOMContentLoaded', function () {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>  <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./NPAG.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Running NPAG</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>  <span class="chapter-title">Running NPAG</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./examine.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Examine the results</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>  <span class="chapter-title">Examine the results</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./NPAG_cov.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">NPAG with covariates</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>  <span class="chapter-title">NPAG with covariates</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Compare.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Comparing models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>  <span class="chapter-title">Comparing models</span></span></a>
   </div>
 </li>
     </ul>
@@ -4036,15 +4036,15 @@ document.addEventListener('DOMContentLoaded', function () {
 </header>
 
 
-<p>These exercises will help you learn how to use <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> for R. They are designed to be read in sequence, so start with the first one.</p>
+<p>These exercises will help you learn how to use <span style="color: #841010; font-family: &#39;Arial&#39;, Arial, sans-serif; font-weight: 900;">Pmetrics</span> for R. They are designed to be read in sequence, so start with the first one.</p>
 <p>When you work on a project, best practice is to use the following workflow:</p>
 <ol type="1">
 <li>Create a new directory for your project</li>
 <li>Create a new R script or Quarto document in that directory</li>
 <li>Build your project code in that script or document.</li>
-<li>You can store source data files in a subdirectory, e.g.&nbsp;“data” or “src” and the various runs when you fit a model to the data in another subdirectory, e.g.&nbsp;“Runs”.</li>
+<li>You can store source data files in a subdirectory, e.g. “data” or “src” and the various runs when you fit a model to the data in another subdirectory, e.g. “Runs”.</li>
 </ol>
-<p>If you have loaded <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> already with <code>library(Pmetrics)</code>, the command <code>PMtree()</code> will create a project folder with subfolders for you. To learn more about this function or any other in R, you can get help by typing <code>?function_name</code> in the console.</p>
+<p>If you have loaded <span style="color: #841010; font-family: &#39;Arial&#39;, Arial, sans-serif; font-weight: 900;">Pmetrics</span> already with <code>library(Pmetrics)</code>, the command <code>PMtree()</code> will create a project folder with subfolders for you. To learn more about this function or any other in R, you can get help by typing <code>?function_name</code> in the console.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>?PMtree</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -4059,7 +4059,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </section>
 <section id="scripting" class="level2" data-number="0.2">
 <h2 data-number="0.2" class="anchored" data-anchor-id="scripting"><span class="header-section-number">0.2</span> Scripting</h2>
-<p>You can use either an R script or a Quarto document to paste code from these pages or to write your own code. R scripts have the advantage of being simple and easy to use. Quarto documents have the advantage of being able to combine code with formatted text, images, links, etc. You can use either method to work with <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span>. Choose the one that works best for you.</p>
+<p>You can use either an R script or a Quarto document to paste code from these pages or to write your own code. R scripts have the advantage of being simple and easy to use. Quarto documents have the advantage of being able to combine code with formatted text, images, links, etc. You can use either method to work with <span style="color: #841010; font-family: &#39;Arial&#39;, Arial, sans-serif; font-weight: 900;">Pmetrics</span>. Choose the one that works best for you.</p>
 <section id="r-script" class="level3" data-number="0.2.1">
 <h3 data-number="0.2.1" class="anchored" data-anchor-id="r-script"><span class="header-section-number">0.2.1</span> R script</h3>
 <ul>
@@ -4088,7 +4088,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </ul>
 <p>Here’s a toy example of a Quarto document. It mixes text formatted in markdown and R code chunks.</p>
 <pre class="qmd"><code>---
-title: "My Project"
+title: &quot;My Project&quot;
 format: html
 ---
 
@@ -4536,7 +4536,7 @@ You can see that the value of b is printed above.
   </div>
   <div class="nav-page nav-page-next">
       <a href="./NPAG.html" class="pagination-link" aria-label="Running NPAG">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Running NPAG</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">2</span>  <span class="chapter-title">Running NPAG</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

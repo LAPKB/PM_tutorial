@@ -10,5 +10,20 @@
   },
   "references.qmd": {
     "references.html": "3bfdd37a"
+  },
+  "NPAG.qmd": {
+    "NPAG.html": "fcbdde00"
+  },
+  "examine.qmd": {
+    "examine.html": "87b78778"
+  },
+  "NPAG_cov.qmd": {
+    "NPAG_cov.html": "d55442d7"
+  },
+  "Compare.qmd": {
+    "Compare.html": "f870e68c"
+  },
+  "PTA.qmd": {
+    "PTA.html": "e6d92312"
   }
 }
