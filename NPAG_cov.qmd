@@ -4,8 +4,8 @@
 #| eval: true
 #| echo: false
 #| message: false
-#library(Pmetrics)
-devtools::load_all()
+library(Pmetrics)
+
 ```
 
 
@@ -15,8 +15,8 @@ devtools::load_all()
 #| echo: false
 #| eval: true
 
-exData <- PM_data$new(data = "../Examples/src/ex.csv", loq = 1)
-mod1 <- PM_model$new("../Examples/src/model.txt")
+exData <- PM_data$new(data = "Data/src/ex.csv")
+mod1 <- PM_model$new("Data/src/model.txt")
 ```
 
 # NPAG with covariates
@@ -49,7 +49,8 @@ mod2$update(
 Now, run that new model.
 
 ```{r}
-run2 <- mod2$fit(data = exData, run = 2, overwrite = TRUE)
+#| eval: true
+run2 <- mod2$fit(data = exData, run = 2, path = "Data/Runs", overwrite = TRUE)
 ```
 
 Right after the run, the results are in `run2`, but for future loading if you return to your script later, you can load it with `PM_load()`.

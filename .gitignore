@@ -14,3 +14,6 @@ _freeze/
 .DS_Store
 Thumbs.db
 *.swp
+
+/.quarto/
+**/*.quarto_ipynb

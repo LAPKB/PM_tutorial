@@ -3,10 +3,10 @@
 #| include: false
 #| echo: false
 #| eval: true
-
-exData <- PM_data$new(data = "../Examples/src/ex.csv", loq = 1)
-mod1 <- PM_model$new("../Examples/src/model.txt")
-run2 <- PM_load(file = "../Examples/Runs/2/outputs/PMout.Rdata")
+library(Pmetrics)
+exData <- PM_data$new(data = "Data/src/ex.csv", loq = 1)
+mod1 <- PM_model$new("Data/src/model.txt")
+run2 <- PM_load(run = 2, path = "Data/Runs")
 ```
 
 # Model validation 
