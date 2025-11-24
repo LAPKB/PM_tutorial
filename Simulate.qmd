@@ -35,7 +35,7 @@ Setting `limits = NA` makes the simulated parameter values stay within the same 
 
 ```{r}
 #| eval: true
-simdata <- run2$sim(include = 1, limits = NA, nsim = 100)
+simdata <- run2$sim(include = 1, limits = c(0,3), nsim = 100)
 ```
 
 Below is the alternate way to simulate, which is particularly useful if you define 

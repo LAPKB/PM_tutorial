@@ -1,0 +1,230 @@
+---
+title: "Workflow"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=F, eval=T, message=F}
+library(Pmetrics)
+
+r_help <- function(pkg, name) {
+    glue::glue("[`{name}`](https://rdrr.io/pkg/{pkg}/man/{name}.html)")
+}
+
+gh_help <- function(name) {
+
+    glue::glue("[`{name}`](https://lapkb.github.io/Pmetrics/reference/{name}.html)")
+
+}
+
+pmetrics <- function(){
+    knitr::asis_output("[Pmetrics]{style=\"color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;\"}")
+}
+
+```
+
+## General Workflow
+
+The general `r pmetrics()` workflow is shown in the
+following diagram.
+
+```{mermaid}
+%%| eval: true
+flowchart LR
+
+subgraph RSession[" "]
+  direction TB
+  DATA["PM_data"]
+  MODEL["PM_model"]
+  RESULT["PM_result"]
+end
+
+DISK[("Hard Drive")]
+
+DATA --> MODEL
+MODEL -- "$fit()" --> RESULT
+RESULT --> MODEL
+DISK -- "PM_load()" --> RESULT
+RESULT --> DISK
+
+classDef blue fill:#2f6db6,stroke:#184a8b,color:#fff;
+classDef orange fill:#c7662b,stroke:#8a3f18,color:#fff;
+classDef disk fill:#d2d3d7,stroke:#7f8084,color:#000;
+
+class DATA,MODEL blue;
+class RESULT orange;
+class DISK disk;
+
+style RSession fill:#e9f0ff,stroke:#9ab0d6,stroke-width:1px,rx:2,ry:2
+
+```
+
+Data are combined with a model during a fitting operation to produce results, which are saved to the hard drive for later retrieval and examination. The blue box represents your R script or Quarto document containing R code that you write to perform your analysis.
+
+## Components of a new project
+
+To implement the above workflow when you work on a new project, you will typically do the following:
+
+1.  Create a new directory for your project
+2.  Create a new R script or Quarto document in that directory
+3.  Build your project code in that script or document.
+4.  You can store source data files in a subdirectory, e.g. "data" or "src" and the various runs when you fit a model to the data in another subdirectory, e.g. "Runs".
+
+
+### Creating a new project directory
+
+If you have loaded `r pmetrics()` already with `library(Pmetrics)`, the command `PM_tree()` will create a project folder with subfolders for you. To learn more about this function or any other in R, you can get help by typing `?function_name` in the console.
+
+```{r}
+#| eval: false
+PM_tree("MyProject") # creates a new project called "MyProject" in your current working directory
+PM_tree("MyProject", path = "somewhere") # creates a new project called "MyProject" in the "somewhere" directory
+```
+
+### Scripting
+
+You can use either an R script or a [Quarto](https://quarto.org) document to paste code from these pages or to write your own code. R scripts have the advantage of being simple and easy to use. Quarto documents have the advantage of being able to combine code with formatted text, images, links, etc. You can use either method to work with `r pmetrics()`. Choose the one that works best for you.
+
+#### R script
+
+-   Create a new script with *File -\> New File -\> R Script* (Rstudio) or *R File* (Positron).
+-   Save the script in your project directory with a name like "Learn.R".
+-   You can then copy and paste code chunks from these pages into your script and run them line by line or all at once.
+-   It is useful to annotate your code with comments like the one above so you can remember what you did later.
+
+Here's a toy example of an R script.
+```{r}
+# This is a comment in R. It starts with a # symbol.
+# Anything other than a comment should be R code.
+a <- 1 + 1
+print(a) # This will print the value of a to the console.
+```
+
+#### Quarto document
+
+-   Create a new document with *File -\> New File -\> Quarto Document* (Rstudio/Positron).
+-   Use markdown to add headings, links, images, etc.
+-   Insert R chunks to paste copied code or write your own.
+-   Execute code from the chunks.
+-   Render the document to create a nicely formatted output in HTML, PDF, or Word format.
+-   See [Quarto documentation](https://quarto.org/docs/guide) for more information.
+
+Here's a toy example of a Quarto document. It mixes text formatted in markdown and R code chunks.
+
+```{r}
+#| echo: false
+#| results: asis
+#| eval: true
+cat("````qmd\n",
+"---\n",
+"title: \"My Project\"\n",
+"format: html\n",
+"---\n\n",
+"## Introduction\n",
+"This is my first Quarto document. Below is some R code.\n\n",
+"```{r}\n",
+"# this is an R code chunk\n",
+"b <- 2 + 2\n",
+"print(b)\n",
+"```\n\n",
+"You can see that the value of b is printed above.\n\n",
+"````",
+sep = ""
+)
+```
+
+When rendered, the above will look like this:
+
+## My Project {.unnumbered .unlisted}
+### Introduction {.unnumbered .unlisted}
+This is my first Quarto document. Below is some R code.
+```{r}
+#| eval: true
+# this is an R code chunk
+b <- 2 + 2
+print(b)
+```
+You can see that the value of b is printed above.
+
+
+### Data and model objects
+
+You supply the data and model objects. These can come from the hard drive or directly defined within R. We devote whole chapters in this book to creating these objects, which are at the heart of `r pmetrics()`, but we provide a sneak preview here to illustrate the workflow.
+
+The model file is created in R using
+the `PM_model$new()` function and the data file by `PM_data$new()`. When combined using the `$fit()` method
+on the compiled model, the analysis is executed. At the end of the run, the hard drive will contain a new numerically named folder, e.g., 1, 2, 3, ..., that contains the files which can be loaded into R subsequently using
+`PM_load(x)`, replacing `x` with the folder number. `PM_load()` is an alias for `PM_result$new()` because it creates a new `PM_result()` object which contains all the results of a run, and has many assciated methods attached to it for plotting, simulating, etc.
+
+To change model structure between fits, update the model file or the R code that defines the model.  If  continuing a previous run that did not end, simply use `$fit()` and specify the run number you wish to continue as the `prior` argument to `$fit()`. These scenarios are illustrated below.
+
+```{r echo=T, eval=FALSE, label = workflow_code}
+# Run 1 - ensure the data, model files are in the working directory
+dat1 <- PM_data$new("data.csv")
+mod1 <- PM_model$new("model.txt")
+
+# alternatively, define model in R directly
+mod1 <- PM_model$new(
+  pri = list(
+    ke = ab(0, 5),
+    v = ab(10, 200)
+  ),
+  eqn = function(){
+    one_comp_iv
+  },
+  out = function(){
+    Y[1] = X[2]/v
+  },
+  err = list(
+    proportional(5, c(0.02, 0.05, -0.0002, 0))
+  )
+)
+
+# now, fit the model to the data
+run1 <- mod1$fit(dat1) # this is a PM_result object
+
+run1 <- PM_load(1) # if returning to script later, use this to load from hard drive
+
+# Run 2 - update Ke range
+mod2 <- PM_model$new("model2.txt") # updated model file
+
+# or in R directly
+mod2 <- PM_model$new(
+  pri = list(
+    ke = ab(0, 2), # changed upper limit
+    v0 = ab(10, 200)
+  ),
+  cov = list(
+    wt = interp(), # add covariates in the data
+    age = interp()
+  ),
+  eqn = function(){
+    one_comp_iv
+  },
+  out = function(){
+    v = v0 * (wt/70) # define volume in terms of weight
+    Y[1] = X[2]/v
+  },
+  err = list(
+    proportional(5, c(0.02, 0.05, -0.0002, 0))
+  )
+)
+
+# now, fit the updated model to the same data
+run2 <- mod2$fit(dat1)
+
+
+# Run 3 - continue run 2
+run3 <- mod2$fit(data = dat1, prior = 2)
+```
+
+The great advantage of R6 over Legacy is that in R6, you no longer have to spend time copying files from prior run folders, modifying them, and ensuring that they are in the working directory. After the initial creation of the data and model objects, everything can be done in R from memory, although results are still saved to hard drive for later retrieval.
+
+
+
+

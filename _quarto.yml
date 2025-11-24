@@ -2,10 +2,8 @@ project:
   type: book
   output-dir: docs
   resources: 
-    # - Extras/styles.css
-    # - Extras/copy-all-code.html
-    - images/**
-
+    - Images/**
+    - Data/**
 
 book:
   title: "Learn Pmetrics"
@@ -13,6 +11,10 @@ book:
   date: "8/27/2025"
   chapters:
     - index.qmd
+    - workflow.qmd
+    - overview.qmd
+    - data.qmd
+    - models.qmd
     - NPAG.qmd
     - examine.qmd
     - NPAG_cov.qmd
@@ -28,7 +30,9 @@ book:
         text: Home
   sidebar:
     title: Sections
- 
+
+bibliography: Extras/references.bib
+
 format:
   html:
     theme: cosmo
@@ -38,6 +42,7 @@ format:
     include-in-header: Extras/copy-all-code.html
     link-external-newwindow: true
     embed-resources: true
+
 pdf:
     documentclass: scrreprt
 

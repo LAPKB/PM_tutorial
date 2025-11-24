@@ -34,13 +34,13 @@ Then update it to add a variable `V0`, or volume that depends on weight. Remove 
 
 ```{r}
 #| eval: true
-mod2$update(
+mod2 <- mod2$update(
   pri = list(
-    V0 = ab(30, 120),
-    V = NULL
+    v0 = ab(30, 120),
+    v = NULL
   ),
   sec = function(x) {
-    V = V0*(WT/55)
+    v = v0*(wt/70)
   }
 )
 
