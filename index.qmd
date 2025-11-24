@@ -13,99 +13,75 @@ pmetrics <- function(){
 }
 ```
 
+Thank you for your interest in `r pmetrics()`! This online book provides
+instructions and examples to assist users of the `r pmetrics()` R package, by
+the Laboratory of Applied Pharmacokinetics and Bioinformatics at the
+Saban Research Institute, Children's Hospital Los Angeles, and the
+Department of Pediatrics, Keck School of Medicine, University of
+Southern California. Please see our website at
+[[http://www.lapk.org]{.underline}](http://www.lapk.org) for more
+information.
 
-These exercises will help you learn how to use `r pmetrics()` for R. They are designed to be read in sequence, so start with the first one.
+## Disclaimer
 
-When you work on a project, best practice is to use the following workflow:
+You, the user, assume all responsibility for acting on the results
+obtained from `r pmetrics()`. The Laboratory of Applied Pharmacokinetics and
+Bioinformatics (LAPKB), members and consultants to LAPKB, and Children's
+Hospital Los Angeles and the University of Southern California and their
+employees assume no liability whatsoever. Your use of the package
+constitutes your agreement to this provision.
 
-1.  Create a new directory for your project
-2.  Create a new R script or Quarto document in that directory
-3.  Build your project code in that script or document.
-4.  You can store source data files in a subdirectory, e.g. "data" or "src" and the various runs when you fit a model to the data in another subdirectory, e.g. "Runs".
+## Installing Pmetrics
 
-If you have loaded `r pmetrics()` already with `library(Pmetrics)`, the command `PMtree()` will create a project folder with subfolders for you. To learn more about this function or any other in R, you can get help by typing `?function_name` in the console.
+`r pmetrics()` and all required components will run under MacOS (Unix), Windows,
+and Linux. Instructions on obtaining and installing the package are in the README section of our source code [repository in GitHub](https://github.com/LAPKB/Pmetrics_rust/).
 
-```{r}
-#| eval: false
-?PMtree
-```
+## What This Guide Is Not
 
-We assume you have some familiarity with R and possibly Quarto. If not, there are many good tutorials online.
+We assume that the user has familiarity with population modeling and R,
+and thus this manual is not a tutorial for basic concepts and techniques
+in either domain. We have tried to make the R code simple, regular and
+well documented. A very good free online resource for learning the
+basics of R can be found at [Stat Methods](http://www.statmethods.net/index.html). However, there are a number of other free or low-cost online resources which you can find with a simple or AI-assisted web search.
 
-## How to use these pages
+We recognize that initial use of a new software package can be complex,
+so please feel free to contact us at any time, preferably through the
+`r pmetrics()` [Disussions](https://github.com/LAPKB/Pmetrics/discussions). You can report [issues](https://github.com/LAPKB/Pmetrics/issues) online as well.
 
-We have designed these pages with the idea that you can copy and paste the code chunks into your own scripts or Quarto documents to see how they work. You can hover over the code chunks to see a copy icon. Click that to copy the code to your clipboard so you can paste it into your own script or document. Alternatively, you can click the "Copy all code" button at the top right of every page to copy all the code chunks on that page to your clipboard.
+This manual is also not intended to be a theoretical treatise on the
+algorithms `r pmetrics()` uses. For that, the user is directed to our
+[website](http://www.lapk.org/publications.php).
+
+## Getting Help and Updates
+
+Within R, you can  use
+`help("command")` or more simply just `?command` in the R console to see detailed help files for any `r pmetrics()` command. Many commands have examples included in this documentation and you can execute the examples with `example(command)`.
+
+You can also type `PM_manual()` to launch this website from within Pmetrics. 
+
+`r pmetrics()` will check for updates automatically every time you load it
+with `library(Pmetrics)` and you are connected to the internet. 
+If an update is available, it will provide a
+brief message to inform you. You can then reinstall the package.
+
+## Examples and Exercises
+
+Included in this book are numerous code examples and exercises that will help you learn how to use `r pmetrics()` for R. They are designed to be read in sequence.
+
+* Items that are [hyperlinked]() can be selected to cross reference
+within this manual or link to external sites.
+
+* `Items` correspond to inline examples of R code, which are not evaluated
+in this document, but serve as templates for what may be typed into your 
+R console or script. They may not necessarily be executable if typed verbatim.
+
+* We have designed these pages with the idea that you can copy and paste the code chunks into your own scripts or Quarto documents to see how they work. You can hover over the code chunks to see a copy icon. Click that to copy the code to your clipboard so you can paste it into your own script or document. Alternatively, you can click the **Copy all code** button at the top right of every page to copy all the code chunks on that page to your clipboard.
 
 **Note:** In many cases, we do not evaluate the code chunks because the ouput is too long, so you will need to run them in your own script or document.
 
 ```{r}
 # Hover over the code chunk to see the copy icon.
 ```
-
-## Scripting
-
-You can use either an R script or a Quarto document to paste code from these pages or to write your own code. R scripts have the advantage of being simple and easy to use. Quarto documents have the advantage of being able to combine code with formatted text, images, links, etc. You can use either method to work with `r pmetrics()`. Choose the one that works best for you.
-
-### R script
-
--   Create a new script with *File -\> New File -\> R Script* (Rstudio) or *R File* (Positron).
--   Save the script in your project directory with a name like "Learn.R".
--   You can then copy and paste code chunks from these pages into your script and run them line by line or all at once.
--   It is useful to annotate your code with comments like the one above so you can remember what you did later.
-
-Here's a toy example of an R script.
-```{r}
-# This is a comment in R. It starts with a # symbol.
-# Anything other than a comment should be R code.
-a <- 1 + 1
-print(a) # This will print the value of a to the console.
-```
-
-### Quarto document
-
--   Create a new document with *File -\> New File -\> Quarto Document* (Rstudio/Positron).
--   Use markdown to add headings, links, images, etc.
--   Insert R chunks to paste copied code or write your own.
--   Execute code from the chunks.
--   Render the document to create a nicely formatted output in HTML, PDF, or Word format.
--   See [Quarto documentation](https://quarto.org/docs/guide) for more information.
-
-Here's a toy example of a Quarto document. It mixes text formatted in markdown and R code chunks.
-
-```{r}
-#| echo: false
-#| results: asis
-#| eval: true
-cat("````qmd\n",
-"---\n",
-"title: \"My Project\"\n",
-"format: html\n",
-"---\n\n",
-"## Introduction\n",
-"This is my first Quarto document. Below is some R code.\n\n",
-"```{r}\n",
-"# this is an R code chunk\n",
-"b <- 2 + 2\n",
-"print(b)\n",
-"```\n\n",
-"You can see that the value of b is printed above.\n\n",
-"````",
-sep = ""
-)
-```
-
-When rendered, the above will look like this:
-
-## My Project {.unnumbered .unlisted}
-### Introduction {.unnumbered .unlisted}
-This is my first Quarto document. Below is some R code.
-```{r}
-#| eval: true
-# this is an R code chunk
-b <- 2 + 2
-print(b)
-```
-You can see that the value of b is printed above.
 
 
 

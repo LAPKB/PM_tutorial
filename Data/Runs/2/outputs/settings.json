@@ -18,14 +18,14 @@
         "upper": 0.1
       },
       {
-        "name": "v",
-        "lower": 30.0,
-        "upper": 120.0
-      },
-      {
         "name": "lag1",
         "lower": 0.0,
         "upper": 4.0
+      },
+      {
+        "name": "v0",
+        "lower": 30.0,
+        "upper": 120.0
       }
     ]
   },

@@ -29,6 +29,7 @@ First, you must always load the `r pmetrics()` library in your R script or Quart
 ```{r}
 #| eval: false
 #| echo: true
+#| label: example-npag-1
 library(Pmetrics)
 ```
 
@@ -42,6 +43,7 @@ You can set your working directory with the `r r_help("base", "setwd", "getwd")`
 ```{r}
 #| eval: false
 #| echo: true
+#| label: example-npag-2
 setwd("/path/to/your/project/directory") # Mac and Linux users
 setwd("C:/path/to/your/project/directory") # Windows users
 ```
@@ -53,6 +55,7 @@ You can also specify the path in a variable and use it in `r pmetrics()` functio
 ```{r}
 #| eval: false
 #| echo: true
+#| label: example-npag-3
 wd <- "/path/to/your/project/directory" # Mac and Linux users
 wd <- "C:/path/to/your/project/directory" # Windows users
 dat <- PM_data$new(data = file.path(wd, "data", "mydata.csv"))
@@ -107,6 +110,8 @@ Pmetrics always needs data and a model to run, so let's create a new data object
 
 ```{r}
 #| eval: true
+#| label: example-npag-4
+
 exData <- PM_data$new(data = "Data/src/ex.csv")
 ```
 
@@ -117,6 +122,7 @@ You can look at a .csv data file directly by opening it in a spreadsheet program
 `exData` is an `r r_help("R6", "R6", "R6Class")` object, which means that contains both data and methods to process that data.
 
 ```{r}
+#| label: example-npag-5
 exData # prints the object, usually to the terminal, but in this case to a rendered "lite" spreadsheet
 exData$data # contains your original data
 exData$standard_data # contains the standardized and validated data
@@ -128,6 +134,7 @@ Most `r pmetrics()` objects are R6 objects, so you can use the `$` operator to a
 **Note:** We recognize that many users are familiar with the "S3 framework" in R, which uses functions like `summary(object)` and `plot(object)`. To comply with better programming standards, `r pmetrics()` uses the R6 framework. However, we have provided S3 methods for most functions, so you can use `summary(object)` and `plot(object)` if you prefer.
 
 ```{r}
+#| label: example-npag-6
 # S3 method to summarize data
 summary(exData)
 ```
@@ -135,6 +142,7 @@ summary(exData)
 `PM_data` has a `plot()` method that creates a plot of the data. See `r gh_help("plot.PM_data")`  for more information.
 
 ```{r}
+#| label: example-npag-7
 #| eval: false
 exData$plot() 
 ```
@@ -153,7 +161,7 @@ You can specify a model by reading a file or directly as a list object in R. We'
 The following code creates the same model as in `/src/model.txt` file. See further [model details](https://lapkb.github.io/Pmetrics/articles/models.html) on creating models in R compared to text files. The advantage of creating them in R is that one does not need to copy model files into folders to provide necessary inputs.
 
 ```{r}
-#| label: mod1_def
+#| label: example-mod1_def
 #| eval: true
 mod1 <- PM_model$new(
   pri = list(
@@ -188,12 +196,14 @@ When you execute the above code in your own script or Quarto document, you will 
 
 ```{r}
 #| eval: true
+#| label: example-mod1_print
 mod1 # prints the model object
 ```
 
 ```{r}
 #| eval: true
 #| message: false
+#| label: example-mod1_plot
 
 mod1$plot() 
 ```
@@ -202,6 +212,7 @@ We have another file "model.txt" that contains the old representation of the sam
 
 ```{r}
 #| eval: true
+#| label: example-mod1_viewfile
 system("cat Data/src/model.txt")
 ```
 
@@ -210,24 +221,16 @@ You can also open it in a text editor.
 `PM_model$new()` also accepts the path to a model file to create the same model using the file.
 
 ```{r}
+#| label: example-mod1b_def
 mod1b <- PM_model$new("Data/src/model.txt")
 mod1b # look at it
 ```
 
-PM_model provides a method to update the different elements of a model, for example:
-
-```{r}
-mod1b$update(
-  pri = list(
-    ka = ab(0.001, 5)
-))
-```
-
-It is case sensitive, so ka is different from Ka. To remove a parameter, set it to NULL.
 
 To copy a model use the `$clone()` method.
 
 ```{r}
+#| label: example-mod1b_clone
 mod1b <- mod1$clone()
 ```
 
@@ -240,6 +243,7 @@ To keep everything tidy, we are working in a folder specifically to store the ru
 
 ```{r}
 #| eval: false
+#| label: example-npag-8
 run1 <- mod1$fit(data = exData, run = 1, overwrite = TRUE, path = "Data/Runs") 
 ```
 
@@ -247,6 +251,7 @@ The `r gh_help("PM_model")` class has a `$fit()` method that fits the model to t
 ```{r}
 #| eval: true
 #| echo: false
+#| label: example-npag-8-1
 run1 <- NPex
 ```
 
@@ -254,6 +259,7 @@ After the run is complete the results are returned to the assigned object, here 
 
 ```{r}
 #| eval: false
+#| label: example-npag-9
 run1 <- PM_load(1, path = "Data/Runs") # load the results from run 1 if returning to this script later
 ```
 
