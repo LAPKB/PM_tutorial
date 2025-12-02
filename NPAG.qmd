@@ -1,3 +1,12 @@
+---
+format:
+  html:
+     css: Extras/custom.scss
+     include-in-header: Extras/copy-all-code.html
+---
+
+
+
 ```{r}
 #| label: setup
 #| echo: false
@@ -22,7 +31,9 @@ gh_help <- function(name) {
 }
 ```
 
-# Running NPAG
+# Detailed example of a typical workflow
+
+## Load the Pmetrics library
 
 First, you must always load the `r pmetrics()` library in your R script or Quarto document.
 
@@ -34,79 +45,59 @@ library(Pmetrics)
 ```
 
 
-### Working directory
+## Set the working directory
 
 Next, R and `r pmetrics()` need to know which directory to work in. This is the directory where R expects to find files and where it will save output files. There are two ways to do this.
 
-#### Global working directory change
+### Global working directory change
 You can set your working directory with the `r r_help("base", "setwd", "getwd")` function. 
+
+::: {code-copy='false'}
 ```{r}
 #| eval: false
 #| echo: true
+#| copy-code: false
 #| label: example-npag-2
+
+
 setwd("/path/to/your/project/directory") # Mac and Linux users
 setwd("C:/path/to/your/project/directory") # Windows users
 ```
+:::
 
 **Windows users:** Make sure that you separate directories with a forward slash "/" or double backslashes "\\". Unfortunately, Windows is the only OS that uses backslashes "", so R conforms to Unix/Linux style with the forward slash. If you copy the example below, make sure to change the path to one that exists on your computer.
 
-#### Local path specification
+### Local path specification
 You can also specify the path in a variable and use it in `r pmetrics()` functions without changing the working directory.
+
+::: {code-copy='false'}
 ```{r}
 #| eval: false
 #| echo: true
 #| label: example-npag-3
+
 wd <- "/path/to/your/project/directory" # Mac and Linux users
 wd <- "C:/path/to/your/project/directory" # Windows users
-dat <- PM_data$new(data = file.path(wd, "data", "mydata.csv"))
+dat <- PM_data$new(data = file.path(wd, "data", "mydata.csv")) # see ?file.path for help
 ```
+:::
+
 
 💡 The `r r_help("base", "file.path")` function creates file paths that are compatible with your operating system.
 
-### Workflow
+## Create a run
 
-The typical workflow for using `r pmetrics()` is as follows:
+To review, recall that the typical workflow in `r pmetrics()` is as follows:
 
 1.  Create a `r gh_help("PM_data")` object.
 2.  Create a `r gh_help("PM_model")` object.
 3.  Fit the model to the data with the `$fit()` method of the model object. This returns a `r gh_help("PM_result")` object, which is also saved to the hard drive and can be loaded later with the `r gh_help("PM_load")` function.
-4.  Examine the results with `r gh_help("PM_result")` methods and functions and revise as needed to improve the model fit. This chiefly means using the `$update()` method to change the model or manually editing it.
-
-```{mermaid}
-%%| eval: true
-flowchart LR
-
-subgraph RSession[" "]
-  direction TB
-  DATA["PM_data"]
-  MODEL["PM_model"]
-  RESULT["PM_result"]
-end
-
-DISK[("Hard Drive")]
-
-DATA --> MODEL
-MODEL -- "$fit()" --> RESULT
-RESULT -- "$update()" --> MODEL
-DISK -- "PM_load()" --> RESULT
-RESULT --> DISK
-
-classDef blue fill:#2f6db6,stroke:#184a8b,color:#fff;
-classDef orange fill:#c7662b,stroke:#8a3f18,color:#fff;
-classDef disk fill:#d2d3d7,stroke:#7f8084,color:#000;
-
-class DATA,MODEL blue;
-class RESULT orange;
-class DISK disk;
-
-style RSession fill:#e9f0ff,stroke:#9ab0d6,stroke-width:1px,rx:2,ry:2
-
-```
+4.  Examine the results with `r gh_help("PM_result")` methods and functions and revise as needed to improve the model fit. 
 
 
 ### Data objects
 
-Pmetrics always needs data and a model to run, so let's create a new data object.
+Since `r pmetrics()` always needs data and a model to run, let's create a new data object.
 
 ```{r}
 #| eval: true

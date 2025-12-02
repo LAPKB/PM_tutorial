@@ -11,8 +11,8 @@ book:
   date: "8/27/2025"
   chapters:
     - index.qmd
-    - workflow.qmd
     - overview.qmd
+    - workflow.qmd
     - data.qmd
     - models.qmd
     - NPAG.qmd
@@ -36,10 +36,10 @@ bibliography: Extras/references.bib
 format:
   html:
     theme: cosmo
-    css: Extras/styles.css
+    css: Extras/custom.scss
     toc: true
     toc-title: "On this page" 
-    include-in-header: Extras/copy-all-code.html
+    #include-in-header: Extras/copy-all-code.html
     link-external-newwindow: true
     embed-resources: true
 

@@ -78,13 +78,23 @@ To implement the above workflow when you work on a new project, you will typical
 
 ### Creating a new project directory
 
-If you have loaded `r pmetrics()` already with `library(Pmetrics)`, the command `PM_tree()` will create a project folder with subfolders for you. To learn more about this function or any other in R, you can get help by typing `?function_name` in the console.
+If you have loaded `r pmetrics()` already with `library(Pmetrics)`, the command `r gh_help("PM_tree")` will create a project folder with subfolders for you. To learn more about this function or any other in R, you can get help by typing `?function_name` in the console.
 
 ```{r}
 #| eval: false
+# examples; do not run
 PM_tree("MyProject") # creates a new project called "MyProject" in your current working directory
 PM_tree("MyProject", path = "somewhere") # creates a new project called "MyProject" in the "somewhere" directory
 ```
+
+In the above examples, `r pmetrics()` will create a directory called "MyProject" with several subdirectories.
+
+* **Rscript** contains a skeleton Analysis.R script to begin `r pmetrics()` runs in the new project.
+* **Runs** is empty at first, but should contain all files required for a run, and it will also contain the resulting numerically ordered run directories created after each `r pmetrics()` run. 
+* **Sim** can contain any files related to simulations
+* **src** is a repository for original and manipulated source data files
+
+You are free to edit this directory tree structure as you please, or make your own entirely.
 
 ### Scripting
 
@@ -95,7 +105,7 @@ You can use either an R script or a [Quarto](https://quarto.org) document to pas
 -   Create a new script with *File -\> New File -\> R Script* (Rstudio) or *R File* (Positron).
 -   Save the script in your project directory with a name like "Learn.R".
 -   You can then copy and paste code chunks from these pages into your script and run them line by line or all at once.
--   It is useful to annotate your code with comments like the one above so you can remember what you did later.
+-   It is useful to annotate your code with comments so you can remember what you did later.
 
 Here's a toy example of an R script.
 ```{r}
@@ -151,24 +161,56 @@ print(b)
 ```
 You can see that the value of b is printed above.
 
-
 ### Data and model objects
 
 You supply the data and model objects. These can come from the hard drive or directly defined within R. We devote whole chapters in this book to creating these objects, which are at the heart of `r pmetrics()`, but we provide a sneak preview here to illustrate the workflow.
 
-The model file is created in R using
-the `PM_model$new()` function and the data file by `PM_data$new()`. When combined using the `$fit()` method
-on the compiled model, the analysis is executed. At the end of the run, the hard drive will contain a new numerically named folder, e.g., 1, 2, 3, ..., that contains the files which can be loaded into R subsequently using
-`PM_load(x)`, replacing `x` with the folder number. `PM_load()` is an alias for `PM_result$new()` because it creates a new `PM_result()` object which contains all the results of a run, and has many assciated methods attached to it for plotting, simulating, etc.
+The model file is created in R using the `PM_model$new()` function and the data file by `PM_data$new()`. 
 
-To change model structure between fits, update the model file or the R code that defines the model.  If  continuing a previous run that did not end, simply use `$fit()` and specify the run number you wish to continue as the `prior` argument to `$fit()`. These scenarios are illustrated below.
+### Fit the model to the data
 
-```{r echo=T, eval=FALSE, label = workflow_code}
-# Run 1 - ensure the data, model files are in the working directory
-dat1 <- PM_data$new("data.csv")
-mod1 <- PM_model$new("model.txt")
+When combined using the `$fit()` method on the compiled model, the analysis is executed. 
+```{r}
+#| eval: false
+#| label: example-fit
+#| echo: true
 
-# alternatively, define model in R directly
+# example of a fit, will not run until mod1 has been compiled and dat1 is defined
+run1 <- mod1$fit(data = dat1)
+```
+
+Here, `run1` is a `r gh_help("PM_result")` object that contains all the results of the fit, and has many associated methods for plotting, simulating, etc, which we discuss in later chapters.
+
+### Load previous results
+
+In addition to returning the `r gh_help("PM_result")` object, at the end of the run, your hard drive will contain a new numerically named folder, e.g., 1, 2, 3, ..., in either the current working directory, or the directory specified in a `path` argument to `$fit()` that contains the files which can be loaded into R subsequently using `PM_load(x)`, replacing `x` with the folder number. `r gh_help("PM_load")` is an alias for `PM_result$new()` because it creates a new `PM_result` object.
+
+```{r}
+#| eval: false
+#| label: example-load
+# load previous results from run 1 and assign to run1, assuming a folder named "1" with subfolder "outputs" exists in the current working directory
+# this is an example that won't run yet
+run1 <- PM_load(1)
+
+# load results from a different folder "1" in a directory other than the current one
+# another example that will not run yet
+run1 <- PM_load(1, path = "some/other/directory/Runs")
+```
+
+### Update models to improve fits
+
+To change model structure between fits, update the R code or the file that defines the model.  If  continuing a previous run that did not end, simply use `$fit()` and specify the run number you wish to continue as the `prior` argument to `$fit()`. These scenarios are illustrated below.
+
+```{r}
+#| echo: true
+#| eval: false
+#| label: workflow_code
+
+# Run 1 - be sure to use PM_tutorial() to set up the folders and files to make this code work
+
+dat1 <- PM_data$new("src/ex.csv")
+
+# Define model in R directly
 mod1 <- PM_model$new(
   pri = list(
     ke = ab(0, 5),
@@ -185,15 +227,17 @@ mod1 <- PM_model$new(
   )
 )
 
+# alernatively, read model from file
+mod1 <- PM_model$new("model.txt")
+
 # now, fit the model to the data
 run1 <- mod1$fit(dat1) # this is a PM_result object
 
 run1 <- PM_load(1) # if returning to script later, use this to load from hard drive
 
-# Run 2 - update Ke range
-mod2 <- PM_model$new("model2.txt") # updated model file
 
-# or in R directly
+# Run 2 - update Ke range and V = V0/wt (compare to mod1 above)
+
 mod2 <- PM_model$new(
   pri = list(
     ke = ab(0, 2), # changed upper limit
@@ -215,6 +259,9 @@ mod2 <- PM_model$new(
   )
 )
 
+# or edit the file, copy to working directory, and read it
+mod2 <- PM_model$new("model2.txt") # updated model file
+
 # now, fit the updated model to the same data
 run2 <- mod2$fit(dat1)
 
@@ -225,6 +272,8 @@ run3 <- mod2$fit(data = dat1, prior = 2)
 
 The great advantage of R6 over Legacy is that in R6, you no longer have to spend time copying files from prior run folders, modifying them, and ensuring that they are in the working directory. After the initial creation of the data and model objects, everything can be done in R from memory, although results are still saved to hard drive for later retrieval.
 
+### Examine and use model fits
 
+Once you have a `r gh_help("PM_result")` object from either a new fit or loading from hard drive, you can use its methods and other `r pmetrics()` functions to examine and summarize the results, compare across model fits, generate plots, simulate, and calculate probabilities of target attainment. These topics are described in subsequent chapters.
 
 

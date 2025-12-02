@@ -1,18 +1,3 @@
----
-title: "Created Objects"
-format:
-  html:
-    toc: true
-    toc-title: "On this page"
-    number-sections: true
-    code-fold: false
-    css: Styles/style.css
-bibliography: Citations.bib
-vignette: >
-  %\VignetteIndexEntry{Created Objects}
-  %\VignetteEngine{quarto}
-  %\VignetteEncoding{UTF-8}
----
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(

@@ -3,5 +3,213 @@
 
 ::: {.callout-tip} 
 ## Learn more
-Refer to the reference article: [Simulation](https://lapkb.github.io/Pmetrics_rust/articles/simulation.html) 
+It is essential that you understand simulations first. If necessary, refer to [Simulation](Simulate.qmd). 
 :::
+
+
+
+**Note**: these can be computationally intense and take some time.
+
+
+Be sure to have executed the NPAG run above and used PM_load(2) in EXERCISE 2
+Type ?PM_sim, ?PM_pta, or ?plot.PM_pta into the R console for help.
+
+simulate with the template data file that contains different doses
+Look at PM_sim for help on arguments to this function, including predInt,
+seed, limits, nsim.
+
+
+```{r}
+#| eval: false
+#| echo: true
+
+simlist1 <- run1$sim(
+  limits = c(0, 3), data = "../src/ptaex1.csv",
+  predInt = c(120, 144, 0.5), seed = rep(-17, 4)
+)
+```
+
+now simulate with covariates; make sure that you defined the covariate
+object first in Exercise 5 above and have loaded the results of Exercise 2
+with PM_load(2)
+
+```{r}
+#| eval: false
+#| echo: true
+#| 
+simlist2 <- run2$sim(
+  limits = 5, data = "../src/ptaex1.csv",
+  predInt = c(120, 144, 0.5), seed = rep(-17, 4),
+  covariate = covariate
+)
+```
+
+make the first PMpta object to calculate the time above each target for at
+least 60% of the dosing
+interval from 120 to 144 hours.  Include labels for the simulations.
+?makePTA for help
+define simulation labels first
+
+```{r}
+#| eval: false
+#| echo: true
+
+simlabels <- c("600 mg daily", "1200 mg daily", "300 mg bid", "600 mg bid")
+
+pta1_2 <- PM_pta$new(
+  simdata = simlist1,
+  target = c(0.25, 0.5, 1, 2, 4, 8, 16, 32), target_type = "time",
+  success = 0.6, start = 120, end = 144
+)
+
+pta1b_2 <- PM_pta$new(
+  simdata = simlist2,
+  simlabels = simlabels,
+  target = c(0.25, 0.5, 1, 2, 4, 8, 16, 32), target_type = "time",
+  success = 0.6, start = 120, end = 144
+)
+
+# summarize the results
+pta1_2$summary()
+```
+
+
+in the summary()$pta, reg_num is the simulation template ID number;
+target in this case is the MIC; prop_success is the proportion of the simulated
+profiles for each dose/MIC that are above the success threshold (0.6); pdi.mean and pdi.sd
+are the mean and standard deviation of the pharmacodynamic index (PDI), in this case proportion of the interval > MIC.
+In the $pdi, target and simnum are the same, but now the median and confidence
+intervals (default 95%) PDI are shown.
+?summary.PMpta for help
+
+Plot the first without covariates.   We didn't include simulation
+labels in the makePTA command, so generics are used here, but we move it to
+the bottom left; ?legend for help on arguments to supply to the
+legend list argument to plot.PMpta.
+
+```{r}
+#| eval: false
+#| echo: true
+
+pta1_2$plot(ylab = "Proportion with %T>MIC of at least 60%", grid = TRUE, legend = list(x = "bottomleft"))
+
+pta1b_2$summary()
+```
+
+Plot the second with covariates simulated. Note the regimen labels are included, but we move
+the legend to the bottom left.
+
+```{r}
+#| eval: false
+#| echo: true
+
+pta1b_2$plot(
+  ylab = "Proportion with %T>MIC of at least 60%", grid = TRUE,
+  legend = list(x = "bottomleft")
+)
+
+# Now we'll define success as free auc:mic > 100 with a free drug fraction of 50%
+pta2_2 <- PM_pta$new(
+  simdata = simlist2,
+  simlabels = simlabels, target = c(0.25, 0.5, 1, 2, 4, 8, 16, 32),
+  free_fraction = 0.7,
+  target_type = "auc", success = 100, start = 120, end = 144
+)
+
+summary(pta2_2)
+pta2_2$plot(
+  ylab = "Proportion with AUC/MIC of at least 100", grid = TRUE,
+  legend = list(x = "bottomleft")
+)
+
+# success is Cmax/MIC >=10
+pta3_2 <- PM_pta$new(
+  simdata = simlist2,
+  simlabels = simlabels,
+  target = c(0.25, 0.5, 1, 2, 4, 8, 16, 32),
+  target_type = "peak", success = 10, start = 120, end = 144
+)
+
+pta3_2$summary()
+pta3_2$plot(ylab = "Proportion with peak/MIC of at least 10", grid = TRUE)
+
+# success = Cmin:MIC > 1
+pta4_2 <- PM_pta$new(
+  simdata = simlist2,
+  simlabels = simlabels,
+  target = c(0.25, 0.5, 1, 2, 4, 8, 16, 32),
+  target_type = "min", success = 1, start = 120, end = 144
+)
+
+pta4_2$summary()
+pta4_2$plot(ylab = "Proportion with Cmin/MIC of at least 1", grid = TRUE, legend = list(x = "bottomleft"))
+
+# now plot the PDI (pharmacodynamic index) of each regimen, rather than the proportion
+# of successful profiles.  A PDI plot is always available for PMpta objects.
+pta4_2$plot(at = 1, type = "pdi", ylab = "Cmin:MIC", grid = TRUE)
+
+# Each regimen has the 90% confidence interval PDI around the median curve,
+# in the corresponding, semi-transparent color.  Make the CI much narrower...
+pta4_2$plot(at = 1, type = "pdi", ci = 0.1)
+
+# ...or gone altogether, put back the grid, redefine the colors, and make lines narrower
+pta4_2$plot(
+  at = 1, type = "pdi", ci = 0, grid = TRUE,
+  line = list(
+    color = c("blue", "purple", "black", "brown"),
+    width = 1
+  )
+)
+```
+
+
+now let's repeat the analysis but simulate the distribution of MICs
+using susceptibility of Staphylococcus aureus to vancomycin contained
+in the mic1 dataset within Pmetrics (?mic1)
+
+```{r}
+#| eval: false
+#| echo: true
+
+# see the source with ?mic1
+pta4b_2 <- PM_pta$new(
+  simdata = simlist2,
+  simlabels = c("600 mg daily", "1200 mg daily", "300 mg bid", "600 mg bid"),
+  target = makePTAtarget(mic1), target_type = "min", success = 1, start = 120, end = 144
+)
+
+pta4b_2$summary()
+# plot it
+pta4b_2$plot(
+  grid = TRUE, ylab = "Proportion with Cmin/MIC of at least 1",
+  marker = list(color = "red"), line = list(color = "black")
+)
+pta4b_2$plot(type = "pdi", grid = TRUE, ylab = "Proportion with Cmin/MIC of at least 1")
+```
+
+note that the plot changes since target MICs are no longer discrete
+since most of the MICs are very low, the regimens all look very similar
+
+```{r}
+#| eval: false
+#| echo: true
+
+# success = concentration at time 3 hours:MIC > 2
+pta5_2 <- PM_pta$new(
+  simdata = simlist2,
+  simlabels = simlabels,
+  target = c(0.25, 0.5, 1, 2, 4, 8, 16, 32), target_type = 123, success = 2, start = 120, end = 144
+)
+pta5_2$summary()
+pta5_2$plot(ylab = "Proportion with C3/MIC of at least 1", grid = TRUE, legend = list(x = .3, y = 0.1))
+
+
+# success is trough >10
+pta6_2 <- PM_pta$new(
+  simdata = simlist2,
+  simlabels = simlabels,
+  target = 10, target_type = 144, success = 1, start = 120, end = 144
+)
+plot(pta6_2)
+pta6_2$summary()
+```
