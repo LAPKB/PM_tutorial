@@ -36,6 +36,17 @@ constitutes your agreement to this provision.
 `r pmetrics()` and all required components will run under MacOS (Unix), Windows,
 and Linux. Instructions on obtaining and installing the package are in the README section of our source code [repository in GitHub](https://github.com/LAPKB/Pmetrics_rust/).
 
+::: {.callout-note} 
+After installing `r pmetrics()`, run the following code in your R console. This will set up the necessary files and directories to work through examples in this book.
+```{r}
+#| eval: false
+#| echo: true
+library(Pmetrics)
+PM_tutorial()
+```
+:::
+
+
 ## What This Guide Is Not
 
 We assume that the user has familiarity with population modeling and R,
@@ -64,9 +75,9 @@ with `library(Pmetrics)` and you are connected to the internet.
 If an update is available, it will provide a
 brief message to inform you. You can then reinstall the package.
 
-## Examples and Exercises
+## Code Examples
 
-Included in this book are numerous code examples and exercises that will help you learn how to use `r pmetrics()` for R. They are designed to be read in sequence.
+Included in this book are numerous code examples that will help you learn how to use `r pmetrics()` for R. They are designed to be read in sequence.
 
 * Items that are [hyperlinked]() can be selected to cross reference
 within this manual or link to external sites.
@@ -75,13 +86,20 @@ within this manual or link to external sites.
 in this document, but serve as templates for what may be typed into your 
 R console or script. They may not necessarily be executable if typed verbatim.
 
-* We have designed these pages with the idea that you can copy and paste the code chunks into your own scripts or Quarto documents to see how they work. You can hover over the code chunks to see a copy icon. Click that to copy the code to your clipboard so you can paste it into your own script or document. Alternatively, you can click the **Copy all code** button at the top right of every page to copy all the code chunks on that page to your clipboard.
+You can copy and paste many of the code chunks into your own script or Quarto document to see how they work. Hover over the code chunks to see a copy icon. Click that to copy the code to your clipboard so you can paste it into your own script or document. Alternatively, you can click the **Copy all code** button at the top right of chapters to copy all the code chunks on that page to your clipboard.
 
-**Note:** In many cases, we do not evaluate the code chunks because the ouput is too long, so you will need to run them in your own script or document.
+There are two kinds of code blocks in this book.
 
 ```{r}
-# Hover over the code chunk to see the copy icon.
+#| code-copy: false
+# These darker blocks are for illustration and not meant to be copied.
+# Hovering over them will not show a copy icon.
+```
+```{r}
+# These lighter blocks are meant to be copied, pasted, and executed in Rstudio or Positron.
+# Hovering over them will show a copy icon.
 ```
 
+**Note:** In many cases, we do not evaluate the code chunks here because the ouput is too long, so you will need to run them in your own script or document.
 
 

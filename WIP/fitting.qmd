@@ -1,17 +1,5 @@
 ---
-title: "Running model fits"
-format:
-  html:
-    toc: true
-    toc-title: "On this page"
-    number-sections: true
-    code-fold: false
-    css: Styles/style.css
-bibliography: Citations.bib
-vignette: >
-  %\VignetteIndexEntry{Running model fits}
-  %\VignetteEngine{quarto}
-  %\VignetteEncoding{UTF-8}
+title: "Fitting Models"
 ---
 
 ```{r, include = FALSE}
