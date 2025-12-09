@@ -2,7 +2,7 @@
 title: "Overview"
 format:
   html:
-    css: Extras/custom.scss
+    include-in-header: Extras/copy-all-code.html
 ---
 
 ```{r, include = FALSE}
@@ -65,9 +65,33 @@ Data files are generally .csv and the format is detailed in the chapter on [data
 A model can be read from a text file or can be defined directly in R.
 The easiest way to accomplish this is with our model builder app. Whether choosing
 to define models in R, with the builder app, or in a .txt file, details can be 
-found in [models](models.html).
+found in [models](models.qmd).
 
-## Software engines ⚙️
+:::{.callout-note}
+The R6 architecture is object-oriented, meaning that data and functions
+are bundled together into objects. Objects have **fields** which contain data, 
+and **methods** which are functions that operate on the data. Both are accessed with the `$` operator. 
+This is different from the previous
+functional programming approach (called "S3" in R) used in Legacy `r pmetrics()`, where data and functions
+were separate. The R6 architecture allows for better organization of code,
+easier maintenance, and improved performance.
+:::
+
+For example, a `PM_data` object has fields such as `$data` and `$standard_data`, which contain the original and standardized data, respectively. It also has methods such as `$summary()` and `$plot()`. 
+
+***NOTE:*** Inclusion of the `()` after the method name is what distinguishes a method from a field. The parentheses are always required when calling a method, even if there are no arguments.
+
+## Rust as the backend
+
+**As of v. 3.0**, `r pmetrics()` uses Rust for the core of the package and no longer
+uses Fortran. This is for several reasons, including the fact that Rust is a modern
+programming language that is more efficient and easier to maintain than Fortran.
+Rust is memory safe, which means that it prevents common programming errors that can lead to
+memory leaks and crashes. This makes it a more reliable choice for high-performance computing tasks.
+Additionally, Rust has a growing ecosystem of libraries and tools that make it easier to work with
+data and perform complex computations and a more flexible choice for a wide range of applications.
+
+## Software engines
 
 There are three main software engines that `r pmetrics()` controls currently.
 
@@ -87,106 +111,143 @@ There are three main software engines that `r pmetrics()` controls currently.
 
 -   The **Simulator** is a semi-parametric Monte Carlo simulation software program that can use the output of NPAG of NPOD to build randomly generated response profiles (e.g. time-concentration curves) for a given population model, parameter estimates, and data input. Simulation from a non-parametric joint density model, i.e. NPAG output, is possible, with each point serving as the mean of a multivariate normal distribution, weighted according to the weight of the point. The covariance matrix of the entire set of support points is divided equally among the points for the purposes of simulation.
 
-## Rust as the backend
+**Let's look at how these engines are used to fit models to data and simulate.**
 
-**As of v. 3.0**, `r pmetrics()` uses Rust for the core of the package and no longer
-uses Fortran. This is for several reasons, including the fact that Rust is a modern
-programming language that is more efficient and easier to maintain than Fortran.
-Rust is memory safe, which means that it prevents common programming errors that can lead to
-memory leaks and crashes. This makes it a more reliable choice for high-performance computing tasks.
-Additionally, Rust has a growing ecosystem of libraries and tools that make it easier to work with
-data and perform complex computations and a more flexible choice for a wide range of applications.
+## Model functions
 
-## Model fitting 🎛️
+### Model fitting 
 
-`r pmetrics()` uses `r gh_help("PM_data")` to create data objects and `r gh_help("PM_model")` to create model objects. When a model is created, it is compiled and ready to be combined with the data and parameters within the model's `$fit()` method, generating probability distributions for primary model parameters. `PM_data` and `PM_model` objects and their methods are extensively documented within R by using the `help(command)` or `?command` syntax and in subsequent chapters here.
+```{mermaid}
+%%| eval: true
+flowchart LR
 
-The `$fit()` method replaces these Legacy functions: `ITrun`, `ERRrun`, `NPrun`.
+subgraph RSession[" "]
+  direction TB
+  %% DATA["PM_data"]
+  mid(("edit"))
+  MODEL["PM_model"]
+  RESULT["PM_result"]
 
-Invoking the simulator in R6 becomes a method attached to `PM_result` objects or by using `PM_sim$new()` for models, parameter value probability distributions and template data not derived from a previous fit, e.g. when lifted from an article.
+  
+end
 
-Once a `PM_model` object is compiled, combine it with a data file, and fit the model to the data using the `$fit()` method as we will see in more detail in subsequent chapters.
+DISK[("Hard Drive")]
 
-::: {code-copy='false'}
+MODEL -.-> mid(("edit")) -.-> MODEL
+MODEL -- "$fit(PM_data, ...)" --> RESULT
+%% RESULT -- "edit" --> MODEL
+DISK -- "PM_load()" --> RESULT
+RESULT -- "automatic" --> DISK
 
+
+classDef blue fill:#2f6db6,stroke:#184a8b,color:#fff;
+classDef orange fill:#c7662b,stroke:#8a3f18,color:#fff;
+classDef disk fill:#d2d3d7,stroke:#7f8084,color:#000;
+classDef ghost fill:transparent,stroke:transparent,stroke-width:0px,padding:0px,font-style:italic, color:#555;
+
+class mid ghost;
+class DATA,MODEL blue;
+class RESULT orange;
+class DISK disk;
+
+linkStyle 4 font-style:italic, color:#555
+
+style RSession fill:#e9f0ff,stroke:#9ab0d6,stroke-width:1px,rx:2,ry:2
+
+```
+
+* `r pmetrics()` uses `r gh_help("PM_data")` to create data objects and `r gh_help("PM_model")` to create model objects. 
+* When a model is created, it is compiled and ready to be combined with the data and parameters (`...`) within the model's `$fit()` method.
+* The `$fit()` method uses NPAG/NPOD to create a `r gh_help("PM_result")`, which contains the probability distributions for primary model parameter values as well as many methods to summarize, examine, and plot the results. 
+* Edit models to try and improve the fit as needed. This step occupies most of your time when modeling.
+
+`PM_data`, `PM_model`, and `PM_result` objects and their methods, including `$fit()`, are extensively documented within R and in subsequent chapters here. 
+
+:::{.callout-tip}
+Help for `r pmetrics()` functions and package data (and for any other package) are available in R by using the `?command` syntax in your R console, as illustrated below.
 ```{r}
 #| echo: true
 #| eval: false
-#| label: fit-method
-#| code-copy: false
-
-# example; will not run because mod1 and data are not yet defined
-run1 <- mod1$fit(data, ...) #... are options listed in ?PM_model for the $fit method
-
+#| label: help-example
+# get help for PM_model
+?PM_model
 ```
 :::
 
-### Simulation 📈
+The `$fit()` method in `PM_model` objects replaces these Legacy functions: `ITrun`, `ERRrun`, `NPrun`.
 
-For the Simulator, the `$sim` method for a `PM_result` object will execute the program directly within R and return a `PM_sim` object.
+### Simulation
 
-```{r echo=T, eval=FALSE, label=sim-method}
-# examples; will not run because mod1 and data are not yet defined
-run1 <- PM_load(1)
-sim1 <- run1$sim(data = "new.csv") # uses the model and parameter joint density from run1, but replaces the data with new.csv
+As for all `r pmetrics()` engines, the simulator requires a **model** and **data**. The data serve as the template for the simulation, i.e., the dosing and sampling times, covariates, etc. The model defines the structural and error models to be used. Additionally, the simulator requires a population **prior** joint probability distribution for the parameter values from which it samples.  The population parameter values and their distributions can come from either a previous model fit or be defined directly. More details can be found in the [simulation](simulation.qmd) chapter.
+```{mermaid}
+%%| eval: true
+
+flowchart LR
+
+subgraph RSession[" "]
+  direction TB
+  NEW["Prior<br>PM_data<br>PM_model"]
+  RESULT["PM_result"]
+  SIMULATION["PM_sim"]
+
+end
+
+DISK[("Hard Drive")]
+
+
+RESULT -- "$sim(<i>PM_model, PM_data</i>, ...)" --> SIMULATION
+NEW -- "PM_sim$new(<b>prior, PM_model, PM_data,</b> ...)" --> SIMULATION
+SIMULATION -- "$save()" --> DISK
+DISK -- "PM_sim$new()" --> SIMULATION
+
+
+classDef blue fill:#2f6db6,stroke:#184a8b,color:#fff;
+classDef orange fill:#c7662b,stroke:#8a3f18,color:#fff;
+classDef green fill:#3ca34d,stroke:#276b33,color:#fff;
+classDef disk fill:#d2d3d7,stroke:#7f8084,color:#000;
+
+class NEW blue;
+class RESULT orange;
+class SIMULATION green;
+class DISK disk;
+
+style RSession fill:#e9f0ff,stroke:#9ab0d6,stroke-width:1px,rx:2,ry:2
+
 ```
 
-The first line loads previous results of run 1 into a `PM_result` object called **run1**. The second line uses the model and prior in run1 with new data template. `sim1` is a `r gh_help("PM_sim")` object.
+As shown in the diagram above, there are two ways to invoke the simulator, both of which replace the Legacy `SIMrun` function.
 
-An equivalent method is to create a new `PM_sim` is directly with `PM_sim$new()`. It also returns a `PM_sim()` object, i.e. there is no longer any need to run the Legacy function `SIMparse`. Creating simulations this way allows total freedom with respect to the model, the prior, and the data template.
+1.  Use the `$sim()` method attached to `PM_result` objects. In this case, the model, data, and prior parameter value probability distributions are all obtained from the previous fit contained within the `PM_result` object. You can *optionally* override the `PM_result` model or data by providing new values as arguments to the `$sim()` method. The model parameters must match the parameters in the original fit, and the data must contain values for any covariates used in the model. 
+2.  Use `PM_sim$new()` for models, parameter value probability distributions and template data not derived from a previous fit, e.g. when lifted from an article. Creating simulations this way allows total freedom with respect to the model, the prior, and the data template, but all three inputs (prior, model, data template) are **required**.
 
-```{r echo=T, eval=FALSE, label=sim-new}
-# example; will not run 
-sim1 <- PM_sim$new(poppar = list(...), model = "model.txt", data = "new.csv")
-```
+Whether called by `$sim()` on a `PM_result` object, or using `PM_sim$new()`, the simulator will execute directly within R and return a `PM_sim` object. There is no longer any need to run the Legacy function `SIMparse`. 
 
-See [simulation](simulation.qmd) for details on specifying `poppar` this way.
 
-The simulation results are returned automatically to the object assigned to contain the output of the simulation, e.g. `sim1` below.
+### Saving
 
-```{r echo=T, eval=FALSE, label=sim-result}
-# example; will not run 
-sim1 <- PM_result$sim(...)
-```
+The `r pmetrics()` R6 objects `PM_data`, `PM_result`, `PM_sim`, `PM_valid`, and `PM_pta` all have a `$save()` method. This method saves the object to the hard drive in the current working directory by default. The format is **.rds** which is a binary format used by R to save individual objects. The purpose of the `$save()` method is to enable retrieval of the object at a later time. As of v. 3.0, `PM_model` objects do not have a `$save()` method, as they should be defined directly in your R script. See [models](models.qmd#mb-files) for details.
 
-As mentioned above, there is no longer any need to use the Legacy `SIMparse` function, because the both the `SIMrun` and `SIMparse` Legacy functions are combined within the `$sim()` method for `PM_result` objects or the `PM_sim$new()` method.
-
-### Saving 💾
-
-The Pmetrics R6 objects `PM_data`, `PM_result`, `PM_sim`, `PM_valid`, and `PM_pta` all have a `$save()` method. This method saves the object to the hard drive in the current working directory by default. The format is **.rds** which is a binary format used by R to save individual objects. The purpose of the `$save()` method is to enable retrieval of the object at a later time.
-
-### Loading 📂
+### Loading
 
 After a successful model fit, `PM_load()` creates a `PM_result` object rather than loading run results into the current environment and suffixed with the run number as for Legacy `r pmetrics()`, e.g., op.1, final.1, etc. are no longer are created.
 
-```{r echo=T, eval=FALSE, label=load-pmresult}
-# example; will not run 
-run1 <- PM_load(1)
-run1$op$plot()
-```
-
 To load previously saved .rds ojbects, for  `PM_sim`, `PM_valid`, and `PM_pta`, use the `$new()` method and provide the full or relative path (if not in the working directory) and name of the .rds file created by the corresponding `$save()` method.
 
-```{r echo=T, eval=FALSE, label=load-pmsim}
-# example; will not run 
-sim1$save("sim.rds")
-# come back another time and do this
-sim1 <- PM_sim$new("sim.rds")
-```
+### Report generation
 
-### Report generation 📄
+The `r gh_help("PM_report")` function is automatically run at the end of a successful fit, and it will generate an HTML page with summaries of the fit, as well as the .Rdata files and other objects. The default browser will be automatically launched for viewing of the HTML report page. You can also regenerate the report at any time by calling the `$report()` method on a `PM_result` object.
 
-The `r gh_help("PM_report")` function is automatically run at the end of a successful run, and it will generate an HTML page with summaries of the run, as well as the .Rdata files and other objects. The default browser will be automatically launched for viewing of the HTML report page. You can also regenerate the report at any time by calling the `$report()` method on a `PM_result` object.
+:::{code-copy='false'}
 ```{r echo=T, eval=FALSE, label=report-method}
-# example; will not run 
+# example, will not run
 run1 <- PM_load(1)
 run1$report() # regenerates the report
 ```
-
+:::
 
 ## Other functions
 
-Within Pmetrics there are also functions to manipulate data.csv files and process and plot extracted data.
+Within Pmetrics there are also functions to manipulate data.csv files and process and plot extracted data, which we will cover in subsequent chapters.
 
 ### Data manipulation
 

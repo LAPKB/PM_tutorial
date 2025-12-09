@@ -42,14 +42,17 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
   const btn = document.getElementById('copy-all-code');
 
-  // Grab all code blocks but skip those inside a wrapper marked copy disabled
   const grab = () => {
+    // 1) Only take code inside .sourceCode (i.e., input cells)
     const nodes = Array.from(
-      document.querySelectorAll('div.sourceCode pre code, pre > code.sourceCode, pre > code')
-    );
-    const allowed = nodes.filter(n => !n.closest('div[data-code-copy="false"], div[data-copy-code="false"]')
-    );
-    return allowed.map(n => n.innerText).join('\n\n');
+      document.querySelectorAll('div.sourceCode pre code')
+    )
+      // 2) Drop anything inside a copy-disabled wrapper
+      .filter(n => !n.closest('div[data-code-copy="false"], div[data-copy-code="false"]'))
+      // 3) Extra safety: ensure we don't accidentally grab outputs
+      .filter(n => !n.closest('.cell-output'));
+
+    return nodes.map(n => n.innerText).join('\n\n');
   };
 
   const copyText = async (txt) => {
@@ -68,8 +71,12 @@ document.addEventListener('DOMContentLoaded', function () {
       const txt = grab();
       if (!txt.trim()) { alert('No copyable code found.'); return; }
       await copyText(txt);
-      const old = btn.textContent; btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = old, 1200);
-    } catch(e) { alert('Copy failed: ' + e); }
+      const old = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = old, 1200);
+    } catch(e) {
+      alert('Copy failed: ' + e);
+    }
   });
 });
 </script>

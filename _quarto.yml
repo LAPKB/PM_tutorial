@@ -18,6 +18,7 @@ book:
     - NPAG.qmd
     - examine.qmd
     - NPAG_cov.qmd
+    - plotly.qmd
     - Compare.qmd
   #  - Simulate.qmd
   #  - PTA.qmd
@@ -46,8 +47,6 @@ format:
 pdf:
     documentclass: scrreprt
 
-execute:
-  eval: false
 
 
 

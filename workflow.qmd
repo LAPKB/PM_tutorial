@@ -1,19 +1,25 @@
 ---
 title: "Workflow"
+format:
+  html:
+    include-in-header: Extras/copy-all-code.html
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = TRUE,
+  eval = FALSE
 )
 ```
 
 ```{r setup, echo=F, eval=T, message=F}
 library(Pmetrics)
 
-r_help <- function(pkg, name) {
-    glue::glue("[`{name}`](https://rdrr.io/pkg/{pkg}/man/{name}.html)")
+r_help <- function(pkg, name, text) {
+    if(missing(text)) {text <- name}
+    glue::glue("[`{name}`](https://rdrr.io/pkg/{pkg}/man/{text}.html)")
 }
 
 gh_help <- function(name) {
@@ -30,7 +36,7 @@ pmetrics <- function(){
 
 ## General Workflow
 
-The general `r pmetrics()` workflow is shown in the
+Recall the general `r pmetrics()` fitting workflow shown in the
 following diagram.
 
 ```{mermaid}
@@ -39,26 +45,34 @@ flowchart LR
 
 subgraph RSession[" "]
   direction TB
-  DATA["PM_data"]
+  %% DATA["PM_data"]
+  mid(("edit"))
   MODEL["PM_model"]
   RESULT["PM_result"]
+
+  
 end
 
 DISK[("Hard Drive")]
 
-DATA --> MODEL
-MODEL -- "$fit()" --> RESULT
-RESULT --> MODEL
+MODEL -.-> mid(("edit")) -.-> MODEL
+MODEL -- "$fit(PM_data, ...)" --> RESULT
+%% RESULT -- "edit" --> MODEL
 DISK -- "PM_load()" --> RESULT
-RESULT --> DISK
+RESULT -- "automatic" --> DISK
+
 
 classDef blue fill:#2f6db6,stroke:#184a8b,color:#fff;
 classDef orange fill:#c7662b,stroke:#8a3f18,color:#fff;
 classDef disk fill:#d2d3d7,stroke:#7f8084,color:#000;
+classDef ghost fill:transparent,stroke:transparent,stroke-width:0px,padding:0px,font-style:italic, color:#555;
 
+class mid ghost;
 class DATA,MODEL blue;
 class RESULT orange;
 class DISK disk;
+
+linkStyle 4 font-style:italic, color:#555
 
 style RSession fill:#e9f0ff,stroke:#9ab0d6,stroke-width:1px,rx:2,ry:2
 
@@ -78,14 +92,16 @@ To implement the above workflow when you work on a new project, you will typical
 
 ### Creating a new project directory
 
-If you have loaded `r pmetrics()` already with `library(Pmetrics)`, the command `r gh_help("PM_tree")` will create a project folder with subfolders for you. To learn more about this function or any other in R, you can get help by typing `?function_name` in the console.
+If you have loaded `r pmetrics()` already with `library(Pmetrics)`, the command `r gh_help("PM_tree")` will create a project folder with subfolders for you. Remember, to learn more about this function or any other in R, you can get help by typing `?function_name` in the console.
 
+:::{code-copy='false'}
 ```{r}
 #| eval: false
 # examples; do not run
 PM_tree("MyProject") # creates a new project called "MyProject" in your current working directory
 PM_tree("MyProject", path = "somewhere") # creates a new project called "MyProject" in the "somewhere" directory
 ```
+:::
 
 In the above examples, `r pmetrics()` will create a directory called "MyProject" with several subdirectories.
 
@@ -95,6 +111,41 @@ In the above examples, `r pmetrics()` will create a directory called "MyProject"
 * **src** is a repository for original and manipulated source data files
 
 You are free to edit this directory tree structure as you please, or make your own entirely.
+
+### Set the working directory
+
+Whether you use `PM_tree` or not, you always need to tell R and `r pmetrics()` which directory to work in. This is the directory where R expects to find files and where it will save output files. There are two ways to do this.
+
+#### Global working directory change
+You can set your working directory with the `r r_help("base", "setwd", "getwd")` function. 
+
+::: {code-copy='false'}
+```{r}
+#| label: example-npag-2
+
+
+setwd("/path/to/your/project/directory") # Mac and Linux users
+setwd("C:/path/to/your/project/directory") # Windows users
+```
+:::
+
+**Windows users:** Make sure that you separate directories with a forward slash "/" or double backslashes "\\". Unfortunately, Windows is the only OS that uses backslashes "", so R conforms to Unix/Linux style with the forward slash. If you copy the example below, make sure to change the path to one that exists on your computer.
+
+#### Local path specification
+You can also specify the path in a variable and use it in `r pmetrics()` functions without changing the working directory.
+
+::: {code-copy='false'}
+```{r}
+#| label: example-npag-3
+
+wd <- "/path/to/your/project/directory" # Mac and Linux users
+wd <- "C:/path/to/your/project/directory" # Windows users
+dat <- PM_data$new(data = file.path(wd, "data", "mydata.csv")) # see ?file.path for help
+```
+:::
+
+
+💡 The `r r_help("base", "file.path")` function creates file paths that are compatible with your operating system.
 
 ### Scripting
 
@@ -126,6 +177,7 @@ print(a) # This will print the value of a to the console.
 
 Here's a toy example of a Quarto document. It mixes text formatted in markdown and R code chunks.
 
+:::{code-copy='false' .no-code-style}
 ```{r}
 #| echo: false
 #| results: asis
@@ -147,128 +199,43 @@ cat("````qmd\n",
 sep = ""
 )
 ```
+:::
 
 When rendered, the above will look like this:
 
+
 ## My Project {.unnumbered .unlisted}
 ### Introduction {.unnumbered .unlisted}
+
 This is my first Quarto document. Below is some R code.
+
+:::{code-copy='false' .no-code-style}
 ```{r}
 #| eval: true
 # this is an R code chunk
 b <- 2 + 2
 print(b)
 ```
+:::
+
 You can see that the value of b is printed above.
+
 
 ### Data and model objects
 
-You supply the data and model objects. These can come from the hard drive or directly defined within R. We devote whole chapters in this book to creating these objects, which are at the heart of `r pmetrics()`, but we provide a sneak preview here to illustrate the workflow.
-
-The model file is created in R using the `PM_model$new()` function and the data file by `PM_data$new()`. 
+You supply the data and model objects. These can come from the hard drive or directly defined within R. We devote whole chapters in this book to creating [data](data.qmd) and [model](model.qmd) objects, which are at the heart of `r pmetrics()`.
 
 ### Fit the model to the data
 
-When combined using the `$fit()` method on the compiled model, the analysis is executed. 
-```{r}
-#| eval: false
-#| label: example-fit
-#| echo: true
-
-# example of a fit, will not run until mod1 has been compiled and dat1 is defined
-run1 <- mod1$fit(data = dat1)
-```
-
-Here, `run1` is a `r gh_help("PM_result")` object that contains all the results of the fit, and has many associated methods for plotting, simulating, etc, which we discuss in later chapters.
+When a compiled model and data are combined using the model's `$fit()` method, the analysis is executed, the results are returned. We'll work through an example in the [NPAG](NPAG.qmd) chapter.
 
 ### Load previous results
 
-In addition to returning the `r gh_help("PM_result")` object, at the end of the run, your hard drive will contain a new numerically named folder, e.g., 1, 2, 3, ..., in either the current working directory, or the directory specified in a `path` argument to `$fit()` that contains the files which can be loaded into R subsequently using `PM_load(x)`, replacing `x` with the folder number. `r gh_help("PM_load")` is an alias for `PM_result$new()` because it creates a new `PM_result` object.
-
-```{r}
-#| eval: false
-#| label: example-load
-# load previous results from run 1 and assign to run1, assuming a folder named "1" with subfolder "outputs" exists in the current working directory
-# this is an example that won't run yet
-run1 <- PM_load(1)
-
-# load results from a different folder "1" in a directory other than the current one
-# another example that will not run yet
-run1 <- PM_load(1, path = "some/other/directory/Runs")
-```
+In addition to returning the `r gh_help("PM_result")` object, at the end of the run, your hard drive will contain a new numerically named folder, e.g., 1, 2, 3, ..., in either the current working directory, or the directory specified in a `path` argument to `$fit()` that contains the files which can be loaded into R subsequently using `PM_load(x)`, replacing `x` with the folder number. `r gh_help("PM_load")` is an alias for `PM_result$new()` because it creates a new `PM_result` object. We'll see how to do that in the example [NPAG](NPAG.qmd) chapter.
 
 ### Update models to improve fits
 
-To change model structure between fits, update the R code or the file that defines the model.  If  continuing a previous run that did not end, simply use `$fit()` and specify the run number you wish to continue as the `prior` argument to `$fit()`. These scenarios are illustrated below.
-
-```{r}
-#| echo: true
-#| eval: false
-#| label: workflow_code
-
-# Run 1 - be sure to use PM_tutorial() to set up the folders and files to make this code work
-
-dat1 <- PM_data$new("src/ex.csv")
-
-# Define model in R directly
-mod1 <- PM_model$new(
-  pri = list(
-    ke = ab(0, 5),
-    v = ab(10, 200)
-  ),
-  eqn = function(){
-    one_comp_iv
-  },
-  out = function(){
-    Y[1] = X[2]/v
-  },
-  err = list(
-    proportional(5, c(0.02, 0.05, -0.0002, 0))
-  )
-)
-
-# alernatively, read model from file
-mod1 <- PM_model$new("model.txt")
-
-# now, fit the model to the data
-run1 <- mod1$fit(dat1) # this is a PM_result object
-
-run1 <- PM_load(1) # if returning to script later, use this to load from hard drive
-
-
-# Run 2 - update Ke range and V = V0/wt (compare to mod1 above)
-
-mod2 <- PM_model$new(
-  pri = list(
-    ke = ab(0, 2), # changed upper limit
-    v0 = ab(10, 200)
-  ),
-  cov = list(
-    wt = interp(), # add covariates in the data
-    age = interp()
-  ),
-  eqn = function(){
-    one_comp_iv
-  },
-  out = function(){
-    v = v0 * (wt/70) # define volume in terms of weight
-    Y[1] = X[2]/v
-  },
-  err = list(
-    proportional(5, c(0.02, 0.05, -0.0002, 0))
-  )
-)
-
-# or edit the file, copy to working directory, and read it
-mod2 <- PM_model$new("model2.txt") # updated model file
-
-# now, fit the updated model to the same data
-run2 <- mod2$fit(dat1)
-
-
-# Run 3 - continue run 2
-run3 <- mod2$fit(data = dat1, prior = 2)
-```
+To change model structure between fits, update the R code or the file that defines the model.  If continuing a previous run that did not end, simply use `$fit()` and specify the run number you wish to continue as the `prior` argument to `$fit()`. Again, we'll see how to do that in the example [NPAG](NPAG.qmd) chapter.
 
 The great advantage of R6 over Legacy is that in R6, you no longer have to spend time copying files from prior run folders, modifying them, and ensuring that they are in the working directory. After the initial creation of the data and model objects, everything can be done in R from memory, although results are still saved to hard drive for later retrieval.
 

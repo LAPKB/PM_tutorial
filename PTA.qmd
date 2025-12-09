@@ -10,7 +10,6 @@ It is essential that you understand simulations first. If necessary, refer to [S
 
 **Note**: these can be computationally intense and take some time.
 
-
 Be sure to have executed the NPAG run above and used PM_load(2) in EXERCISE 2
 Type ?PM_sim, ?PM_pta, or ?plot.PM_pta into the R console for help.
 
