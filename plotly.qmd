@@ -1,31 +1,58 @@
 ---
-title: "How to use plotly in Pmetrics"
+title: "Plotting Details"
 format:
   html:
-    toc: true
-    toc-title: "On this page"
-    number-sections: true
-    code-fold: false
-    css: Styles/style.css
-
-vignette: >
-  %\VignetteIndexEntry{How to use plotly in Pmetrics}
-  %\VignetteEngine{quarto}
-  %\VignetteEncoding{UTF-8}
+    css: Extras/custom.scss
+    include-in-header: Extras/copy-all-code.html
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = TRUE,
+  eval = TRUE
 )
 ```
 
-```{r setup, echo=F, message=F}
+```{r}
+#| echo: false
+#| label: setup
+#| eval: true
+#| message: false
 library(Pmetrics)
 library(magrittr)
 library(dplyr)
 library(plotly)
+
+r_help <- function(pkg, name) {
+    glue::glue("[`{name}`](https://rdrr.io/pkg/{pkg}/man/{name}.html)")
+}
+
+gh_help <- function(name) {
+
+    glue::glue("[`{name}`](https://lapkb.github.io/Pmetrics/reference/{name}.html)")
+
+}
+
+
+pmetrics <- function(){
+    knitr::asis_output("[Pmetrics]{style=\"color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;\"}")
+}
+
+library(gt)
+
+custom_table <- function(tab){
+    read.csv(file.path("Data",tab), na.strings = ".") %>% gt() %>%
+    tab_style(
+      style = list(
+        cell_fill(color = "black"),
+        cell_text(color = "white", weight = "bold")
+      ),
+      locations = cells_column_labels(everything())
+    )
+}
+
 
 ```
 
@@ -80,14 +107,16 @@ are happy with all the defaults, we simply need to call the plot method for the
 *PM_op* object field in NPex.
 
 
-```{r, echo = T, eval = T, label = "op1"}
+```{r}
+#| label: "op1"
 NPex$op$plot()
 ```
 
 Below is a simple example of how to change the default lines plotted, but retain
 the default formatting. Now a linear regression (using the R `lm` function) is plotted with a reference line, but not a loess regression.
 
-```{r, echo = T, eval = T, label = "op2"}
+```{r}
+#| label: "op2"
 NPex$op$plot(line = list(lm = T, loess = F, ref = T))
 ```
 
@@ -106,7 +135,8 @@ in the help files. However all lines may be formatted using three arguments as a
 * `dash` Sets the dash style of lines. Set to a dash type string (*solid*,*dot*, *dash*, *longdash*, *dashdot*, or *longdashdot*) or a dash length list in px (eg *5px,10px,2px,2px*)
 
 
-```{r, echo = T, eval = T, label = "op3"}
+```{r}
+#| label: "op3"
 NPex$op$plot(line = list(loess = list(color = "orange", dash = "dashdot", width = 2)))
 ```
 
@@ -127,7 +157,8 @@ formatting. If we are happy with all the defaults, we simply need to call the pl
 *PM_op* object field in NPex.
 
 
-```{r, echo = T, eval = T, label = "op4"}
+```{r}
+#| label: "op4"
 NPex$op$plot()
 ```
 
@@ -155,7 +186,8 @@ Any other marker attribute is possible, including `line`, which itself is a list
 to specify attributes of the outline for a marker.
 
 
-```{r, echo = T, eval = T, label = "op5"}
+```{r}
+#| label: "op5"
 NPex$op$plot(marker = list(
   color = "slategray", size = 12,
   opacity = 0.5, line = list(color = "navy")
@@ -183,12 +215,14 @@ any of the attributes documented by typing `schema()` into the R console, and ex
 `r knitr::asis_output("\U25B6")` legend. These can be included as elements in the legend list.
 
 Here's a basic legend.
-```{r, echo = T, eval = T, label = "data1"}
+```{r}
+#| label: "data1"
 NPex$data$plot(legend = T)
 ```
 
 ...and a more complex one.
-```{r, echo = T, eval = T, label = "data2"}
+```{r}
+#| label: "data2"
 NPex$data$plot(
   marker = list(color = "navy"),
   line = list(
@@ -224,24 +258,28 @@ map to `xaxis = list(title = list(text = xlab))` and the same for the y axis. Ho
         
 If you only specify a list for `xlab` it will be applied to `ylab`. To format them independently, specify a list for both.
 
-``` {r echo = T, eval = T, label = "data3"}
+``` {r}
+#| label: "data3"
 NPex$data$plot(xlab = "Time (h)", ylab = "Rifapentine (mg/L)")
 ```
 
-``` {r echo = T, eval = T, label = "data4"}
+``` {r}
+#| label: "data4"
 NPex$data$plot(xlab = list(text = "Time (h)", font = list(color = "slategrey", family = "Times New Roman", size = 18)))
 # notice that ylab is also formatted in the same way
 ```
 
 For greater control over the axes, e.g. tick placement, coloring, etc., the "..." argument in plots is coded to pass arguments to the xaxis and yaxis lists. This allows access to any attribute. If axis attributes are passed through ... in a named list, e.g. `xaxis = list(linecolor = "red")`, then they will be specific to that axis. However, if the attributes are passed through ... directly, without inclusion in an `xaxis` or `yaxis` list, they will apply to both the axes, e.g. `$plot(...,`linecolor = "red")` will color the xaxis and yaxis lines red.
 
-``` {r echo = T, eval = T, label = "data5"}
+``` {r}
+#| label: "data5"
 NPex$data$plot(xaxis = list(linecolor = "firebrick", ticks = "inside"))
 # only affects x axis since formatting within xaxis list
 ```
 
 
-``` {r echo = T, eval = T, label = "data6"}
+``` {r}
+#| label: "data6"
 NPex$data$plot(linecolor = "dodgerblue", ticks = "outside")
 # formatting affects both axes since arguments are outside xaxis or yaxis lists
 ```
@@ -253,7 +291,8 @@ All Pmetrics plotly plots have a `title` argument which maps to the attributes c
 
 By default the title text is oriented around the `x` value automatically ("auto") via the `xanchor` attribute, but this could also be "left", "right", or "center" to make the text begin at, end at, or span the `x` value, respectively. Analogous behavior can be controlled by the `yanchor` attribute for which part of the text lines up with the `y` value: "top", "middle", or "bottom". The default is "auto".
 
-```{r echo = T, eval = T, label = "data7"}
+```{r}
+#| label: "data7"
 NPex$data$plot(title = list(text = "Rifapentine", yanchor = "top"), ylab = "Concentration (mg/L)", xlab = "Time (h)")
 ```
 

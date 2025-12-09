@@ -3863,7 +3863,8 @@ vertical-align: -.125em;
     "search-label": "Search"
   }
 }</script>
-</head><body class="nav-sidebar floating nav-fixed quarto-light"><button id="copy-all-code" style="position:fixed;top:1rem;right:1rem;z-index:2000;
+<!-- <button id="copy-all-code"
+        style="position:fixed;top:1rem;right:1rem;z-index:2000;
                padding:.35rem .6rem;border:0;border-radius:.25rem;
                background:#2563eb;color:white;cursor:pointer;">
   Copy all code
@@ -3892,6 +3893,54 @@ document.addEventListener('DOMContentLoaded', function () {
       await copyText(grab());
       const old = btn.textContent; btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = old, 1200);
     } catch(e) { alert('Copy failed: ' + e); }
+  });
+});
+</script> -->
+
+</head><body class="nav-sidebar floating nav-fixed quarto-light"><button id="copy-all-code" style="position:fixed;top:1rem;right:1rem;z-index:2000;
+               padding:.35rem .6rem;border:0;border-radius:.25rem;
+               background:#2563eb;color:white;cursor:pointer;">
+  Copy all code
+</button>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const btn = document.getElementById('copy-all-code');
+
+  const grab = () => {
+    // 1) Only take code inside .sourceCode (i.e., input cells)
+    const nodes = Array.from(
+      document.querySelectorAll('div.sourceCode pre code')
+    )
+      // 2) Drop anything inside a copy-disabled wrapper
+      .filter(n => !n.closest('div[data-code-copy="false"], div[data-copy-code="false"]'))
+      // 3) Extra safety: ensure we don't accidentally grab outputs
+      .filter(n => !n.closest('.cell-output'));
+
+    return nodes.map(n => n.innerText).join('\n\n');
+  };
+
+  const copyText = async (txt) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(txt);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      try { document.execCommand('copy'); } finally { document.body.removeChild(ta); }
+    }
+  };
+
+  btn.addEventListener('click', async () => {
+    try {
+      const txt = grab();
+      if (!txt.trim()) { alert('No copyable code found.'); return; }
+      await copyText(txt);
+      const old = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = old, 1200);
+    } catch(e) {
+      alert('Copy failed: ' + e);
+    }
   });
 });
 </script>
@@ -6795,7 +6844,26 @@ z-index: 1000;
 </style>
 
 
-<style type="text/css">
+<style type="text/css">/*-- scss:defaults --*/
+
+.cell-output {
+  background-color: #1e90ff20;
+  border-radius: 4px; 
+}
+
+
+/*-- scss:rules --*/
+
+div[data-code-copy="false"] button.code-copy-button {
+  display: none;
+}
+
+div[data-code-copy="false"]:not(.no-code-style) {
+  background-color: #777373;   /* darker grey than the default */
+  border-radius: 6px;
+}
+
+
 
 </style>
 
@@ -6900,8 +6968,14 @@ z-index: 1000;
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./plotly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Plotting Details</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./Compare.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Comparing models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Comparing models</span></span></a>
   </div>
 </li>
     </ul>
@@ -6918,7 +6992,8 @@ z-index: 1000;
   <li><a href="#components-of-a-new-project" id="toc-components-of-a-new-project" class="nav-link" data-scroll-target="#components-of-a-new-project"><span class="header-section-number">3.2</span> Components of a new project</a>
   <ul class="collapse">
   <li><a href="#creating-a-new-project-directory" id="toc-creating-a-new-project-directory" class="nav-link" data-scroll-target="#creating-a-new-project-directory"><span class="header-section-number">3.2.1</span> Creating a new project directory</a></li>
-  <li><a href="#scripting" id="toc-scripting" class="nav-link" data-scroll-target="#scripting"><span class="header-section-number">3.2.2</span> Scripting</a></li>
+  <li><a href="#set-the-working-directory" id="toc-set-the-working-directory" class="nav-link" data-scroll-target="#set-the-working-directory"><span class="header-section-number">3.2.2</span> Set the working directory</a></li>
+  <li><a href="#scripting" id="toc-scripting" class="nav-link" data-scroll-target="#scripting"><span class="header-section-number">3.2.3</span> Scripting</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -6947,7 +7022,7 @@ z-index: 1000;
 
 <section id="general-workflow" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="general-workflow"><span class="header-section-number">3.1</span> General Workflow</h2>
-<p>The general <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> workflow is shown in the following diagram.</p>
+<p>Recall the general <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> fitting workflow shown in the following diagram.</p>
 <div class="cell" data-eval="true" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -6957,26 +7032,34 @@ z-index: 1000;
 
 subgraph RSession[" "]
   direction TB
-  DATA["PM_data"]
+  %% DATA["PM_data"]
+  mid(("edit"))
   MODEL["PM_model"]
   RESULT["PM_result"]
+
+  
 end
 
 DISK[("Hard Drive")]
 
-DATA --&gt; MODEL
-MODEL -- "$fit()" --&gt; RESULT
-RESULT --&gt; MODEL
+MODEL -.-&gt; mid(("edit")) -.-&gt; MODEL
+MODEL -- "$fit(PM_data, ...)" --&gt; RESULT
+%% RESULT -- "edit" --&gt; MODEL
 DISK -- "PM_load()" --&gt; RESULT
-RESULT --&gt; DISK
+RESULT -- "automatic" --&gt; DISK
+
 
 classDef blue fill:#2f6db6,stroke:#184a8b,color:#fff;
 classDef orange fill:#c7662b,stroke:#8a3f18,color:#fff;
 classDef disk fill:#d2d3d7,stroke:#7f8084,color:#000;
+classDef ghost fill:transparent,stroke:transparent,stroke-width:0px,padding:0px,font-style:italic, color:#555;
 
+class mid ghost;
 class DATA,MODEL blue;
 class RESULT orange;
 class DISK disk;
+
+linkStyle 4 font-style:italic, color:#555
 
 style RSession fill:#e9f0ff,stroke:#9ab0d6,stroke-width:1px,rx:2,ry:2
 
@@ -6999,11 +7082,13 @@ style RSession fill:#e9f0ff,stroke:#9ab0d6,stroke-width:1px,rx:2,ry:2
 </ol>
 <section id="creating-a-new-project-directory" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="creating-a-new-project-directory"><span class="header-section-number">3.2.1</span> Creating a new project directory</h3>
-<p>If you have loaded <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> already with <code>library(Pmetrics)</code>, the command <a href="https://lapkb.github.io/Pmetrics/reference/PM_tree.html"><code>PM_tree</code></a> will create a project folder with subfolders for you. To learn more about this function or any other in R, you can get help by typing <code>?function_name</code> in the console.</p>
+<p>If you have loaded <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> already with <code>library(Pmetrics)</code>, the command <a href="https://lapkb.github.io/Pmetrics/reference/PM_tree.html"><code>PM_tree</code></a> will create a project folder with subfolders for you. Remember, to learn more about this function or any other in R, you can get help by typing <code>?function_name</code> in the console.</p>
+<div data-code-copy="false">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># examples; do not run</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">PM_tree</span>(<span class="st">"MyProject"</span>) <span class="co"># creates a new project called "MyProject" in your current working directory</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">PM_tree</span>(<span class="st">"MyProject"</span>, <span class="at">path =</span> <span class="st">"somewhere"</span>) <span class="co"># creates a new project called "MyProject" in the "somewhere" directory</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div>
 <p>In the above examples, <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> will create a directory called “MyProject” with several subdirectories.</p>
 <ul>
@@ -7014,11 +7099,39 @@ style RSession fill:#e9f0ff,stroke:#9ab0d6,stroke-width:1px,rx:2,ry:2
 </ul>
 <p>You are free to edit this directory tree structure as you please, or make your own entirely.</p>
 </section>
-<section id="scripting" class="level3" data-number="3.2.2">
-<h3 data-number="3.2.2" class="anchored" data-anchor-id="scripting"><span class="header-section-number">3.2.2</span> Scripting</h3>
+<section id="set-the-working-directory" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="set-the-working-directory"><span class="header-section-number">3.2.2</span> Set the working directory</h3>
+<p>Whether you use <code>PM_tree</code> or not, you always need to tell R and <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> which directory to work in. This is the directory where R expects to find files and where it will save output files. There are two ways to do this.</p>
+<section id="global-working-directory-change" class="level4" data-number="3.2.2.1">
+<h4 data-number="3.2.2.1" class="anchored" data-anchor-id="global-working-directory-change"><span class="header-section-number">3.2.2.1</span> Global working directory change</h4>
+<p>You can set your working directory with the <a href="https://rdrr.io/pkg/base/man/getwd.html"><code>setwd</code></a> function.</p>
+<div data-code-copy="false">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/path/to/your/project/directory"</span>) <span class="co"># Mac and Linux users</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/path/to/your/project/directory"</span>) <span class="co"># Windows users</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p><strong>Windows users:</strong> Make sure that you separate directories with a forward slash “/” or double backslashes “\”. Unfortunately, Windows is the only OS that uses backslashes ““, so R conforms to Unix/Linux style with the forward slash. If you copy the example below, make sure to change the path to one that exists on your computer.</p>
+</section>
+<section id="local-path-specification" class="level4" data-number="3.2.2.2">
+<h4 data-number="3.2.2.2" class="anchored" data-anchor-id="local-path-specification"><span class="header-section-number">3.2.2.2</span> Local path specification</h4>
+<p>You can also specify the path in a variable and use it in <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> functions without changing the working directory.</p>
+<div data-code-copy="false">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>wd <span class="ot">&lt;-</span> <span class="st">"/path/to/your/project/directory"</span> <span class="co"># Mac and Linux users</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>wd <span class="ot">&lt;-</span> <span class="st">"C:/path/to/your/project/directory"</span> <span class="co"># Windows users</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> PM_data<span class="sc">$</span><span class="fu">new</span>(<span class="at">data =</span> <span class="fu">file.path</span>(wd, <span class="st">"data"</span>, <span class="st">"mydata.csv"</span>)) <span class="co"># see ?file.path for help</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>💡 The <a href="https://rdrr.io/pkg/base/man/file.path.html"><code>file.path</code></a> function creates file paths that are compatible with your operating system.</p>
+</section>
+</section>
+<section id="scripting" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="scripting"><span class="header-section-number">3.2.3</span> Scripting</h3>
 <p>You can use either an R script or a <a href="https://quarto.org">Quarto</a> document to paste code from these pages or to write your own code. R scripts have the advantage of being simple and easy to use. Quarto documents have the advantage of being able to combine code with formatted text, images, links, etc. You can use either method to work with <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span>. Choose the one that works best for you.</p>
-<section id="r-script" class="level4" data-number="3.2.2.1">
-<h4 data-number="3.2.2.1" class="anchored" data-anchor-id="r-script"><span class="header-section-number">3.2.2.1</span> R script</h4>
+<section id="r-script" class="level4" data-number="3.2.3.1">
+<h4 data-number="3.2.3.1" class="anchored" data-anchor-id="r-script"><span class="header-section-number">3.2.3.1</span> R script</h4>
 <ul>
 <li>Create a new script with <em>File -&gt; New File -&gt; R Script</em> (Rstudio) or <em>R File</em> (Positron).</li>
 <li>Save the script in your project directory with a name like “Learn.R”.</li>
@@ -7027,14 +7140,14 @@ style RSession fill:#e9f0ff,stroke:#9ab0d6,stroke-width:1px,rx:2,ry:2
 </ul>
 <p>Here’s a toy example of an R script.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a comment in R. It starts with a # symbol.</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Anything other than a comment should be R code.</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(a) <span class="co"># This will print the value of a to the console.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a comment in R. It starts with a # symbol.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Anything other than a comment should be R code.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(a) <span class="co"># This will print the value of a to the console.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="quarto-document" class="level4" data-number="3.2.2.2">
-<h4 data-number="3.2.2.2" class="anchored" data-anchor-id="quarto-document"><span class="header-section-number">3.2.2.2</span> Quarto document</h4>
+<section id="quarto-document" class="level4" data-number="3.2.3.2">
+<h4 data-number="3.2.3.2" class="anchored" data-anchor-id="quarto-document"><span class="header-section-number">3.2.3.2</span> Quarto document</h4>
 <ul>
 <li>Create a new document with <em>File -&gt; New File -&gt; Quarto Document</em> (Rstudio/Positron).</li>
 <li>Use markdown to add headings, links, images, etc.</li>
@@ -7044,6 +7157,7 @@ style RSession fill:#e9f0ff,stroke:#9ab0d6,stroke-width:1px,rx:2,ry:2
 <li>See <a href="https://quarto.org/docs/guide">Quarto documentation</a> for more information.</li>
 </ul>
 <p>Here’s a toy example of a Quarto document. It mixes text formatted in markdown and R code chunks.</p>
+<div class="no-code-style" data-code-copy="false">
 <pre class="qmd"><code>---
 title: "My Project"
 format: html
@@ -7060,6 +7174,7 @@ print(b)
 
 You can see that the value of b is printed above.
 </code></pre>
+</div>
 <p>When rendered, the above will look like this:</p>
 </section>
 </section>
@@ -7069,114 +7184,35 @@ You can see that the value of b is printed above.
 <section id="introduction" class="level3 unnumbered unlisted">
 <h3 class="unnumbered unlisted anchored" data-anchor-id="introduction">Introduction</h3>
 <p>This is my first Quarto document. Below is some R code.</p>
+<div class="no-code-style" data-code-copy="false">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is an R code chunk</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(b)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is an R code chunk</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(b)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>You can see that the value of b is printed above.</p>
 </section>
-<section id="data-and-model-objects" class="level3" data-number="3.2.3">
-<h3 data-number="3.2.3" class="anchored" data-anchor-id="data-and-model-objects"><span class="header-section-number">3.2.3</span> Data and model objects</h3>
-<p>You supply the data and model objects. These can come from the hard drive or directly defined within R. We devote whole chapters in this book to creating these objects, which are at the heart of <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span>, but we provide a sneak preview here to illustrate the workflow.</p>
-<p>The model file is created in R using the <code>PM_model$new()</code> function and the data file by <code>PM_data$new()</code>.</p>
+<section id="data-and-model-objects" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="data-and-model-objects"><span class="header-section-number">3.2.4</span> Data and model objects</h3>
+<p>You supply the data and model objects. These can come from the hard drive or directly defined within R. We devote whole chapters in this book to creating <a href="./data.html">data</a> and <a href="model.qmd">model</a> objects, which are at the heart of <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span>.</p>
 </section>
-<section id="fit-the-model-to-the-data" class="level3" data-number="3.2.4">
-<h3 data-number="3.2.4" class="anchored" data-anchor-id="fit-the-model-to-the-data"><span class="header-section-number">3.2.4</span> Fit the model to the data</h3>
-<p>When combined using the <code>$fit()</code> method on the compiled model, the analysis is executed.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># example of a fit, will not run until mod1 has been compiled and dat1 is defined</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>run1 <span class="ot">&lt;-</span> mod1<span class="sc">$</span><span class="fu">fit</span>(<span class="at">data =</span> dat1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Here, <code>run1</code> is a <a href="https://lapkb.github.io/Pmetrics/reference/PM_result.html"><code>PM_result</code></a> object that contains all the results of the fit, and has many associated methods for plotting, simulating, etc, which we discuss in later chapters.</p>
+<section id="fit-the-model-to-the-data" class="level3" data-number="3.2.5">
+<h3 data-number="3.2.5" class="anchored" data-anchor-id="fit-the-model-to-the-data"><span class="header-section-number">3.2.5</span> Fit the model to the data</h3>
+<p>When a compiled model and data are combined using the model’s <code>$fit()</code> method, the analysis is executed, the results are returned. We’ll work through an example in the <a href="./NPAG.html">NPAG</a> chapter.</p>
 </section>
-<section id="load-previous-results" class="level3" data-number="3.2.5">
-<h3 data-number="3.2.5" class="anchored" data-anchor-id="load-previous-results"><span class="header-section-number">3.2.5</span> Load previous results</h3>
-<p>In addition to returning the <a href="https://lapkb.github.io/Pmetrics/reference/PM_result.html"><code>PM_result</code></a> object, at the end of the run, your hard drive will contain a new numerically named folder, e.g., 1, 2, 3, …, in either the current working directory, or the directory specified in a <code>path</code> argument to <code>$fit()</code> that contains the files which can be loaded into R subsequently using <code>PM_load(x)</code>, replacing <code>x</code> with the folder number. <a href="https://lapkb.github.io/Pmetrics/reference/PM_load.html"><code>PM_load</code></a> is an alias for <code>PM_result$new()</code> because it creates a new <code>PM_result</code> object.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load previous results from run 1 and assign to run1, assuming a folder named "1" with subfolder "outputs" exists in the current working directory</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this is an example that won't run yet</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>run1 <span class="ot">&lt;-</span> <span class="fu">PM_load</span>(<span class="dv">1</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># load results from a different folder "1" in a directory other than the current one</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># another example that will not run yet</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>run1 <span class="ot">&lt;-</span> <span class="fu">PM_load</span>(<span class="dv">1</span>, <span class="at">path =</span> <span class="st">"some/other/directory/Runs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
+<section id="load-previous-results" class="level3" data-number="3.2.6">
+<h3 data-number="3.2.6" class="anchored" data-anchor-id="load-previous-results"><span class="header-section-number">3.2.6</span> Load previous results</h3>
+<p>In addition to returning the <a href="https://lapkb.github.io/Pmetrics/reference/PM_result.html"><code>PM_result</code></a> object, at the end of the run, your hard drive will contain a new numerically named folder, e.g., 1, 2, 3, …, in either the current working directory, or the directory specified in a <code>path</code> argument to <code>$fit()</code> that contains the files which can be loaded into R subsequently using <code>PM_load(x)</code>, replacing <code>x</code> with the folder number. <a href="https://lapkb.github.io/Pmetrics/reference/PM_load.html"><code>PM_load</code></a> is an alias for <code>PM_result$new()</code> because it creates a new <code>PM_result</code> object. We’ll see how to do that in the example <a href="./NPAG.html">NPAG</a> chapter.</p>
 </section>
-<section id="update-models-to-improve-fits" class="level3" data-number="3.2.6">
-<h3 data-number="3.2.6" class="anchored" data-anchor-id="update-models-to-improve-fits"><span class="header-section-number">3.2.6</span> Update models to improve fits</h3>
-<p>To change model structure between fits, update the R code or the file that defines the model. If continuing a previous run that did not end, simply use <code>$fit()</code> and specify the run number you wish to continue as the <code>prior</code> argument to <code>$fit()</code>. These scenarios are illustrated below.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run 1 - use PM_tutorial() to set up the folders and files to make this code work</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>dat1 <span class="ot">&lt;-</span> PM_data<span class="sc">$</span><span class="fu">new</span>(<span class="st">"src/ex.csv"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define model in R directly</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="fu">list</span>(</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ke =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">5</span>),</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">v =</span> <span class="fu">ab</span>(<span class="dv">10</span>, <span class="dv">200</span>)</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">eqn =</span> <span class="cf">function</span>(){</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    one_comp_iv</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="cf">function</span>(){</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    Y[<span class="dv">1</span>] <span class="ot">=</span> X[<span class="dv">2</span>]<span class="sc">/</span>v</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">err =</span> <span class="fu">list</span>(</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">proportional</span>(<span class="dv">5</span>, <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="sc">-</span><span class="fl">0.0002</span>, <span class="dv">0</span>))</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co"># alernatively, read model from file</span></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="st">"model.txt"</span>)</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># now, fit the model to the data</span></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>run1 <span class="ot">&lt;-</span> mod1<span class="sc">$</span><span class="fu">fit</span>(dat1) <span class="co"># this is a PM_result object</span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>run1 <span class="ot">&lt;-</span> <span class="fu">PM_load</span>(<span class="dv">1</span>) <span class="co"># if returning to script later, use this to load from hard drive</span></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Run 2 - update Ke range and V = V0/wt (compare to mod1 above)</span></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(</span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="fu">list</span>(</span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">ke =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="co"># changed upper limit</span></span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">v0 =</span> <span class="fu">ab</span>(<span class="dv">10</span>, <span class="dv">200</span>)</span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">list</span>(</span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">wt =</span> <span class="fu">interp</span>(), <span class="co"># add covariates in the data</span></span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">interp</span>()</span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">eqn =</span> <span class="cf">function</span>(){</span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    one_comp_iv</span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="cf">function</span>(){</span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>    v <span class="ot">=</span> v0 <span class="sc">*</span> (wt<span class="sc">/</span><span class="dv">70</span>) <span class="co"># define volume in terms of weight</span></span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>    Y[<span class="dv">1</span>] <span class="ot">=</span> X[<span class="dv">2</span>]<span class="sc">/</span>v</span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">err =</span> <span class="fu">list</span>(</span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">proportional</span>(<span class="dv">5</span>, <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="sc">-</span><span class="fl">0.0002</span>, <span class="dv">0</span>))</span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a><span class="co"># or edit the file, copy to working directory, and read it</span></span>
-<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="st">"model2.txt"</span>) <span class="co"># updated model file</span></span>
-<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a><span class="co"># now, fit the updated model to the same data</span></span>
-<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>run2 <span class="ot">&lt;-</span> mod2<span class="sc">$</span><span class="fu">fit</span>(dat1)</span>
-<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Run 3 - continue run 2</span></span>
-<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>run3 <span class="ot">&lt;-</span> mod2<span class="sc">$</span><span class="fu">fit</span>(<span class="at">data =</span> dat1, <span class="at">prior =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
+<section id="update-models-to-improve-fits" class="level3" data-number="3.2.7">
+<h3 data-number="3.2.7" class="anchored" data-anchor-id="update-models-to-improve-fits"><span class="header-section-number">3.2.7</span> Update models to improve fits</h3>
+<p>To change model structure between fits, update the R code or the file that defines the model. If continuing a previous run that did not end, simply use <code>$fit()</code> and specify the run number you wish to continue as the <code>prior</code> argument to <code>$fit()</code>. Again, we’ll see how to do that in the example <a href="./NPAG.html">NPAG</a> chapter.</p>
 <p>The great advantage of R6 over Legacy is that in R6, you no longer have to spend time copying files from prior run folders, modifying them, and ensuring that they are in the working directory. After the initial creation of the data and model objects, everything can be done in R from memory, although results are still saved to hard drive for later retrieval.</p>
 </section>
-<section id="examine-and-use-model-fits" class="level3" data-number="3.2.7">
-<h3 data-number="3.2.7" class="anchored" data-anchor-id="examine-and-use-model-fits"><span class="header-section-number">3.2.7</span> Examine and use model fits</h3>
+<section id="examine-and-use-model-fits" class="level3" data-number="3.2.8">
+<h3 data-number="3.2.8" class="anchored" data-anchor-id="examine-and-use-model-fits"><span class="header-section-number">3.2.8</span> Examine and use model fits</h3>
 <p>Once you have a <a href="https://lapkb.github.io/Pmetrics/reference/PM_result.html"><code>PM_result</code></a> object from either a new fit or loading from hard drive, you can use its methods and other <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> functions to examine and summarize the results, compare across model fits, generate plots, simulate, and calculate probabilities of target attainment. These topics are described in subsequent chapters.</p>
 
 

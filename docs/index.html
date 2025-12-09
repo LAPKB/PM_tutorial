@@ -56,7 +56,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}</style>
 
 
 <script>const headroomChanged = new CustomEvent("quarto-hrChanged", {
@@ -3880,7 +3900,7 @@ div[data-code-copy="false"] button.code-copy-button {
   display: none;
 }
 
-div[data-code-copy="false"] {
+div[data-code-copy="false"]:not(.no-code-style) {
   background-color: #777373;   /* darker grey than the default */
   border-radius: 6px;
 }
@@ -3990,8 +4010,14 @@ div[data-code-copy="false"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./plotly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Plotting Details</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./Compare.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Comparing models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Comparing models</span></span></a>
   </div>
 </li>
     </ul>
@@ -4004,11 +4030,14 @@ div[data-code-copy="false"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#disclaimer" id="toc-disclaimer" class="nav-link active" data-scroll-target="#disclaimer"><span class="header-section-number">0.1</span> Disclaimer</a></li>
-  <li><a href="#installing-pmetrics" id="toc-installing-pmetrics" class="nav-link" data-scroll-target="#installing-pmetrics"><span class="header-section-number">0.2</span> Installing Pmetrics</a></li>
+  <li><a href="#what-is-pmetrics" id="toc-what-is-pmetrics" class="nav-link active" data-scroll-target="#what-is-pmetrics"><span class="header-section-number">0.1</span> What is Pmetrics?</a></li>
+  <li><a href="#disclaimer" id="toc-disclaimer" class="nav-link" data-scroll-target="#disclaimer"><span class="header-section-number">0.2</span> Disclaimer</a></li>
   <li><a href="#what-this-guide-is-not" id="toc-what-this-guide-is-not" class="nav-link" data-scroll-target="#what-this-guide-is-not"><span class="header-section-number">0.3</span> What This Guide Is Not</a></li>
-  <li><a href="#getting-help-and-updates" id="toc-getting-help-and-updates" class="nav-link" data-scroll-target="#getting-help-and-updates"><span class="header-section-number">0.4</span> Getting Help and Updates</a></li>
-  <li><a href="#code-examples" id="toc-code-examples" class="nav-link" data-scroll-target="#code-examples"><span class="header-section-number">0.5</span> Code Examples</a></li>
+  <li><a href="#how-do-i-get-pmetrics" id="toc-how-do-i-get-pmetrics" class="nav-link" data-scroll-target="#how-do-i-get-pmetrics"><span class="header-section-number">0.4</span> How do I get Pmetrics?</a></li>
+  <li><a href="#how-do-i-start-using-pmetrics" id="toc-how-do-i-start-using-pmetrics" class="nav-link" data-scroll-target="#how-do-i-start-using-pmetrics"><span class="header-section-number">0.5</span> How do I start using Pmetrics?</a></li>
+  <li><a href="#getting-help-and-updates" id="toc-getting-help-and-updates" class="nav-link" data-scroll-target="#getting-help-and-updates"><span class="header-section-number">0.6</span> Getting Help and Updates</a></li>
+  <li><a href="#code-examples" id="toc-code-examples" class="nav-link" data-scroll-target="#code-examples"><span class="header-section-number">0.7</span> Code Examples</a></li>
+  <li><a href="#citations" id="toc-citations" class="nav-link" data-scroll-target="#citations"><span class="header-section-number">0.8</span> Citations</a></li>
   </ul>
 </nav>
     </div>
@@ -4046,15 +4075,29 @@ div[data-code-copy="false"] {
 </header>
 
 
-<p>Thank you for your interest in <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span>! This online book provides instructions and examples to assist users of the <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> R package, by the Laboratory of Applied Pharmacokinetics and Bioinformatics at the Saban Research Institute, Children’s Hospital Los Angeles, and the Department of Pediatrics, Keck School of Medicine, University of Southern California. Please see our website at <a href="http://www.lapk.org"><u>http://www.lapk.org</u></a> for more information.</p>
-<section id="disclaimer" class="level2" data-number="0.1">
-<h2 data-number="0.1" class="anchored" data-anchor-id="disclaimer"><span class="header-section-number">0.1</span> Disclaimer</h2>
-<p>You, the user, assume all responsibility for acting on the results obtained from <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span>. The Laboratory of Applied Pharmacokinetics and Bioinformatics (LAPKB), members and consultants to LAPKB, and Children’s Hospital Los Angeles and the University of Southern California and their employees assume no liability whatsoever. Your use of the package constitutes your agreement to this provision.</p>
+<p><strong>Thank you for your interest</strong> in <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span>! This online book provides instructions and examples to assist users of the <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> R package, by the Laboratory of Applied Pharmacokinetics and Bioinformatics at the Saban Research Institute, Children’s Hospital Los Angeles, and the Department of Pediatrics, Keck School of Medicine, University of Southern California. Please see our website at <a href="http://www.lapk.org"><u>http://www.lapk.org</u></a> for more information.</p>
+<section id="what-is-pmetrics" class="level2" data-number="0.1">
+<h2 data-number="0.1" class="anchored" data-anchor-id="what-is-pmetrics"><span class="header-section-number">0.1</span> What is Pmetrics?</h2>
+<p><span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> is a population modeling and simulation package for R. It can model data using nonparametric and parametric approaches. Some excellent articles discussing the differences, strengths, and limitations of both approaches are: <span class="citation" data-cites="goutelleNonparametricMethodsPopulation2022">Goutelle, Woillard, Neely, et al. (<a href="#ref-goutelleNonparametricMethodsPopulation2022" role="doc-biblioref">2022</a>)</span>, <span class="citation" data-cites="goutelleParametricNonparametricMethods2022">Goutelle, Woillard, Buclin, et al. (<a href="#ref-goutelleParametricNonparametricMethods2022" role="doc-biblioref">2022</a>)</span>, <span class="citation" data-cites="guidiParametricApproachesPopulation2022">Guidi, Csajka, and Buclin (<a href="#ref-guidiParametricApproachesPopulation2022" role="doc-biblioref">2022</a>)</span>.</p>
 </section>
-<section id="installing-pmetrics" class="level2" data-number="0.2">
-<h2 data-number="0.2" class="anchored" data-anchor-id="installing-pmetrics"><span class="header-section-number">0.2</span> Installing Pmetrics</h2>
+<section id="disclaimer" class="level2" data-number="0.2">
+<h2 data-number="0.2" class="anchored" data-anchor-id="disclaimer"><span class="header-section-number">0.2</span> Disclaimer</h2>
+<p>You, the user, assume all responsibility for acting on the results obtained from <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span>. The Laboratory of Applied Pharmacokinetics and Bioinformatics (LAPKB), members and consultants to LAPKB, and Children’s Hospital Los Angeles and the University of Southern California and their employees assume no liability whatsoever. Your use of the package</p>
+</section>
+<section id="what-this-guide-is-not" class="level2" data-number="0.3">
+<h2 data-number="0.3" class="anchored" data-anchor-id="what-this-guide-is-not"><span class="header-section-number">0.3</span> What This Guide Is Not</h2>
+<p>We assume that the user has familiarity with population modeling and R, and thus this manual is not a tutorial for basic concepts and techniques in either domain. We have tried to make the R code simple, regular and well documented. A very good free online resource for learning the basics of R can be found at <a href="http://www.statmethods.net/index.html">Stat Methods</a>. However, there are a number of other free or low-cost online resources which you can find with a simple or AI-assisted web search.</p>
+<p>We recognize that initial use of a new software package can be complex, so please feel free to contact us at any time, preferably through the <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> <a href="https://github.com/LAPKB/Pmetrics/discussions">Disussions</a>. You can report <a href="https://github.com/LAPKB/Pmetrics/issues">issues</a> online as well.</p>
+<p>This manual is also not intended to be a theoretical treatise on the algorithms <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> uses. For that, the user is directed to our <a href="http://www.lapk.org/publications.php">website</a>.</p>
+</section>
+<section id="how-do-i-get-pmetrics" class="level2" data-number="0.4">
+<h2 data-number="0.4" class="anchored" data-anchor-id="how-do-i-get-pmetrics"><span class="header-section-number">0.4</span> How do I get Pmetrics?</h2>
+<p>It’s easy and <em>all free</em>!</p>
 <p><span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> and all required components will run under MacOS (Unix), Windows, and Linux. Instructions on obtaining and installing the package are in the README section of our source code <a href="https://github.com/LAPKB/Pmetrics_rust/">repository in GitHub</a>.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+</section>
+<section id="how-do-i-start-using-pmetrics" class="level2" data-number="0.5">
+<h2 data-number="0.5" class="anchored" data-anchor-id="how-do-i-start-using-pmetrics"><span class="header-section-number">0.5</span> How do I start using Pmetrics?</h2>
+<div id="tutorial-setup" class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -4071,38 +4114,49 @@ Note
 </div>
 </div>
 </div>
+<p><code>PM_tutorial()</code> will install a <strong>Learn</strong> folder at your chosen location. Together with this book, it will get you started building and simulating from population models. All functions are extensively documented, most with examples, which can be seen in the Reference section of the <a href="https://lapkb.github.io/Pmetrics/">website</a>. There is also more information and references on our Laboratory of Applied Pharmacokinetics and Bioinformatics <a href="http://www.lapk.org">website</a>.</p>
 </section>
-<section id="what-this-guide-is-not" class="level2" data-number="0.3">
-<h2 data-number="0.3" class="anchored" data-anchor-id="what-this-guide-is-not"><span class="header-section-number">0.3</span> What This Guide Is Not</h2>
-<p>We assume that the user has familiarity with population modeling and R, and thus this manual is not a tutorial for basic concepts and techniques in either domain. We have tried to make the R code simple, regular and well documented. A very good free online resource for learning the basics of R can be found at <a href="http://www.statmethods.net/index.html">Stat Methods</a>. However, there are a number of other free or low-cost online resources which you can find with a simple or AI-assisted web search.</p>
-<p>We recognize that initial use of a new software package can be complex, so please feel free to contact us at any time, preferably through the <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> <a href="https://github.com/LAPKB/Pmetrics/discussions">Disussions</a>. You can report <a href="https://github.com/LAPKB/Pmetrics/issues">issues</a> online as well.</p>
-<p>This manual is also not intended to be a theoretical treatise on the algorithms <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> uses. For that, the user is directed to our <a href="http://www.lapk.org/publications.php">website</a>.</p>
-</section>
-<section id="getting-help-and-updates" class="level2" data-number="0.4">
-<h2 data-number="0.4" class="anchored" data-anchor-id="getting-help-and-updates"><span class="header-section-number">0.4</span> Getting Help and Updates</h2>
+<section id="getting-help-and-updates" class="level2" data-number="0.6">
+<h2 data-number="0.6" class="anchored" data-anchor-id="getting-help-and-updates"><span class="header-section-number">0.6</span> Getting Help and Updates</h2>
 <p>Within R, you can use <code>help("command")</code> or more simply just <code>?command</code> in the R console to see detailed help files for any <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> command. Many commands have examples included in this documentation and you can execute the examples with <code>example(command)</code>.</p>
 <p>You can also type <code>PM_manual()</code> to launch this website from within Pmetrics.</p>
 <p><span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> will check for updates automatically every time you load it with <code>library(Pmetrics)</code> and you are connected to the internet. If an update is available, it will provide a brief message to inform you. You can then reinstall the package.</p>
 </section>
-<section id="code-examples" class="level2" data-number="0.5">
-<h2 data-number="0.5" class="anchored" data-anchor-id="code-examples"><span class="header-section-number">0.5</span> Code Examples</h2>
+<section id="code-examples" class="level2" data-number="0.7">
+<h2 data-number="0.7" class="anchored" data-anchor-id="code-examples"><span class="header-section-number">0.7</span> Code Examples</h2>
 <p>Included in this book are numerous code examples that will help you learn how to use <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> for R. They are designed to be read in sequence.</p>
 <ul>
 <li><p>Items that are <a href="">hyperlinked</a> can be selected to cross reference within this manual or link to external sites.</p></li>
 <li><p><code>Items</code> correspond to inline examples of R code, which are not evaluated in this document, but serve as templates for what may be typed into your R console or script. They may not necessarily be executable if typed verbatim.</p></li>
 </ul>
-<p>We have designed these pages with the idea that you can copy and paste the code chunks into your own scripts or Quarto documents to see how they work. You can hover over the code chunks to see a copy icon. Click that to copy the code to your clipboard so you can paste it into your own script or document. Alternatively, you can click the <strong>Copy all code</strong> button at the top right of chapters to copy all the code chunks on that page to your clipboard.</p>
+<p>You can copy and paste many of the code chunks into your own script or Quarto document to see how they work. Hover over the code chunks to see a copy icon. Click that to copy the code to your clipboard so you can paste it into your own script or document. Alternatively, you can click the <strong>Copy all code</strong> button at the top right of chapters to copy all the code chunks on that page to your clipboard.</p>
 <p>There are two kinds of code blocks in this book.</p>
 <div class="cell" data-code-copy="false">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># These darker blocks are for illustration and not meant to be copied.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># These darker blocks are for illustration and not meant to be copied.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Hovering over them will not show a copy icon.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># These lighter blocks are meant to be copied, pasted, and executed in Rstudio or Positron.</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Hovering over them will show a copy icon.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Note:</strong> In many cases, we do not evaluate the code chunks here because the ouput is too long, so you will need to run them in your own script or document.</p>
+<p>Head on over to our <a href="https://github.com/LAPKB/Pmetrics/discussions">Discussion</a> board at Github.</p>
+</section>
+<section id="citations" class="level2" data-number="0.8">
+<h2 data-number="0.8" class="anchored" data-anchor-id="citations"><span class="header-section-number">0.8</span> Citations</h2>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-goutelleParametricNonparametricMethods2022" class="csl-entry" role="listitem">
+Goutelle, Sylvain, Jean-Baptiste Woillard, Thierry Buclin, Laurent Bourguignon, Walter Yamada, Chantal Csajka, Michael Neely, and Monia Guidi. 2022. <span>“Parametric and <span>Nonparametric Methods</span> in <span>Population Pharmacokinetics</span>: <span>Experts</span>’ <span>Discussion</span> on <span>Use</span>, <span>Strengths</span>, and <span>Limitations</span>.”</span> <em>The Journal of Clinical Pharmacology</em> 62 (2): 158–70. <a href="https://doi.org/10.1002/jcph.1993">https://doi.org/10.1002/jcph.1993</a>.
+</div>
+<div id="ref-goutelleNonparametricMethodsPopulation2022" class="csl-entry" role="listitem">
+Goutelle, Sylvain, Jean-Baptiste Woillard, Michael Neely, Walter Yamada, and Laurent Bourguignon. 2022. <span>“Nonparametric <span>Methods</span> in <span>Population Pharmacokinetics</span>.”</span> <em>The Journal of Clinical Pharmacology</em> 62 (2): 142–57. <a href="https://doi.org/10.1002/jcph.1650">https://doi.org/10.1002/jcph.1650</a>.
+</div>
+<div id="ref-guidiParametricApproachesPopulation2022" class="csl-entry" role="listitem">
+Guidi, Monia, Chantal Csajka, and Thierry Buclin. 2022. <span>“Parametric <span>Approaches</span> in <span>Population Pharmacokinetics</span>.”</span> <em>Journal of Clinical Pharmacology</em> 62 (2): 125–41. <a href="https://doi.org/10.1002/jcph.1633">https://doi.org/10.1002/jcph.1633</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
