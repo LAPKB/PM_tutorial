@@ -1,10 +1,9 @@
 ---
+title: "Fit a model with NPAG"
 format:
   html:
-     css: Extras/custom.scss
-     include-in-header: Extras/copy-all-code.html
+    include-in-header: Extras/copy-all-code.html
 ---
-
 
 
 ```{r}
@@ -15,6 +14,15 @@ format:
 library(glue)
 library(knitr)
 library(Pmetrics)
+
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>", 
+  echo = TRUE,
+  eval = FALSE
+)
+
 
 pmetrics <- function(){
     knitr::asis_output("[Pmetrics]{style=\"color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;\"}")
@@ -31,7 +39,7 @@ gh_help <- function(name) {
 }
 ```
 
-# Detailed example of a typical workflow
+## Set up the tutorial environment
 
 :::{.callout-tip}
 Make sure you have run the [tutorial setup code](index.qmd#tutorial-setup) in your R session before copying, pasting and running example code here.
@@ -50,8 +58,6 @@ library(Pmetrics)
 ```
 
 
-
-
 ## Create a run
 
 To review, recall that the typical workflow in `r pmetrics()` is as follows:
@@ -66,54 +72,21 @@ To review, recall that the typical workflow in `r pmetrics()` is as follows:
 Since `r pmetrics()` always needs data and a model to run, let's create a new data object.
 
 ```{r}
-#| eval: true
-#| label: example-npag-4
-
-exData <- PM_data$new(data = "Data/src/ex.csv")
-```
-
-`r pmetrics()` standardizes the data, checks for errors, and provides an error and attempted fix report fo any found.
-
-You can look at a .csv data file directly by opening it in a spreadsheet program like Excel, or a text editor.
-
-`exData` is an `r r_help("R6", "R6", "R6Class")` object, which means that contains both data and methods to process that data.
-
-```{r}
-#| label: example-npag-5
-exData # prints the object, usually to the terminal, but in this case to a rendered "lite" spreadsheet
-exData$data # contains your original data
-exData$standard_data # contains the standardized and validated data
-exData$summary() # prints the summary of the data to the terminal
-```
-
-Most `r pmetrics()` objects are R6 objects, so you can use the `$` operator to access their data and methods. Many of them have a `summary()` method that prints a summary of the object to the console and a `plot()` method that creates a plot of the object. See `r gh_help("PM_data")` for more information on the `PM_data` class and its methods.
-
-**Note:** We recognize that many users are familiar with the "S3 framework" in R, which uses functions like `summary(object)` and `plot(object)`. To comply with better programming standards, `r pmetrics()` uses the R6 framework. However, we have provided S3 methods for most functions, so you can use `summary(object)` and `plot(object)` if you prefer.
-
-```{r}
-#| label: example-npag-6
-# S3 method to summarize data
-summary(exData)
-```
-
-`PM_data` has a `plot()` method that creates a plot of the data. See `r gh_help("plot.PM_data")`  for more information.
-
-```{r}
-#| label: example-npag-7
-#| eval: false
-exData$plot() 
-```
-
-```{r}
-#| eval: true
 #| echo: false
-p <- exData$plot()
-plotly::plotly_build(p) #needed to display in output
+#| eval: true
+#| label: make-data
+exData <- dataEx
 ```
+
+```{r}
+#| label: example-npag-4
+exData <- PM_data$new(data = "src/ex.csv")
+```
+
 
 ### Model objects
 
-You can specify a model by reading a file or directly as a list object in R. We'll do both.
+You can specify a model as a list object in R. We'll do both.
 
 The following code creates the same model as in `/src/model.txt` file. We made the same model in the chapter on [models](models.qmd). The advantage of creating them in R is that one does not need to copy model files into folders to provide necessary inputs.
 
@@ -150,16 +123,18 @@ mod1 <- PM_model$new(
 ```
 
 
-
-
 ### Fit the model to the data
 
 To keep everything tidy, we are working in a folder specifically to store the runs. We are specifying the path in the call to `$fit()` rather than globally changing the working directory.
 
 ```{r}
-#| eval: false
 #| label: example-npag-8
-run1 <- mod1$fit(data = exData, run = 1, overwrite = TRUE, path = "Data/Runs") 
+# results will be saved in the Runs folder in your working directory
+# we use run = 1 and overwrite to force the results to be saved in /Runs/1
+# omitting overwrite = TRUE would trigger a warning if /1 already exists
+# without run = 1, the next available run number will be used
+
+run1 <- mod1$fit(data = exData, run = 1, overwrite = TRUE, path = "Runs") 
 ```
 
 The `r gh_help("PM_model")` class has a `$fit()` method that fits the model to the data.
@@ -175,6 +150,6 @@ After the run is complete the results are returned to the assigned object, here 
 ```{r}
 #| eval: false
 #| label: example-npag-9
-run1 <- PM_load(1, path = "Data/Runs") # load the results from run 1 if returning to this script later
+run1 <- PM_load(1, path = "Runs") # load the results from run 1 if returning to this script later
 ```
 

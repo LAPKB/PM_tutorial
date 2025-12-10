@@ -1,3 +1,19 @@
+---
+title: "Examine results"
+format:
+  html:
+    include-in-header: Extras/copy-all-code.html
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo = TRUE,
+  eval = FALSE
+)
+```
+
 ```{r}
 #| label: setup
 #| echo: false
@@ -5,16 +21,11 @@
 #| eval: true
 library(glue)
 library(knitr)
-#devtools::load_all()
 library(Pmetrics)
 
-pmetrics <- function(){
-    knitr::asis_output("[Pmetrics]{style=\"color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;\"}")
-}
-
-
-r_help <- function(pkg, name) {
-    glue::glue("[`{name}`](https://rdrr.io/pkg/{pkg}/man/{name}.html)")
+r_help <- function(pkg, name, fn = NULL) {
+    if(is.null(fn)) {fn <- name}
+    glue::glue("[`{name}`](https://rdrr.io/pkg/{pkg}/man/{fn}.html)")
 }
 
 gh_help <- function(name) {
@@ -23,26 +34,29 @@ gh_help <- function(name) {
 
 }
 
+pmetrics <- function(){
+    knitr::asis_output("[Pmetrics]{style=\"color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;\"}")
+}
+
+
 run1 <- NPex
 ```
 
 Recall that in the previous exercises, we loaded our run results with the following.
 ```{r}
-#| eval: false
-#| echo: true
-run1 <- PM_load(1, path = "Data/Runs")
+run1 <- PM_load(1, path = "Runs")
 ```
 
 `run1` is now a `r gh_help("PM_result")` R6 object that contains all the results from the NPAG run. Let's dig into it in more detail.
 
 
-## Examine the results
+## Objects within a PM_result
 
 ### Data
 
 #### Data plots
 
-You can plot the original data using R6 with various options. Type ?plot.PM_data in the R console for help.
+You can plot the original data using R6 with various options. Type `?plot.PM_data` in the R console for help.
 
 ```{r}
 #| eval: false
@@ -127,34 +141,31 @@ plotly::plotly_build(run1$op$plot(line = list(lm = FALSE, loess = list(color = "
 
 #### OP summaries
 
-Get a summary with bias and imprecision of the population predictions; `?summary.PM_op` in the console or `r gh_help("summary.PM_op")` for more information. The default `pred.type` is "post", which are the predictions based on the full Bayesian posterior distribution of parameter values for an individual. The predictions are the weighted mean or median (controlled by the `icen` argument in all Pmetrics functions) of the predictions from each support point in the individual's Bayesian posterior, joint probability parameter distribution, i.e. the support points in the posterior. Here we will look at the population predictions based on the means of the parameter values.
+Get a summary with bias and imprecision of the population predictions; `?summary.PM_op` in the console or `r gh_help("summary.PM_op")` for more information. The default `pred.type` is "post", which are the predictions based on the full Bayesian posterior distribution of parameter values for an individual. The predictions are the weighted mean or median (controlled by the `icen` argument in all `r pmetrics()` functions) of the predictions from each support point in the individual's Bayesian posterior, joint probability parameter distribution, i.e. the support points in the posterior. Here we will look at the population predictions based on the means of the parameter values.
 
 ```{r}
 #| eval: false
 run1$op$summary(pred.type = "pop", icen = "mean")
 ```
 
-```{r}
-#| eval: true
-#| echo: false
-print(summary(run1$op, pred.type = "pop", icen = "mean"), embed = TRUE)
-knitr::include_url("images/summary_op.html") 
-```
+The nicely formatted table below will open in your Viewer panel giving you the summary statistics for non-missing observations and corresponding predictions. 
 
-Since neither "pop" nor "mean" are the defaults, we have to specify them. We can also use the S3 method for the same summary below.
+![](Images/summaryOP.png)
+
+Notes at the bottom of the table tell you the basis for the predictions, which can be changed with arguments to the `$summary()` method, which calls `r gh_help("summary.PM_op")`. For example, aince neither "pop" nor "mean" are the defaults, we have to specify them. We can also use the S3 method for the same summary below.
 
 ```{r}
 #| label: S3_op_summary
 summary(run1$op, pred.type = "pop", icen = "mean") # S3 method
 ```
 
-As with any object in Pmetrics, the `PM_op` R6 object has fields and methods. Fields contain data and methods are functions that act on the data. All fields and methods are accessed with `$` added to the name of the object. For example, in a `PM_op` object and most other Pmetrics objects, the **raw data** can be accessed via the `$data` field.
+As with any object in `r pmetrics()`, the `PM_op` R6 object has fields and methods. As a reminder of what we've covered in several previous chapters, R6 fields contain data and methods are functions that act on the data. All fields and methods are accessed with `$` added to the name of the object. For example, in a `PM_op` object and most other `r pmetrics()` objects, the **raw data** can be accessed via the `$data` field.
 
 ```{r}
 run1$op$data
 ```
 
-Having the raw data provides a data frame compatible with any R function, particularly those from **Tidyverse** (see https://www.tidyverse.org/), including piping (`%>%`). If you're not familiar with the pipe operator, see [this article](https://magrittr.tidyverse.org/). We strongly recommend Tidvyerse for data manipulation and visualization in R, and Pmetrics works well with it. See [R for Data Science](https://r4ds.hadley.nz) for more information.
+Having the raw data provides a data frame compatible with any R function, particularly those from [**Tidyverse**](https://www.tidyverse.org), including piping (`%>%`). If you're not familiar with the pipe operator, see [this article](https://magrittr.tidyverse.org/). We strongly recommend Tidvyerse for data manipulation and visualization in R, and `r pmetrics()` works well with it. See [R for Data Science](https://r4ds.hadley.nz) for more information.
 
 This allows pre-processing in ways more flexible than the default plot method.
 
