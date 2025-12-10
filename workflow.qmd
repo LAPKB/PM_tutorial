@@ -17,9 +17,9 @@ knitr::opts_chunk$set(
 ```{r setup, echo=F, eval=T, message=F}
 library(Pmetrics)
 
-r_help <- function(pkg, name, text) {
-    if(missing(text)) {text <- name}
-    glue::glue("[`{name}`](https://rdrr.io/pkg/{pkg}/man/{text}.html)")
+r_help <- function(pkg, name, fn = NULL) {
+    if(is.null(fn)) {fn <- name}
+    glue::glue("[`{name}`](https://rdrr.io/pkg/{pkg}/man/{fn}.html)")
 }
 
 gh_help <- function(name) {

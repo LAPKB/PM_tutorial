@@ -40,5 +40,11 @@
   },
   "plotly.qmd": {
     "plotly.html": "53c926be"
+  },
+  "objects.qmd": {
+    "objects.html": "23b1b030"
+  },
+  "simulation.qmd": {
+    "simulation.html": "49d1ef4f"
   }
 }

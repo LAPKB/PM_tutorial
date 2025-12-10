@@ -16,8 +16,10 @@ book:
     - data.qmd
     - models.qmd
     - NPAG.qmd
+    - objects.qmd
     - examine.qmd
     - NPAG_cov.qmd
+    - simulation.qmd
     - plotly.qmd
     - Compare.qmd
   #  - Simulate.qmd

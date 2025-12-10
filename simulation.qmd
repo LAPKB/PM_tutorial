@@ -1,45 +1,52 @@
 ---
-title: "Simulation"
+title: "Simulations"
 format:
   html:
-    toc: true
-    toc-title: "On this page"
-    number-sections: true
-    code-fold: false
-    css: Styles/style.css
-
-bibliography: Citations.bib
-vignette: >
-  %\VignetteIndexEntry{Simulation}
-  %\VignetteEngine{quarto}
-  %\VignetteEncoding{UTF-8}
+    include-in-header: Extras/copy-all-code.html
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
 
-```{r setup, echo=F, message=F}
+```{r}
+#| label: setup
+#| echo: false
+#| message: false
+#| eval: true
+library(glue)
+library(knitr)
 library(Pmetrics)
 
-r_help <- function(pkg, name) {
-    glue::glue("[`{name}`](https://rdrr.io/pkg/{pkg}/man/{name}.html)")
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>", 
+  echo = TRUE,
+  eval = FALSE
+)
+
+
+pmetrics <- function(){
+    knitr::asis_output("[Pmetrics]{style=\"color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;\"}")
+}
+
+
+r_help <- function(pkg, name, fn = NULL) {
+    if(is.null(fn)) {fn <- name}
+    glue::glue("[`{name}`](https://rdrr.io/pkg/{pkg}/man/{fn}.html)")
 }
 
 gh_help <- function(name) {
-
     glue::glue("[`{name}`](https://lapkb.github.io/Pmetrics/reference/{name}.html)")
-
 }
+
+exData <- PM_data$new(data = "Data/src/ex.csv")
+mod1 <- PM_model$new("Data/src/model.txt")
+run2 <- PM_load(run = 2, path = "Data/Runs")
 
 ```
 
 ## Introduction to simulations
 
-The Pmetrics simulator is a powerful Monte Carlo engine that is smoothly integrated with Pmetrics inputs and outputs.
+The `r pmetrics()` simulator is a powerful Monte Carlo engine that is smoothly integrated with Pmetrics inputs and outputs.
 
 The simulator needs **3 mandatory inputs**:
 
@@ -52,7 +59,7 @@ There are **two ways to call the simulator**, which we discuss in more detail be
 1.  Use the `$sim()` method with a `r gh_help("PM_result")` object, e.g. `run1 <- PM_load(1); sim1 <- run1$sim(...)`
 2.  Use `r gh_help("PM_sim")` directly, e.g. `sim2 <- PM_sim$new(...)`
 
-Whether you use `PM_result$sim()` or `PM_sim$new()`, unlike the prior versions of Pmetrics, you do not need to read the simulator output files with `SIMparse`; Pmetrics does that for you automatically and returns the `PM_sim` object.
+Whether you use `PM_result$sim()` or `PM_sim$new()`, unlike the prior versions of `r pmetrics()`, you do not need to read the simulator output files with `SIMparse`; `r pmetrics()` does that for you automatically and returns the `PM_sim` object.
 
 ## Simulator input details
 
@@ -73,7 +80,7 @@ You can have any number of subject records within a data template, each with its
 
 Analogous to the data template, the model for a simulation is a `r gh_help("PM_model")` object, with exactly the same structure as used for fitting. You can supply the `PM_model` object in a number of ways.
 
--   Use a previously created `PM_model` object, either from an appropriate file with `PM_model$new("filename")` but also by defining a model list directly in R  (see [models](models.html) for details) passing it to `PM_model$new()`.
+-   Use a previously created `PM_model` object, either by defining a model list directly in R  (see [models](models.html) for details) passing it to `PM_model$new()`, or from an appropriate file with `PM_model$new("filename")`.
 -   Provide the name of an appropriate model file with path if needed. Use `r r_help("base", "getwd")` and `r r_help("base", "list.files")` to ensure the path and filename are correct.
 -   If using `PM_result$sim()`, omit the `model` argument to use the model in the `PM_result` as the template.
 
@@ -81,12 +88,12 @@ The model primary (random) parameters must match the parameters in the `poppar` 
 
 ### Population parameter distribution
 
-
-The other mandatory item is a prior probability distribution for all random parameter values in the model. Pmetrics draws samples from this distribution to create the simulated output. You can supply the `poppar` prior object with the population parameters in a number of ways.
+The last mandatory item is a prior probability distribution for all random parameter values in the model. `r pmetrics()` draws samples from this distribution to create the simulated output. You can supply the `poppar` prior object with the population parameters in a number of ways.
 
 -   Use a previously created `r gh_help("PM_final")` object which is a field in a `PM_result` object, e.g. `run1 <- PM_load(1); poppar <- run1$final`.
 -   If using `PM_result$sim()`, omit the `poppar` argument to use the `PM_final` object in the `PM_result`.
 -   Create a `poppar` list directly in R, which is detailed below.
+-   Supply a data frame with number of rows equal to the number of simulations desired and columns with values for each parameter in the model 
 
 #### Details on manually specifying `poppar`
 
@@ -136,7 +143,7 @@ run1 <- PM_load(1)
 sim1 <- run1$sim(data = dat, nsim = 100, limits = NA)
 ```
 
--   Use `PM_sim$new()`. This simulates without necessarily having completed a fitting run previously, i.e., there may be no `PM_result()` object. Here, you manually specify values for `poppar`, `model`, and `data`. These can be other Pmetrics objects, or de novo, which can be useful for simulating from models reported in the literature. An example is below.
+-   Use `PM_sim$new()`. This simulates without necessarily having completed a fitting run previously, i.e., there may be no `PM_result()` object. Here, you manually specify values for `poppar`, `model`, and `data`. These can be other `r pmetrics()` objects, or de novo, which can be useful for simulating from models reported in the literature. An example is below.
 
 ```{r echo = TRUE, eval = FALSE, label = sim4}
 sim2 <- PM_sim$new(poppar = run2$final, data = dat, model = mod1, ...)
@@ -148,15 +155,11 @@ Now you must include all three of the mandatory arguments: `model`, `data`, and 
 poppar <- list(wt = 1, mean = c(0.7, 100), covar = diag(c(0.25, 900)))
 ```
 
-Under the hood, both of these calls to the simulator use the [Legacy]{.legacy} `SIMrun()` function, and thus all its arguments are available when using `PM_result$sim(...)` or `PM_sim$new(...)`.
-
-
-
-
+Under the hood, both of these calls to the simulator use the Legacy `SIMrun()` function, and thus all its arguments are available when using `PM_result$sim(...)` or `PM_sim$new(...)`.
 
 ## Simulation options
 
-Details of all arguments available to modify simulations are available by typing `?SIMrun` into the R console or reading the documentation for `SIMrun()`. A few are highlighted here.
+Details of all arguments available to modify simulations are available by typing `?PM_sim` into the R console and clicking the link for the `$new()` method. A few are highlighted here.
 
 Simulation from a non-parametric prior distribution (from NPAG) can be done in one of two ways. The first is simply to take the mean and covariance matrix of the distribution and perform a standard Monte Carlo simulation. This is accomplished by setting `split = FALSE` as an argument.
 
@@ -168,20 +171,13 @@ Below are illustrations of simulations with a single mean and covariance for two
 
 Limits may be specified for truncated parameter ranges to avoid extreme or inappropriately negative values. The simulator will report values for the total number of simulated profiles needed to generate `nsim` profiles within the specified limits, as well as the means and standard deviations of the simulated parameters to check for simulator accuracy.
 
-Output from the simulator can be controlled by further arguments passed to `SIMrun()`. If `makecsv` is supplied, a .csv file with the simulated profiles will be created with the name as specified by `makecsv`; otherwise, there will be no .csv file created. If `outname` is supplied, the simulated values and parameters will be saved in a .txt file whose name is that specified by `outname`; otherwise the filename will be "simout". In either case, integers 1 to the number of subjects will be appended to outname or "simout", e.g. "simout1.txt", "simout2.txt".
+Output from the simulator can be controlled by further arguments passed to `PM_result$sim()` or `PM_sim$new()`. If `makecsv` is supplied, a .csv file with the simulated profiles will be created with the name as specified by `makecsv`; otherwise, there will be no .csv file created. 
 
 ## Simulation output
 
-In [R6]{.r6}, simulation output files (e.g. *simout1.txt*, *simout2.txt*) are automatically read by `SIMparse()` and returned as the new `PM_sim()` object that was assigned to contain the results of the simulation. All files will remain on the hard drive. You no longer need to use `SIMparse()` as Pmetrics will do it for you. This is unlike the [Legacy]{.legacy} requirement for you to specifically read the output files from the simulator with `SIMparse()`.
+As of version 2.0, simulation output is returned as the new `PM_sim()` object that was assigned to contain the results of the simulation. There are no files written to the hard drive. You no longer need to use the Legacy function `SIMparse()`. 
 
-If you simulated from a template with multiple subjects, you will have a simulation output from each template, and each will have `nsim` profiles. If you wish to combine all the simulations into one `PM_sim()` object, use the argument `combine` in your call to the simulator run methods. It will be passed to `SIMparse()` during the post-simulation processing.
-
-So if our data template has 3 subjects...
-
-```{r echo = TRUE, eval = FALSE, label = sim6}
-sim1 <- run1$sim(data = dat) # sim1 is a PM_sim with 3 simulation results
-sim2 <- run1$sim(data = dat, combine = TRUE) # sim2 is a PM_sim with combined results
-```
+If you simulated from a template with multiple subjects, your simulation contains output from each template as an `id` column, and each `id` will have `nsim` profiles. 
 
 `PM_sim()` objects have 6 data fields and 6 methods.
 
@@ -196,23 +192,163 @@ Data fields are accessed with `$`, e.g. `sim1$obs`.
 -   **totalMeans** The means of all simulated parameter values, including those that were discarded to be within any `limits` specified.
 -   **totalSets** The number of simulated sets of parameter values, including those that were discarded to be within any `limits` specified. This number will always be ≥ `nsim`.
 
-All of these are detailed further in `SIMparse()`.
+All of these are detailed further in `r gh_help("PM_sim")`.
 
 ### Methods
 
 Methods are accessed with `$` and include parentheses to indicate a function, possibly with arguments e.g. `sim1$auc()` or `sim1$save("sim1.rds")`.
 
--   **auc** Call `makeAUC()` to calculate the area under the curve from the simulated data.
--   **pta** Call `makePTA()` to perform a probability of target attainment analysis with the simulated data.
--   **plot** Call `plot.PM_sim()` to plot the simulated data.
--   **summary** Summarize any data field with or without grouping.
+-   **auc** Call `r gh_help("makeAUC")` to calculate the area under the curve from the simulated data.
+-   **pta** Call `r gh_help("PM_pta")` to perform a probability of target attainment analysis with the simulated data.
+-   **plot** Call `r gh_help("plot.PM_sim")` to plot the simulated data.
+-   **summary** Call `r gh_help("summary.PM_sim")` to summarize any data field with or without grouping.
 -   **save** Save the simulation to your hard drive as an .rds file. Load a previous one by providing the filename as the argument to `PM_sim$new()`.
--   **clone** Copy a simulation result.
 
-All of these are detailed further in `PM_sim()`.To apply them to one of the simulations when there are multiple, use `at` followed by additional arguments to the method to choose the simulation.
+All of these are detailed further in `r gh_help("PM_sim")`.To apply them to one of the simulations when there are multiple, use `at` followed by additional arguments to the method to choose the simulation.
 
 ```{r echo = TRUE, eval = FALSE, label = sim7}
-sim1$plot(at = 2, ...)
+sim1$plot(include = 2, ...)
 ```
+
+## Set up the tutorial environment
+
+:::{.callout-tip}
+Make sure you have run the [tutorial setup code](index.qmd#tutorial-setup) in your R session before copying, pasting and running example code here.
+:::
+
+## Basic simulation
+
+The following will simulate 100 sets of parameters/concentrations using the model, population parameter values,
+first subject in the data all attached to `run1` (exercise on [first NPAG run](NPAG.qmd)).
+
+Setting `limits = NA` makes the simulated parameter values stay within the same ranges as in the model for `run1`.
+
+```{r}
+#| eval: true
+simdata <- run2$sim(include = 1, limits = c(0,3), nsim = 100)
+```
+
+Below is the alternate way to simulate, which is particularly useful if you define 
+your own population parameters. See `?PM_sim` for details on this as well as
+the article on simulation.
+
+```{r}
+#| eval: true
+
+# define population parameters for simulation
+poppar <- list(
+  mean = list(ka = 0.6, ke = 0.05, v = 77.8, lag1 = 1.2),
+  cov = diag(c(0.07, 0.0004, 830, 0.45))
+)
+
+# now we need to provide parameter value distributions (poppar), data, and model
+simOther <- PM_sim$new(poppar = poppar, data = exData, model = mod1,
+                       include = 1, limits = NA, nsim = 100)
+```
+
+Simulate from a model with new data.
+
+```{r}
+#| eval: true
+sim_new <- run2$sim(
+  data = "Data/src/ptaex1.csv",
+  include = 2, limits = NA,
+  predInt = c(120, 144, 1)
+)
+```
+
+
+Plot them; `?plot.PM_sim` for help.
+
+```{r}
+simdata$plot()
+simOther$plot() 
+sim_new$plot(log = FALSE) 
+```
+
+```{r}
+#| eval: true
+plotly::plotly_build(simdata$plot())
+plotly::plotly_build(simOther$plot()) 
+plotly::plotly_build(sim_new$plot(log = FALSE))
+```
+
+Simulate using multiple subjects as templates.
+
+```{r}
+#| eval: true
+simdata <- run2$sim(include = 1:4, limits = NA, nsim = 100)
+```
+
+Plot the third simulation; use include/exclude to specify the ID numbers, which are the same as the ID numbers in the template data file
+
+
+```{r}
+simdata$plot(include = 3) # one regimen
+simdata$plot(exclude = 3) # all but one regimen; notice the jagged profiles arising from combining different regimens
+```
+
+
+```{r}
+#| eval: true
+plotly::plotly_build(simdata$plot(include = 3)) # one regimen
+plotly::plotly_build(simdata$plot(exclude = 3)) # all but one regimen; notice the jagged profiles arising from combining different regimens
+```
+
+## Simulate with covariates
+In this case we use the covariate-parameter correlations from run 2, which are found in the `cov` field. We re-define the mean weight to be 50 with SD of 20, and limits of 10 to 70 kg.  We fix africa, gender and height covariates, but allow age (the last covariate) to be simulated, using the mean, sd, and limits in the original population, since we didn't specify them. See ?SIMrun for more help on this.
+
+```{r}
+#| eval: true
+covariate <- list(
+  cov = run2$cov,
+  mean = list(wt = 50),
+  sd = list(wt = 20),
+  limits = list(wt = c(10, 70)),
+  fix = c("africa", "gender", "height")
+)
+```
+
+
+
+Now simulate with this covariate list object.
+
+```{r}
+#| eval: true
+simdata3 <- run2$sim(include = 1:4, limits = NA, nsim = 100, covariate = covariate)
+
+```
+
+There are subtle differences between simulations with and without covariates simulated, all other inputs the same.
+
+```{r}
+simdata$plot(include = 4)  # without covariates
+simdata3$plot(include = 4) # ...and with covariates simulated
+```
+
+```{r}
+#| eval: true
+plotly::plotly_build(simdata$plot(include = 4))  # without covariates
+plotly::plotly_build(simdata3$plot(include = 4)) # ...and with covariates simulated
+```
+
+Here are the simulated parameters and covariates for the first subject's
+template; note that both wt and age are simulated, using proper covariances
+with simulated PK parameters.
+
+```{r}
+#| eval: true
+simdata3$data$parValues
+```
+
+We can summarize simulations too. See `?summary.PM_sim` for help.
+
+```{r}
+#| eval: true
+simdata3$summary(field = "obs", include = 3)
+```
+
+Next, we'll see the first of two applications of simulation: probability of target attainment.
+
 
 ## Citations

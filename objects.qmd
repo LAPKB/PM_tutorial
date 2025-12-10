@@ -1,17 +1,32 @@
 
+---
+title: "The results"
+format:
+  html:
+    include-in-header: Extras/copy-all-code.html
+---
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = TRUE,
+  eval = FALSE
 )
 ```
 
-```{r setup, echo=F, message=F}
+```{r}
+#| label: setup
+#| echo: false
+#| eval: true
+#| message: false
+
 library(Pmetrics)
 library(gt)
 
-r_help <- function(pkg, name) {
-    glue::glue("[`{name}`](https://rdrr.io/pkg/{pkg}/man/{name}.html)")
+r_help <- function(pkg, name, fn = NULL) {
+    if(is.null(fn)) {fn <- name}
+    glue::glue("[`{name}`](https://rdrr.io/pkg/{pkg}/man/{fn}.html)")
 }
 
 gh_help <- function(name) {
@@ -20,53 +35,75 @@ gh_help <- function(name) {
 
 }
 
+pmetrics <- function(){
+    knitr::asis_output("[Pmetrics]{style=\"color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;\"}")
+}
+
 
 custom_table <- function(tab){
-  #system.file("extData", tab, package = "Pmetrics") %>%
-    read.csv(file.path("Data",tab), na.strings = ".") %>% gt() %>%
-
-    tab_style(
+    tab2 <- read.csv(file.path("Data", tab), na.strings = ".")  %>% dplyr::mutate(Comments = stringr::str_replace_all(
+      Comments,
+      "`([^$`]+)`",  # capture any run of non-backtick chars
+        gh_help("\\1")
+    ))   
+    
+    md <- stringr::str_detect(tab2$Comments, "`.+`")
+    tab3 <- tab2 %>% gt() %>%
+      gt::fmt_markdown(columns = Comments, rows = md) %>%
+    gt::tab_style(
       style = list(
         cell_fill(color = "black"),
         cell_text(color = "white", weight = "bold")
       ),
       locations = cells_column_labels(everything())
     )
+    return(tab3)
 }
 ```
 
-## Objects created after a run
+## PM_result details
 
-After a successful NPAG/NPOD run, an R datafile is saved in the /outputs subdirectory of the newly created numerically ordered folder in the working directory. This file is called "PMout.Rdata". These data files can be loaded by ensuring that the Runs folder is set as the working directory or using the `path` argument to `$fit()`, and then using the Pmetrics command `` `r gh_help("PM_load")` ``.
+After a successful NPAG/NPOD run, an R datafile is saved in the /outputs subdirectory of the newly created numerically ordered folder in the working directory. This file is called "PMout.Rdata". These data files can be loaded by ensuring that the Runs folder is set as the working directory or using the `path` argument to `$fit()`, and then using the `r pmetrics()` command `r gh_help("PM_load")`.
 
-There are several Pmetrics data objects contained within the Rdata files which are loaded, making these objects available for plotting and other analysis.
+There are several data objects contained within the Rdata files which are loaded, making these objects available for plotting and other analysis. This is in contrast to the Legacy method of loading objects into your global R environment, suffixed with the run number, e.g., "op.1" or "final.1". Obscurely loading objects into memory is not good or current programming practice.
 
-`PM_load()` returns a `r gh_help("PM_result")`object. The fields in the object are in the table below.
+Therefore, in R6 `r pmetrics()`, `PM_load()` returns a `r gh_help("PM_result")`object. The fields in the object are in the table below.
 
-```{r echo = F, results = 'asis', label= obj_table_fields}
+```{r}
+#| echo: false
+#| eval: true
+#| results: asis
+#| label: obj_table_fields
 custom_table("PM_result_fields.csv")
 ```
 
-To access the fields in a `PM_result` object, use the "\$".
+To access the fields in a `PM_result` object, use the "$".
 
-```{r echo=T, eval = F, label = obj_access}
-res1 <- PM_load(1)
-res1$op
-res1$op$time
-res1$op$data # this accesses the whole observed vs. predicted raw data frame
+```{r}
+#| label: obj_access
+# load the results of run1
+run1 <- PM_load(1, path = "Runs")
+run1$op # observed vs. predicted PM_op R6 object
+run1$op$time # times in PM_op
+run1$op$data # this accesses the whole observed vs. predicted raw data frame
 ```
 
-Most of the fields are themselves R6 objects with methods.
+Most of the fields are themselves R6 objects with methods. We'll dive into this in more detail in the next chapter.
 
-```{r echo = T, eval = F, label = obj_methods}
-res1 <- PM_load(1)
-res1$op
-res1$op$summary()
-res1$op$plot()
+```{r}
+#| label: obj_methods
+# summarize observed vs. predicted data
+run1$op$summary()
+# plot it
+run1$op$plot()
 ```
 
-The `PM_result` object also contains several methods. The table below lists these methods (functions) and their descriptions.
-```{r echo = F, results = 'asis', label= obj_table_methods}
+The `PM_result` object itself also contains several methods in addition to the R6 objects in fields. The table below lists these methods (functions) and their descriptions.
+```{r}
+#| echo: false
+#| eval: true
+#| results: asis
+#| label: obj_table_methods
 custom_table("PM_result_methods.csv")
 ```
 

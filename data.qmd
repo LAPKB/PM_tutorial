@@ -330,15 +330,31 @@ Below we show it truncated for brevity.
 knitr::kable(head(exData$standard_data))
 ```
 
-A method exists for all Pmetrics objects to summarize them.
+
+Most `r pmetrics()` objects are R6 objects. As a reminder, you can use the `$` operator to access their data fields and methods. Many of them have a `$summary()` method that prints a summary of the object to the console and a `$plot()` method that creates a plot of the object. See `r gh_help("PM_data")` for more information on the `PM_data` class and its methods.
+
+**Note:** We recognize that many users are familiar with the "S3 framework" in R, which uses functions like `summary(object)` and `plot(object)`. To comply with better programming standards, `r pmetrics()` uses the R6 framework. However, we have provided S3 methods for most functions, so you can use `summary(object)` and `plot(object)` if you prefer.
+
+```{r}
+#| label: example-npag-6
+# S3 method to summarize data
+summary(exData)
+```
+
+`PM_data` has a `plot()` method that creates a plot of the data. See `r gh_help("plot.PM_data")`  for more information.
+
+```{r}
+#| label: example-npag-7
+#| eval: false
+exData$plot() 
+```
 
 ```{r}
 #| eval: true
-exData$summary() 
+#| echo: false
+p <- exData$plot()
+plotly::plotly_build(p) #needed to display in output
 ```
 
-The older S3 method to summarize will also work, but is less preferred: `summary(exData)`.
-
-We can also plot data, which we will cover in the [plotting](plotly.qmd) chapter.
 
 ## Citations
