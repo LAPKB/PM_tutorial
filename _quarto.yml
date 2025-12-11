@@ -48,7 +48,8 @@ format:
 pdf:
     documentclass: scrreprt
 
-
-
+execute:
+  env:
+    CLIPR_ALLOW: "TRUE"
 
 
