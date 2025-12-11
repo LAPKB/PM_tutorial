@@ -348,7 +348,7 @@ We can summarize simulations too. See `?summary.PM_sim` for help.
 simdata3$summary(field = "obs", include = 3)
 ```
 
-Next, we'll see the first of two applications of simulation: probability of target attainment.
+Next, we'll see the first of two applications of simulation: Probability of Target Attainment (PTA).
 
 
 ## Citations
