@@ -20,6 +20,7 @@ book:
     - examine.qmd
     - NPAG_cov.qmd
     - simulation.qmd
+    - PTA.qmd
     - plotly.qmd
     - Compare.qmd
   #  - PTA.qmd
@@ -48,8 +49,5 @@ format:
 pdf:
     documentclass: scrreprt
 
-execute:
-  env:
-    CLIPR_ALLOW: "TRUE"
 
 
