@@ -3,7 +3,7 @@
 
 ::: {.callout-tip} 
 ## Learn more
-It is essential that you understand simulations first. If necessary, refer to [Simulation](Simulate.qmd). 
+It is essential that you understand simulations first. If necessary, refer to the chapter on  [simulation](simulation.qmd). 
 :::
 
 
