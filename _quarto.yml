@@ -8,7 +8,7 @@ project:
 book:
   title: "Learn Pmetrics"
   author: "Michael Neely"
-  date: "8/27/2025"
+  date: "12/12/2025"
   chapters:
     - index.qmd
     - overview.qmd
@@ -21,12 +21,10 @@ book:
     - NPAG_cov.qmd
     - simulation.qmd
     - PTA.qmd
+    #- Validate.qmd
     - plotly.qmd
     - Compare.qmd
-  #  - PTA.qmd
-  # Optional but useful in books:
   page-navigation: true
-  # You can keep a top navbar in a book, too:
   navbar:
     left:
       - href: index.qmd
@@ -42,7 +40,6 @@ format:
     css: Extras/custom.scss
     toc: true
     toc-title: "On this page" 
-    #include-in-header: Extras/copy-all-code.html
     link-external-newwindow: true
     embed-resources: true
 
