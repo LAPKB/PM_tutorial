@@ -1,0 +1,119 @@
+---
+title: "Introduction"
+---
+
+```{r}
+#| label: setup
+#| echo: false
+#| message: false
+#| eval: true
+
+pmetrics <- function(){
+    knitr::asis_output("[Pmetrics]{style=\"color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;\"}")
+}
+```
+
+**Thank you for your interest** in `r pmetrics()`! This online book provides
+instructions and examples to assist users of the `r pmetrics()` R package, by
+the Laboratory of Applied Pharmacokinetics and Bioinformatics at the
+Saban Research Institute, Children's Hospital Los Angeles, and the
+Department of Pediatrics, Keck School of Medicine, University of
+Southern California. Please see our website at
+[[http://www.lapk.org]{.underline}](http://www.lapk.org) for more
+information.
+
+## What is Pmetrics?
+`r pmetrics()` is a population modeling and simulation package for R. It can model data using nonparametric and parametric approaches. Some excellent articles discussing the differences, strengths, and limitations of both approaches are: @goutelleNonparametricMethodsPopulation2022, @goutelleParametricNonparametricMethods2022, @guidiParametricApproachesPopulation2022.
+
+## Disclaimer
+
+You, the user, assume all responsibility for acting on the results
+obtained from `r pmetrics()`. The Laboratory of Applied Pharmacokinetics and
+Bioinformatics (LAPKB), members and consultants to LAPKB, and Children's
+Hospital Los Angeles and the University of Southern California and their
+employees assume no liability whatsoever. Your use of the package
+
+## What This Guide Is Not
+
+We assume that the user has familiarity with population modeling and R,
+and thus this manual is not a tutorial for basic concepts and techniques
+in either domain. We have tried to make the R code simple, regular and
+well documented. A very good free online resource for learning the
+basics of R can be found at [Stat Methods](http://www.statmethods.net/index.html). However, there are a number of other free or low-cost online resources which you can find with a simple or AI-assisted web search.
+
+We recognize that initial use of a new software package can be complex,
+so please feel free to contact us at any time, preferably through the
+`r pmetrics()` [Disussions](https://github.com/LAPKB/Pmetrics/discussions). You can report [issues](https://github.com/LAPKB/Pmetrics/issues) online as well.
+
+This manual is also not intended to be a theoretical treatise on the
+algorithms `r pmetrics()` uses. For that, the user is directed to our
+[website](http://www.lapk.org/publications.php).
+
+## How do I get Pmetrics?
+
+It's easy and *all free*!
+
+`r pmetrics()` and all required components will run under MacOS (Unix), Windows,
+and Linux. Instructions on obtaining and installing the package are in the README section of our source code [repository in GitHub](https://github.com/LAPKB/Pmetrics_rust/).
+
+## How do I start using Pmetrics?
+
+::: {.callout-note #tutorial-setup}
+After installing `r pmetrics()`, run the following code in your R console. This will set up the necessary files and directories to work through examples in this book.
+```{r}
+#| eval: false
+#| echo: true
+library(Pmetrics)
+PM_tutorial()
+```
+:::
+
+
+`PM_tutorial()` will install a **Learn** folder at your chosen location. Together with this book, it will get you started building and simulating from population models. All functions are extensively documented, most with examples, which can be seen in the Reference section of the [website](https://lapkb.github.io/Pmetrics/). There is also more information and references on our Laboratory of Applied Pharmacokinetics and Bioinformatics [website](http://www.lapk.org).
+
+## Getting Help and Updates
+
+Within R, you can  use `help("command")` or more simply just `?command` in the R console to see detailed help files for any `r pmetrics()` command. Many commands have examples included in this documentation and you can execute the examples with `example(command)`.
+
+You can also type `PM_manual()` to launch this website from within Pmetrics. 
+
+`r pmetrics()` will check for updates automatically every time you load it
+with `library(Pmetrics)` and you are connected to the internet. 
+If an update is available, it will provide a
+brief message to inform you. You can then reinstall the package.
+
+## Code Examples
+
+Included in this book are numerous code examples that will help you learn how to use `r pmetrics()` for R. They are designed to be read in sequence.
+
+* Items that are [hyperlinked]() can be selected to cross reference
+within this manual or link to external sites.
+
+* `Items` correspond to inline examples of R code, which are not evaluated
+in this document, but serve as templates for what may be typed into your 
+R console or script. They may not necessarily be executable if typed verbatim.
+
+You can copy and paste many of the code chunks into your own script or Quarto document to see how they work. Hover over the code chunks to see a copy icon. Click that to copy the code to your clipboard so you can paste it into your own script or document. Alternatively, you can click the **Copy all code** button at the top right of chapters to copy all the code chunks on that page to your clipboard.
+
+There are two kinds of code blocks in this book.
+
+```{r}
+#| code-copy: false
+# These darker blocks are for illustration and not meant to be copied.
+# Hovering over them will not show a copy icon.
+```
+```{r}
+# These lighter blocks are meant to be copied, pasted, and executed in Rstudio or Positron.
+# Hovering over them will show a copy icon.
+```
+
+**Note:** In many cases, we do not evaluate the code chunks here because the ouput is too long, so you will need to run them in your own script or document.
+
+Head on over to our [Discussion](https://github.com/LAPKB/Pmetrics/discussions) board at Github.
+
+## Citations
+
+
+
+
+
