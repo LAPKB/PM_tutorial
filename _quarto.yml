@@ -11,6 +11,7 @@ book:
   date: "12/12/2025"
   chapters:
     - index.qmd
+    - intro.qmd
     - overview.qmd
     - workflow.qmd
     - data.qmd
