@@ -83,3 +83,49 @@
   keywords = {Age Factors,Algorithms,Alkynes,Area Under Curve,Benzoxazines,clinical pharmacology (CPH),Cyclopropanes,drug development,education (EDU),Humans,Metabolic Clearance Rate,modeling & simulation,Models Biological,Models Statistical,Pharmacokinetics,population pharmacokinetics,Sex Factors,Software Design}
 }
 
+@article{bergstrandPredictioncorrectedVisualPredictive2011,
+  title = {Prediction-Corrected Visual Predictive Checks for Diagnosing Nonlinear Mixed-Effects Models.},
+  author = {Bergstrand, Martin and Hooker, Andrew C and Wallin, Johan E and Karlsson, Mats O},
+  year = 2011,
+  month = jun,
+  journal = {The AAPS Journal},
+  volume = {13},
+  number = {2},
+  pages = {143--151},
+  doi = {10.1208/s12248-011-9255-z},
+  abstract = {Informative diagnostic tools are vital to the development of useful mixed-effects models. The Visual Predictive Check (VPC) is a popular tool for evaluating the performance of population PK and PKPD models. Ideally, a VPC will diagnose both the fixed and random effects in a mixed-effects model. In many cases, this can be done by comparing different percentiles of the observed data to percentiles of simulated data, generally grouped together within bins of an independent variable. However, the diagnostic value of a VPC can be hampered by binning across a large variability in dose and/or influential covariates. VPCs can also be misleading if applied to data following adaptive designs such as dose adjustments. The prediction-corrected VPC (pcVPC) offers a solution to these problems while retaining the visual interpretation of the traditional VPC. In a pcVPC, the variability coming from binning across independent variables is removed by normalizing the observed and simulated dependent variable based on the typical population prediction for the median independent variable in the bin. The principal benefit with the pcVPC has been explored by application to both simulated and real examples of PK and PKPD models. The investigated examples demonstrate that pcVPCs have an enhanced ability to diagnose model misspecification especially with respect to random effects models in a range of situations. The pcVPC was in contrast to traditional VPCs shown to be readily applicable to data from studies with a priori and/or a posteriori dose adaptations.},
+  langid = {english},
+  pmcid = {PMC3085712},
+  pmid = {21302010},
+  file = {/Users/mneely/Zotero/storage/TWDXCSLX/8D17EF7E-CB31-4496-9C49-E96A0CE5B4E4.pdf;/Users/mneely/Zotero/storage/U9FI6UJX/8D17EF7E-CB31-4496-9C49-E96A0CE5B4E4.pdf}
+}
+
+
+@article{cometsComputingNormalisedPrediction2008,
+  title = {Computing Normalised Prediction Distribution Errors to Evaluate Nonlinear Mixed-Effect Models: {{The}} Npde Add-on Package for {{R}}},
+  author = {Comets, Emmanuelle and Brendel, Karl and Mentr{\'e}, France},
+  year = 2008,
+  month = jan,
+  journal = {Computer methods and programs in biomedicine},
+  volume = {90},
+  number = {2},
+  pages = {154--166},
+  doi = {10.1016/j.cmpb.2007.12.002},
+  abstract = {Pharmacokinetic/pharmacodynamic data are often analysed using nonlinear mixed-effect models, and model evaluation should be an important part of the analysis. Recently, normalised prediction distribution errors (npde) have been proposed as a model evaluation tool. In this paper, we describe an add-on package for the open source statistical package R, designed to compute npde. npde take into account the full predictive distribution of each individual observation and handle multiple observations within subjects. Under the null hypothesis that the model under scrutiny describes the validation dataset, npde should follow the standard normal distribution. Simulations need to be performed before hand, using for example the software used for model estimation. We illustrate the use of the package with two simulated datasets, one under the true model and one with different parameter values, to show how npde can be used to evaluate models. Model estimation and data simulation were performed using NONMEM version 5.1.},
+  langid = {english},
+  file = {/Users/mneely/Zotero/storage/S27GFFCM/Comets et al. - 2008 - Computing normalised prediction distribution error.pdf}
+}
+
+@inproceedings{holfordVPCVisualPredictive2005,
+  title = {{{VPC}}, the Visual Predictive Check - Superiority to Standard Diagnostic ({{Rorschach}}) Plots},
+  booktitle = {14th {{Population Approach Group Europe}} ({{PAGE}})},
+  author = {Holford, N},
+  year = 2005,
+  pages = {Abstract 738},
+  address = {Pamplona, Spain},
+  urldate = {2022-04-16},
+  abstract = {Objective: NONMEM users typically demonstrate the adequacy of a model by displaying plots of PRED vs DV or IPRED vs DV along with weighted and unweighted residuals. These are often called the standard diagnostic plots. An alternative way of evaluating a model is to simulate from the final estimates and compare the distribution of the observations with the simulated distribution. A plot of the time course of the observations and prediction interval for the simulated values provides a visual predictive check. The objective of this report is to compare the standard diagnostic plots with the visual predictive check in terms of their ability to suggest improvements to the model structure and confirm the suitability of the final model. Methods: Plasma warfarin concentrations and effects on prothrombin complex activity have been reported by O'Reilly et al. (1, 2). These data were fitted with a one compartment disposition model with first-order input and elimination plus either an immediate effect model, an effect compartment model or a turnover model. The turnover model is known a priori to be the most appropriate mechanistic model. Results: The standard diagnostic plots did not give a clear indication of the best model. There was some indication in the residual plot that the immediate effect model was not performing well at the time of the earliest post treatment prothrombin complex observation. The visual predictive check demonstrated the lack of fit of the direct and effect compartment models both for structural and stochastic components. Conclusion: The standard diagnostic plots should be called Rorschach plots because their interpretation is dependent on the mind of the observer. The visual predictive check is diagnostic of both the fixed and random effects parts of a PKPD model. References:   [1] O'Reilly RA, Aggeler PM. Studies on coumarin anticoagulant drugs. Initiation of warfarin therapy without a loading dose. Circulation 1968;38:169-177. [2] O'Reilly RA, Aggeler PM, Leong LS. Studies of the coumarin anticoagulant drugs: The pharmacodynamics of warfarin in man. Journal of Clinical Investigation 1963;42(10):1542-1551.},
+  file = {/Users/mneely/Zotero/storage/KSABPFJN/Holford - VPC, the visual predictive check - superiority to .pdf}
+}
+
+

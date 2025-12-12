@@ -606,3 +606,4 @@ plotly::plotly_build(p)
 ```
 
 
+**Next** we will explore another useful application of simulation: model validation.

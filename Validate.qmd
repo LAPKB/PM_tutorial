@@ -1,0 +1,103 @@
+---
+title: "Model Validation"
+format:
+  html:
+    include-in-header: Extras/copy-all-code.html
+---
+
+
+```{r}
+#| label: setup
+#| echo: false
+#| message: false
+#| eval: true
+library(glue)
+library(knitr)
+library(Pmetrics)
+
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>", 
+  echo = TRUE,
+  eval = FALSE
+)
+
+
+pmetrics <- function(){
+    knitr::asis_output("[Pmetrics]{style=\"color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;\"}")
+}
+
+
+r_help <- function(pkg, name, fn = NULL) {
+    if(is.null(fn)) {fn <- name}
+    glue::glue("[`{name}`](https://rdrr.io/pkg/{pkg}/man/{fn}.html)")
+}
+
+gh_help <- function(name) {
+    glue::glue("[`{name}`](https://lapkb.github.io/Pmetrics/reference/{name}.html)")
+}
+
+
+run1 <- PM_load(run = 1, path = "Data/Runs")
+run2 <- PM_load(run = 2, path = "Data/Runs")
+
+```
+
+::: {.callout-tip} 
+It is essential that you understand [simulations](simulation.qmd) first. 
+
+Also, make sure you have run the [tutorial setup code](index.qmd#tutorial-setup) in your R session before copying, pasting and running example code here.
+:::
+
+
+## Introduction 
+
+The fit of a model to the data generates various metrics of goodness-of-fit, such as the objective function value (OFV), Akaike information criterion (AIC), Bayesian information criterion (BIC), and log-likelihood. However, these metrics do not provide a complete picture of how well the model describes the data.
+
+Model validation techniques are used to assess the predictive performance of a model and its ability to generalize to new data. These techniques help identify potential issues with the model, such as overfitting or underfitting, and provide insights into areas where the model may need improvement.
+
+Broadly, two major types of model validation techniques exist: internal and external. External validation involves testing the model on an independent dataset that was not used during model development. Internal validation, on the other hand, uses the original dataset to assess the model's performance through various resampling methods or simulation-based approaches. 
+
+First we consider simulation-based, internal methods of model validation in `r pmetrics()`.
+
+## Simulation-based Internal Validation
+
+Internal methods of validating include visual predictive check (VPC) [@holfordVPCVisualPredictive2005], prediction-corrected visual predictive check (pcVPC) [@bergstrandPredictioncorrectedVisualPredictive2011], numerical predictive check, and normalized prediction distribution errors (NPDE) [@cometsComputingNormalisedPrediction2008]. These are all implemented in the `validate()` method of a `r gh_help("PM_result")` object.
+
+The common idea is that we simulate many datasets from each subject the model building population and compare the distributions of the observed data and the simulated data. If the model is a good fit, the observed data should fall within the range of simulated data, similar in central tendency and dispersion.
+
+When executing the following code, choose `wt` as the covariate to bin. Accept all default bin sizes.
+
+```{r}
+run2$validate(limits = c(0, 3))
+```
+
+
+The default visual predictive check; ?plot.PM_valid for help
+run2$valid$plot()
+
+or old S3
+plot(run2$valid)
+
+
+Generate a prediction-corrected visual predictive check; type ?plot.PMvalid in the R console for help.
+run2$valid$plot(type = "pcvpc")
+
+Create an npde plot
+run2$valid$plot(type = "npde")
+
+Here is another way to generate a visual predicive check...
+npc_2 <- run2$valid$simdata$plot(obs = run2$op, log = FALSE, binSize = 0.5)
+
+The jagged appearance of the plot when binSize=0 is because different subjects have
+different doses, covariates, and observation times, which are all combined in one simulation.
+Collapsing simulation times within 1 hour bins (binSize=1) smooths
+the plot, but can change the P-values in the numerical predictive check below.
+
+npc_2
+ ...and here is a numerical predictive check
+P-values are binomial test of proportion of observations less than
+the respective quantile
+
+## Citations
