@@ -72,7 +72,7 @@ There are three pathways to creating models in Pmetrics.
 
 -   Use the new Pmetrics Model Builder app, coming soon. The Shiny app is retired.
 -   Write a model list in R
--   Load an existing model text file
+-   Load an existing model text file. This is for legacy purposes only; we strongly recommend using model lists in R for all new modeling work.
 
 Each of these use sections to define the model. In the app, the sections correspond to tabs. In the list, they are named elements. In the model file, they are code blocks delimited by "\#" and the name of the block. The sections are largely the same across the three model pathways, and we'll cover the details in this document.
 
@@ -165,7 +165,7 @@ mod1 <- PM_model$new("src/model.txt")
 
 ```
 
-The above code will copy the following to your clipbarod, allowing you to paste it into your script or Quarto document.
+The above code will copy the following to your clipboard, allowing you to paste it into your script or Quarto document.
 
 :::{code-copy='false'}
 ```{r}
