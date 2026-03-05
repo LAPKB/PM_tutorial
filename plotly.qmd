@@ -1,9 +1,5 @@
 ---
 title: "Plotting Details"
-format:
-  html:
-    css: Extras/custom.scss
-    include-in-header: Extras/copy-all-code.html
 ---
 
 ```{r, include = FALSE}

@@ -1,8 +1,5 @@
 ---
 title: "More complex models"
-format:
-  html:
-    include-in-header: Extras/copy-all-code.html
 ---
 
 
