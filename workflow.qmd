@@ -1,8 +1,5 @@
 ---
 title: "Workflow"
-format:
-  html:
-    include-in-header: Extras/copy-all-code.html
 ---
 
 ```{r, include = FALSE}

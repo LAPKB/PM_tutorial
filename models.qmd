@@ -1,9 +1,5 @@
 ---
 title: "Models"
-format:
-  html:
-    css: Extras/custom.scss
-    include-in-header: Extras/copy-all-code.html
 ---
 
 ```{r}

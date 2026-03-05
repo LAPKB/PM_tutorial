@@ -39,6 +39,7 @@ format:
   html:
     theme: cosmo
     css: Extras/custom.scss
+    include-in-header: Extras/copy-all-code.html
     toc: true
     toc-title: "On this page" 
     link-external-newwindow: true

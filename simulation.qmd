@@ -1,8 +1,5 @@
 ---
 title: "Simulations"
-format:
-  html:
-    include-in-header: Extras/copy-all-code.html
 ---
 
 
