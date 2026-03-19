@@ -1,8 +1,5 @@
 ---
 title: "Fit a model with NPAG"
-format:
-  html:
-    include-in-header: Extras/copy-all-code.html
 ---
 
 

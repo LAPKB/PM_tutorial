@@ -1,8 +1,5 @@
 ---
 title: "Model Validation"
-format:
-  html:
-    include-in-header: Extras/copy-all-code.html
 ---
 
 
