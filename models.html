@@ -1138,283 +1138,7 @@ This block will be for advanced Rust programmers only who wish to include additi
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">proportional</span>(<span class="dv">5</span>, <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Called from: initialize(...)</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (length(model_template) &gt; 1 &amp;&amp; model_template$analytical) {</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     type &lt;- "Analytical"</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else {</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     if (model_template == -1) {</span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         msg &lt;- c(msg, "A maximum of one model template can be included in a model.")</span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     type &lt;- "ODE"</span></span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: type &lt;- "Analytical"</span></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: n_eqn &lt;- if (type == "Analytical") {</span></span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     model_template$ncomp</span></span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else {</span></span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     get_assignments(self$arg_list$eqn, "dx")</span></span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: model_template$ncomp</span></span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: n_out &lt;- get_assignments(self$arg_list$out, "y")</span></span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: parameters &lt;- tolower(names(self$arg_list$pri))</span></span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: covariates &lt;- tolower(names(self$arg_list$cov))</span></span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (type == "Analytical") {</span></span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     required_parameters &lt;- tolower(model_template$parameters)</span></span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     pri_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         if (x %in% parameters) {</span></span>
-<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             return(TRUE)</span></span>
-<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         }</span></span>
-<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         else {</span></span>
-<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             return(FALSE)</span></span>
-<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         }</span></span>
-<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     })</span></span>
-<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     if (length(covariates) &gt; 0) {</span></span>
-<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         cov_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             if (x %in% covariates) {</span></span>
-<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 return(TRUE)</span></span>
-<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             }</span></span>
-<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             else {</span></span>
-<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 return(FALSE)</span></span>
-<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             }</span></span>
-<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         })</span></span>
-<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     else {</span></span>
-<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         cov_list &lt;- rep(FALSE, length(required_parameters))</span></span>
-<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     if (!is.null(self$arg_list$sec)) {</span></span>
-<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         sec_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             any(stringr::str_detect(tolower(func_to_char(self$arg_list$sec)), </span></span>
-<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 x))</span></span>
-<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         })</span></span>
-<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     else {</span></span>
-<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         sec_list &lt;- rep(FALSE, length(required_parameters))</span></span>
-<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     eqn_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$eqn)), </span></span>
-<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))</span></span>
-<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     })</span></span>
-<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     if (!is.null(self$arg_lag)) {</span></span>
-<span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         lag_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$lag)), </span></span>
-<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 "\\s+"), paste0(x, "(?=(&lt;-|=))")))</span></span>
-<span id="cb16-76"><a href="#cb16-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         })</span></span>
-<span id="cb16-77"><a href="#cb16-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-78"><a href="#cb16-78" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     else {</span></span>
-<span id="cb16-79"><a href="#cb16-79" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         lag_list &lt;- rep(FALSE, length(required_parameters))</span></span>
-<span id="cb16-80"><a href="#cb16-80" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-81"><a href="#cb16-81" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     if (!is.null(self$arg_fa)) {</span></span>
-<span id="cb16-82"><a href="#cb16-82" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         lag_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-83"><a href="#cb16-83" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$fa)), </span></span>
-<span id="cb16-84"><a href="#cb16-84" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 "\\s+"), paste0(x, "(?=(&lt;-|=))")))</span></span>
-<span id="cb16-85"><a href="#cb16-85" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         })</span></span>
-<span id="cb16-86"><a href="#cb16-86" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-87"><a href="#cb16-87" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     else {</span></span>
-<span id="cb16-88"><a href="#cb16-88" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         fa_list &lt;- rep(FALSE, length(required_parameters))</span></span>
-<span id="cb16-89"><a href="#cb16-89" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-90"><a href="#cb16-90" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     if (!is.null(self$arg_ini)) {</span></span>
-<span id="cb16-91"><a href="#cb16-91" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         ini_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-92"><a href="#cb16-92" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$ini)), </span></span>
-<span id="cb16-93"><a href="#cb16-93" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 "\\s+"), paste0(x, "(?=(&lt;-|=))")))</span></span>
-<span id="cb16-94"><a href="#cb16-94" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         })</span></span>
-<span id="cb16-95"><a href="#cb16-95" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-96"><a href="#cb16-96" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     else {</span></span>
-<span id="cb16-97"><a href="#cb16-97" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         ini_list &lt;- rep(FALSE, length(required_parameters))</span></span>
-<span id="cb16-98"><a href="#cb16-98" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-99"><a href="#cb16-99" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     out_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-100"><a href="#cb16-100" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$out)), </span></span>
-<span id="cb16-101"><a href="#cb16-101" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))</span></span>
-<span id="cb16-102"><a href="#cb16-102" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     })</span></span>
-<span id="cb16-103"><a href="#cb16-103" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     all_lists &lt;- bind_rows(tibble::tibble(parameter = required_parameters, </span></span>
-<span id="cb16-104"><a href="#cb16-104" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         pri = pri_list, cov = cov_list, sec = sec_list, eqn = eqn_list, </span></span>
-<span id="cb16-105"><a href="#cb16-105" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         lag = lag_list, fa = fa_list, ini = ini_list, out = out_list)) %&gt;% </span></span>
-<span id="cb16-106"><a href="#cb16-106" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         mutate(ok = purrr::pmap_lgl(across(pri:out), any))</span></span>
-<span id="cb16-107"><a href="#cb16-107" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     if (any(!all_lists$ok)) {</span></span>
-<span id="cb16-108"><a href="#cb16-108" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         missing &lt;- all_lists$parameter[!all_lists$ok]</span></span>
-<span id="cb16-109"><a href="#cb16-109" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         msg &lt;- c(msg, "The following parameters are required for the {.code {model_template$name}} model template but are missing: {missing}", </span></span>
-<span id="cb16-110"><a href="#cb16-110" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             "They should be defined in one of the model blocks, likely {.code pri}, {.code sec}, {.code eqn}, or {.code out}.", </span></span>
-<span id="cb16-111"><a href="#cb16-111" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             "Parameters defined in {.code pri} and {.code sec} are available to all blocks.", </span></span>
-<span id="cb16-112"><a href="#cb16-112" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             "Parameters defined in other blocks are only available to that block.")</span></span>
-<span id="cb16-113"><a href="#cb16-113" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-114"><a href="#cb16-114" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-115"><a href="#cb16-115" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: required_parameters &lt;- tolower(model_template$parameters)</span></span>
-<span id="cb16-116"><a href="#cb16-116" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: pri_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-117"><a href="#cb16-117" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     if (x %in% parameters) {</span></span>
-<span id="cb16-118"><a href="#cb16-118" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         return(TRUE)</span></span>
-<span id="cb16-119"><a href="#cb16-119" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-120"><a href="#cb16-120" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     else {</span></span>
-<span id="cb16-121"><a href="#cb16-121" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         return(FALSE)</span></span>
-<span id="cb16-122"><a href="#cb16-122" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-123"><a href="#cb16-123" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; })</span></span>
-<span id="cb16-124"><a href="#cb16-124" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (length(covariates) &gt; 0) {</span></span>
-<span id="cb16-125"><a href="#cb16-125" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     cov_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-126"><a href="#cb16-126" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         if (x %in% covariates) {</span></span>
-<span id="cb16-127"><a href="#cb16-127" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             return(TRUE)</span></span>
-<span id="cb16-128"><a href="#cb16-128" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         }</span></span>
-<span id="cb16-129"><a href="#cb16-129" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         else {</span></span>
-<span id="cb16-130"><a href="#cb16-130" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             return(FALSE)</span></span>
-<span id="cb16-131"><a href="#cb16-131" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         }</span></span>
-<span id="cb16-132"><a href="#cb16-132" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     })</span></span>
-<span id="cb16-133"><a href="#cb16-133" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else {</span></span>
-<span id="cb16-134"><a href="#cb16-134" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     cov_list &lt;- rep(FALSE, length(required_parameters))</span></span>
-<span id="cb16-135"><a href="#cb16-135" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-136"><a href="#cb16-136" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: cov_list &lt;- rep(FALSE, length(required_parameters))</span></span>
-<span id="cb16-137"><a href="#cb16-137" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (!is.null(self$arg_list$sec)) {</span></span>
-<span id="cb16-138"><a href="#cb16-138" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     sec_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-139"><a href="#cb16-139" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         any(stringr::str_detect(tolower(func_to_char(self$arg_list$sec)), </span></span>
-<span id="cb16-140"><a href="#cb16-140" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             x))</span></span>
-<span id="cb16-141"><a href="#cb16-141" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     })</span></span>
-<span id="cb16-142"><a href="#cb16-142" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else {</span></span>
-<span id="cb16-143"><a href="#cb16-143" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     sec_list &lt;- rep(FALSE, length(required_parameters))</span></span>
-<span id="cb16-144"><a href="#cb16-144" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-145"><a href="#cb16-145" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: sec_list &lt;- rep(FALSE, length(required_parameters))</span></span>
-<span id="cb16-146"><a href="#cb16-146" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: eqn_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-147"><a href="#cb16-147" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$eqn)), </span></span>
-<span id="cb16-148"><a href="#cb16-148" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         "\\s+"), paste0(x, "(?=(&lt;-|=))")))</span></span>
-<span id="cb16-149"><a href="#cb16-149" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; })</span></span>
-<span id="cb16-150"><a href="#cb16-150" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (!is.null(self$arg_lag)) {</span></span>
-<span id="cb16-151"><a href="#cb16-151" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     lag_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-152"><a href="#cb16-152" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$lag)), </span></span>
-<span id="cb16-153"><a href="#cb16-153" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))</span></span>
-<span id="cb16-154"><a href="#cb16-154" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     })</span></span>
-<span id="cb16-155"><a href="#cb16-155" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else {</span></span>
-<span id="cb16-156"><a href="#cb16-156" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     lag_list &lt;- rep(FALSE, length(required_parameters))</span></span>
-<span id="cb16-157"><a href="#cb16-157" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-158"><a href="#cb16-158" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: lag_list &lt;- rep(FALSE, length(required_parameters))</span></span>
-<span id="cb16-159"><a href="#cb16-159" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (!is.null(self$arg_fa)) {</span></span>
-<span id="cb16-160"><a href="#cb16-160" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     lag_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-161"><a href="#cb16-161" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$fa)), </span></span>
-<span id="cb16-162"><a href="#cb16-162" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))</span></span>
-<span id="cb16-163"><a href="#cb16-163" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     })</span></span>
-<span id="cb16-164"><a href="#cb16-164" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else {</span></span>
-<span id="cb16-165"><a href="#cb16-165" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     fa_list &lt;- rep(FALSE, length(required_parameters))</span></span>
-<span id="cb16-166"><a href="#cb16-166" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-167"><a href="#cb16-167" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: fa_list &lt;- rep(FALSE, length(required_parameters))</span></span>
-<span id="cb16-168"><a href="#cb16-168" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (!is.null(self$arg_ini)) {</span></span>
-<span id="cb16-169"><a href="#cb16-169" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ini_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-170"><a href="#cb16-170" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$ini)), </span></span>
-<span id="cb16-171"><a href="#cb16-171" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))</span></span>
-<span id="cb16-172"><a href="#cb16-172" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     })</span></span>
-<span id="cb16-173"><a href="#cb16-173" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else {</span></span>
-<span id="cb16-174"><a href="#cb16-174" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ini_list &lt;- rep(FALSE, length(required_parameters))</span></span>
-<span id="cb16-175"><a href="#cb16-175" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-176"><a href="#cb16-176" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: ini_list &lt;- rep(FALSE, length(required_parameters))</span></span>
-<span id="cb16-177"><a href="#cb16-177" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: out_list &lt;- map_lgl(required_parameters, function(x) {</span></span>
-<span id="cb16-178"><a href="#cb16-178" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$out)), </span></span>
-<span id="cb16-179"><a href="#cb16-179" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         "\\s+"), paste0(x, "(?=(&lt;-|=))")))</span></span>
-<span id="cb16-180"><a href="#cb16-180" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; })</span></span>
-<span id="cb16-181"><a href="#cb16-181" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: all_lists &lt;- bind_rows(tibble::tibble(parameter = required_parameters, </span></span>
-<span id="cb16-182"><a href="#cb16-182" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     pri = pri_list, cov = cov_list, sec = sec_list, eqn = eqn_list, </span></span>
-<span id="cb16-183"><a href="#cb16-183" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     lag = lag_list, fa = fa_list, ini = ini_list, out = out_list)) %&gt;% </span></span>
-<span id="cb16-184"><a href="#cb16-184" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     mutate(ok = purrr::pmap_lgl(across(pri:out), any))</span></span>
-<span id="cb16-185"><a href="#cb16-185" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (any(!all_lists$ok)) {</span></span>
-<span id="cb16-186"><a href="#cb16-186" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     missing &lt;- all_lists$parameter[!all_lists$ok]</span></span>
-<span id="cb16-187"><a href="#cb16-187" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     msg &lt;- c(msg, "The following parameters are required for the {.code {model_template$name}} model template but are missing: {missing}", </span></span>
-<span id="cb16-188"><a href="#cb16-188" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         "They should be defined in one of the model blocks, likely {.code pri}, {.code sec}, {.code eqn}, or {.code out}.", </span></span>
-<span id="cb16-189"><a href="#cb16-189" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         "Parameters defined in {.code pri} and {.code sec} are available to all blocks.", </span></span>
-<span id="cb16-190"><a href="#cb16-190" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         "Parameters defined in other blocks are only available to that block.")</span></span>
-<span id="cb16-191"><a href="#cb16-191" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-192"><a href="#cb16-192" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (type == "Analytical") {</span></span>
-<span id="cb16-193"><a href="#cb16-193" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     sec_eqn &lt;- function() {</span></span>
-<span id="cb16-194"><a href="#cb16-194" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-195"><a href="#cb16-195" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     body(sec_eqn) &lt;- suppressWarnings(as.call(c(quote(`{`), as.list(body(self$arg_list$eqn))[-1], </span></span>
-<span id="cb16-196"><a href="#cb16-196" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         as.list(body(self$arg_list$sec))[-1])))</span></span>
-<span id="cb16-197"><a href="#cb16-197" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-198"><a href="#cb16-198" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: sec_eqn &lt;- function() {</span></span>
-<span id="cb16-199"><a href="#cb16-199" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-200"><a href="#cb16-200" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: body(sec_eqn) &lt;- suppressWarnings(as.call(c(quote(`{`), as.list(body(self$arg_list$eqn))[-1], </span></span>
-<span id="cb16-201"><a href="#cb16-201" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     as.list(body(self$arg_list$sec))[-1])))</span></span>
-<span id="cb16-202"><a href="#cb16-202" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (!is.null(self$arg_list$sec)) {</span></span>
-<span id="cb16-203"><a href="#cb16-203" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     sec &lt;- transpile_sec(self$arg_list$sec)</span></span>
-<span id="cb16-204"><a href="#cb16-204" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else {</span></span>
-<span id="cb16-205"><a href="#cb16-205" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     sec &lt;- ""</span></span>
-<span id="cb16-206"><a href="#cb16-206" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-207"><a href="#cb16-207" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: sec &lt;- ""</span></span>
-<span id="cb16-208"><a href="#cb16-208" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (type == "ODE") {</span></span>
-<span id="cb16-209"><a href="#cb16-209" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     eqn &lt;- transpile_ode_eqn(self$arg_list$eqn, parameters, covariates, </span></span>
-<span id="cb16-210"><a href="#cb16-210" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         sec)</span></span>
-<span id="cb16-211"><a href="#cb16-211" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else if (type == "Analytical") {</span></span>
-<span id="cb16-212"><a href="#cb16-212" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)</span></span>
-<span id="cb16-213"><a href="#cb16-213" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-214"><a href="#cb16-214" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (type == "Analytical") {</span></span>
-<span id="cb16-215"><a href="#cb16-215" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)</span></span>
-<span id="cb16-216"><a href="#cb16-216" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-217"><a href="#cb16-217" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)</span></span>
-<span id="cb16-218"><a href="#cb16-218" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (!is.null(self$arg_list$fa)) {</span></span>
-<span id="cb16-219"><a href="#cb16-219" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     fa &lt;- transpile_fa(self$arg_list$fa, parameters, covariates, </span></span>
-<span id="cb16-220"><a href="#cb16-220" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         sec)</span></span>
-<span id="cb16-221"><a href="#cb16-221" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else {</span></span>
-<span id="cb16-222"><a href="#cb16-222" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     fa &lt;- empty_fa()</span></span>
-<span id="cb16-223"><a href="#cb16-223" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-224"><a href="#cb16-224" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: fa &lt;- empty_fa()</span></span>
-<span id="cb16-225"><a href="#cb16-225" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (!is.null(self$arg_list$lag)) {</span></span>
-<span id="cb16-226"><a href="#cb16-226" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     lag &lt;- transpile_lag(self$arg_list$lag, parameters, covariates, </span></span>
-<span id="cb16-227"><a href="#cb16-227" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         sec)</span></span>
-<span id="cb16-228"><a href="#cb16-228" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else {</span></span>
-<span id="cb16-229"><a href="#cb16-229" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     lag &lt;- empty_lag()</span></span>
-<span id="cb16-230"><a href="#cb16-230" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-231"><a href="#cb16-231" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: lag &lt;- empty_lag()</span></span>
-<span id="cb16-232"><a href="#cb16-232" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (!is.null(self$arg_list$ini)) {</span></span>
-<span id="cb16-233"><a href="#cb16-233" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ini &lt;- transpile_ini(self$arg_list$ini, parameters, covariates, </span></span>
-<span id="cb16-234"><a href="#cb16-234" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         sec)</span></span>
-<span id="cb16-235"><a href="#cb16-235" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else {</span></span>
-<span id="cb16-236"><a href="#cb16-236" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ini &lt;- empty_ini()</span></span>
-<span id="cb16-237"><a href="#cb16-237" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-238"><a href="#cb16-238" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: ini &lt;- empty_ini()</span></span>
-<span id="cb16-239"><a href="#cb16-239" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (!is.null(self$arg_list$out)) {</span></span>
-<span id="cb16-240"><a href="#cb16-240" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     out &lt;- transpile_out(self$arg_list$out, parameters, covariates, </span></span>
-<span id="cb16-241"><a href="#cb16-241" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         sec)</span></span>
-<span id="cb16-242"><a href="#cb16-242" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else {</span></span>
-<span id="cb16-243"><a href="#cb16-243" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     out &lt;- empty_out()</span></span>
-<span id="cb16-244"><a href="#cb16-244" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-245"><a href="#cb16-245" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: out &lt;- transpile_out(self$arg_list$out, parameters, covariates, </span></span>
-<span id="cb16-246"><a href="#cb16-246" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     sec)</span></span>
-<span id="cb16-247"><a href="#cb16-247" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (is.null(self$arg_list$err)) {</span></span>
-<span id="cb16-248"><a href="#cb16-248" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     msg &lt;- c(msg, "Error model is missing and required.")</span></span>
-<span id="cb16-249"><a href="#cb16-249" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-250"><a href="#cb16-250" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (length(self$arg_list$err) != n_out) {</span></span>
-<span id="cb16-251"><a href="#cb16-251" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     msg &lt;- c(msg, "There must be one error model for each output equation.")</span></span>
-<span id="cb16-252"><a href="#cb16-252" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-253"><a href="#cb16-253" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: err &lt;- self$arg_list$err</span></span>
-<span id="cb16-254"><a href="#cb16-254" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: name &lt;- if (type == "Analytical") {</span></span>
-<span id="cb16-255"><a href="#cb16-255" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     model_template$name</span></span>
-<span id="cb16-256"><a href="#cb16-256" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else {</span></span>
-<span id="cb16-257"><a href="#cb16-257" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     "user"</span></span>
-<span id="cb16-258"><a href="#cb16-258" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-259"><a href="#cb16-259" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: model_template$name</span></span>
-<span id="cb16-260"><a href="#cb16-260" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: model_list &lt;- list(pri = self$arg_list$pri, eqn = eqn, sec = sec, </span></span>
-<span id="cb16-261"><a href="#cb16-261" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     lag = lag, fa = fa, ini = ini, out = out, n_eqn = n_eqn, </span></span>
-<span id="cb16-262"><a href="#cb16-262" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     n_out = n_out, parameters = parameters, covariates = covariates, </span></span>
-<span id="cb16-263"><a href="#cb16-263" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     err = err, name = name)</span></span>
-<span id="cb16-264"><a href="#cb16-264" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: self$model_list &lt;- purrr::map(model_list, function(x) {</span></span>
-<span id="cb16-265"><a href="#cb16-265" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     if (is.character(x)) {</span></span>
-<span id="cb16-266"><a href="#cb16-266" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         tolower(x)</span></span>
-<span id="cb16-267"><a href="#cb16-267" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-268"><a href="#cb16-268" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     else {</span></span>
-<span id="cb16-269"><a href="#cb16-269" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         x</span></span>
-<span id="cb16-270"><a href="#cb16-270" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-271"><a href="#cb16-271" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; })</span></span>
-<span id="cb16-272"><a href="#cb16-272" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: self$model_list$type &lt;- type</span></span>
-<span id="cb16-273"><a href="#cb16-273" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (length(msg) &gt; 0) {</span></span>
-<span id="cb16-274"><a href="#cb16-274" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     cli::cli_alert_danger("{.strong PM_model$new() aborted due to {length(msg)} error{?s}:}")</span></span>
-<span id="cb16-275"><a href="#cb16-275" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     purrr::walk(msg, function(m) cli::cli_bullets(c(`*` = m)))</span></span>
-<span id="cb16-276"><a href="#cb16-276" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     return(invisible(NULL))</span></span>
-<span id="cb16-277"><a href="#cb16-277" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-278"><a href="#cb16-278" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: extra_args &lt;- list(...)</span></span>
-<span id="cb16-279"><a href="#cb16-279" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if ("quiet" %in% names(extra_args) &amp;&amp; extra_args$quiet) {</span></span>
-<span id="cb16-280"><a href="#cb16-280" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     quiet &lt;- TRUE</span></span>
-<span id="cb16-281"><a href="#cb16-281" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else {</span></span>
-<span id="cb16-282"><a href="#cb16-282" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     quiet &lt;- FALSE</span></span>
-<span id="cb16-283"><a href="#cb16-283" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-284"><a href="#cb16-284" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: quiet &lt;- FALSE</span></span>
-<span id="cb16-285"><a href="#cb16-285" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: if (!is.null(purrr::pluck(extra_args, "compile"))) {</span></span>
-<span id="cb16-286"><a href="#cb16-286" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     if (extra_args$compile) {</span></span>
-<span id="cb16-287"><a href="#cb16-287" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         self$compile(quiet)</span></span>
-<span id="cb16-288"><a href="#cb16-288" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb16-289"><a href="#cb16-289" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; } else {</span></span>
-<span id="cb16-290"><a href="#cb16-290" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     self$compile(quiet = quiet)</span></span>
-<span id="cb16-291"><a href="#cb16-291" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb16-292"><a href="#cb16-292" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; debug: self$compile(quiet = quiet)</span></span>
-<span id="cb16-293"><a href="#cb16-293" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ Compiling model...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ Compiling model...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>When you execute the above code in your own script or Quarto document, you will see a message indicating that the model has compiled.</p>
 <p><em>Notes</em>:</p>
@@ -1561,290 +1285,6 @@ L=0.4<br>
 <pre><code>#&gt; → Model code copied to clipboard.
 #&gt; → Paste the code into your script for future use, renaming the assigned
 #&gt;   variable if needed.
-#&gt; Called from: initialize(...)
-#&gt; debug: if (length(model_template) &gt; 1 &amp;&amp; model_template$analytical) {
-#&gt;     type &lt;- "Analytical"
-#&gt; } else {
-#&gt;     if (model_template == -1) {
-#&gt;         msg &lt;- c(msg, "A maximum of one model template can be included in a model.")
-#&gt;     }
-#&gt;     type &lt;- "ODE"
-#&gt; }
-#&gt; debug: type &lt;- "Analytical"
-#&gt; debug: n_eqn &lt;- if (type == "Analytical") {
-#&gt;     model_template$ncomp
-#&gt; } else {
-#&gt;     get_assignments(self$arg_list$eqn, "dx")
-#&gt; }
-#&gt; debug: model_template$ncomp
-#&gt; debug: n_out &lt;- get_assignments(self$arg_list$out, "y")
-#&gt; debug: parameters &lt;- tolower(names(self$arg_list$pri))
-#&gt; debug: covariates &lt;- tolower(names(self$arg_list$cov))
-#&gt; debug: if (type == "Analytical") {
-#&gt;     required_parameters &lt;- tolower(model_template$parameters)
-#&gt;     pri_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;         if (x %in% parameters) {
-#&gt;             return(TRUE)
-#&gt;         }
-#&gt;         else {
-#&gt;             return(FALSE)
-#&gt;         }
-#&gt;     })
-#&gt;     if (length(covariates) &gt; 0) {
-#&gt;         cov_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;             if (x %in% covariates) {
-#&gt;                 return(TRUE)
-#&gt;             }
-#&gt;             else {
-#&gt;                 return(FALSE)
-#&gt;             }
-#&gt;         })
-#&gt;     }
-#&gt;     else {
-#&gt;         cov_list &lt;- rep(FALSE, length(required_parameters))
-#&gt;     }
-#&gt;     if (!is.null(self$arg_list$sec)) {
-#&gt;         sec_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;             any(stringr::str_detect(tolower(func_to_char(self$arg_list$sec)), 
-#&gt;                 x))
-#&gt;         })
-#&gt;     }
-#&gt;     else {
-#&gt;         sec_list &lt;- rep(FALSE, length(required_parameters))
-#&gt;     }
-#&gt;     eqn_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$eqn)), 
-#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))
-#&gt;     })
-#&gt;     if (!is.null(self$arg_lag)) {
-#&gt;         lag_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;             any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$lag)), 
-#&gt;                 "\\s+"), paste0(x, "(?=(&lt;-|=))")))
-#&gt;         })
-#&gt;     }
-#&gt;     else {
-#&gt;         lag_list &lt;- rep(FALSE, length(required_parameters))
-#&gt;     }
-#&gt;     if (!is.null(self$arg_fa)) {
-#&gt;         lag_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;             any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$fa)), 
-#&gt;                 "\\s+"), paste0(x, "(?=(&lt;-|=))")))
-#&gt;         })
-#&gt;     }
-#&gt;     else {
-#&gt;         fa_list &lt;- rep(FALSE, length(required_parameters))
-#&gt;     }
-#&gt;     if (!is.null(self$arg_ini)) {
-#&gt;         ini_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;             any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$ini)), 
-#&gt;                 "\\s+"), paste0(x, "(?=(&lt;-|=))")))
-#&gt;         })
-#&gt;     }
-#&gt;     else {
-#&gt;         ini_list &lt;- rep(FALSE, length(required_parameters))
-#&gt;     }
-#&gt;     out_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$out)), 
-#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))
-#&gt;     })
-#&gt;     all_lists &lt;- bind_rows(tibble::tibble(parameter = required_parameters, 
-#&gt;         pri = pri_list, cov = cov_list, sec = sec_list, eqn = eqn_list, 
-#&gt;         lag = lag_list, fa = fa_list, ini = ini_list, out = out_list)) %&gt;% 
-#&gt;         mutate(ok = purrr::pmap_lgl(across(pri:out), any))
-#&gt;     if (any(!all_lists$ok)) {
-#&gt;         missing &lt;- all_lists$parameter[!all_lists$ok]
-#&gt;         msg &lt;- c(msg, "The following parameters are required for the {.code {model_template$name}} model template but are missing: {missing}", 
-#&gt;             "They should be defined in one of the model blocks, likely {.code pri}, {.code sec}, {.code eqn}, or {.code out}.", 
-#&gt;             "Parameters defined in {.code pri} and {.code sec} are available to all blocks.", 
-#&gt;             "Parameters defined in other blocks are only available to that block.")
-#&gt;     }
-#&gt; }
-#&gt; debug: required_parameters &lt;- tolower(model_template$parameters)
-#&gt; debug: pri_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;     if (x %in% parameters) {
-#&gt;         return(TRUE)
-#&gt;     }
-#&gt;     else {
-#&gt;         return(FALSE)
-#&gt;     }
-#&gt; })
-#&gt; debug: if (length(covariates) &gt; 0) {
-#&gt;     cov_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;         if (x %in% covariates) {
-#&gt;             return(TRUE)
-#&gt;         }
-#&gt;         else {
-#&gt;             return(FALSE)
-#&gt;         }
-#&gt;     })
-#&gt; } else {
-#&gt;     cov_list &lt;- rep(FALSE, length(required_parameters))
-#&gt; }
-#&gt; debug: cov_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;     if (x %in% covariates) {
-#&gt;         return(TRUE)
-#&gt;     }
-#&gt;     else {
-#&gt;         return(FALSE)
-#&gt;     }
-#&gt; })
-#&gt; debug: if (!is.null(self$arg_list$sec)) {
-#&gt;     sec_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;         any(stringr::str_detect(tolower(func_to_char(self$arg_list$sec)), 
-#&gt;             x))
-#&gt;     })
-#&gt; } else {
-#&gt;     sec_list &lt;- rep(FALSE, length(required_parameters))
-#&gt; }
-#&gt; debug: sec_list &lt;- rep(FALSE, length(required_parameters))
-#&gt; debug: eqn_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;     any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$eqn)), 
-#&gt;         "\\s+"), paste0(x, "(?=(&lt;-|=))")))
-#&gt; })
-#&gt; debug: if (!is.null(self$arg_lag)) {
-#&gt;     lag_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$lag)), 
-#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))
-#&gt;     })
-#&gt; } else {
-#&gt;     lag_list &lt;- rep(FALSE, length(required_parameters))
-#&gt; }
-#&gt; debug: lag_list &lt;- rep(FALSE, length(required_parameters))
-#&gt; debug: if (!is.null(self$arg_fa)) {
-#&gt;     lag_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$fa)), 
-#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))
-#&gt;     })
-#&gt; } else {
-#&gt;     fa_list &lt;- rep(FALSE, length(required_parameters))
-#&gt; }
-#&gt; debug: fa_list &lt;- rep(FALSE, length(required_parameters))
-#&gt; debug: if (!is.null(self$arg_ini)) {
-#&gt;     ini_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$ini)), 
-#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))
-#&gt;     })
-#&gt; } else {
-#&gt;     ini_list &lt;- rep(FALSE, length(required_parameters))
-#&gt; }
-#&gt; debug: ini_list &lt;- rep(FALSE, length(required_parameters))
-#&gt; debug: out_list &lt;- map_lgl(required_parameters, function(x) {
-#&gt;     any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$out)), 
-#&gt;         "\\s+"), paste0(x, "(?=(&lt;-|=))")))
-#&gt; })
-#&gt; debug: all_lists &lt;- bind_rows(tibble::tibble(parameter = required_parameters, 
-#&gt;     pri = pri_list, cov = cov_list, sec = sec_list, eqn = eqn_list, 
-#&gt;     lag = lag_list, fa = fa_list, ini = ini_list, out = out_list)) %&gt;% 
-#&gt;     mutate(ok = purrr::pmap_lgl(across(pri:out), any))
-#&gt; debug: if (any(!all_lists$ok)) {
-#&gt;     missing &lt;- all_lists$parameter[!all_lists$ok]
-#&gt;     msg &lt;- c(msg, "The following parameters are required for the {.code {model_template$name}} model template but are missing: {missing}", 
-#&gt;         "They should be defined in one of the model blocks, likely {.code pri}, {.code sec}, {.code eqn}, or {.code out}.", 
-#&gt;         "Parameters defined in {.code pri} and {.code sec} are available to all blocks.", 
-#&gt;         "Parameters defined in other blocks are only available to that block.")
-#&gt; }
-#&gt; debug: if (type == "Analytical") {
-#&gt;     sec_eqn &lt;- function() {
-#&gt;     }
-#&gt;     body(sec_eqn) &lt;- suppressWarnings(as.call(c(quote(`{`), as.list(body(self$arg_list$eqn))[-1], 
-#&gt;         as.list(body(self$arg_list$sec))[-1])))
-#&gt; }
-#&gt; debug: sec_eqn &lt;- function() {
-#&gt; }
-#&gt; debug: body(sec_eqn) &lt;- suppressWarnings(as.call(c(quote(`{`), as.list(body(self$arg_list$eqn))[-1], 
-#&gt;     as.list(body(self$arg_list$sec))[-1])))
-#&gt; debug: if (!is.null(self$arg_list$sec)) {
-#&gt;     sec &lt;- transpile_sec(self$arg_list$sec)
-#&gt; } else {
-#&gt;     sec &lt;- ""
-#&gt; }
-#&gt; debug: sec &lt;- ""
-#&gt; debug: if (type == "ODE") {
-#&gt;     eqn &lt;- transpile_ode_eqn(self$arg_list$eqn, parameters, covariates, 
-#&gt;         sec)
-#&gt; } else if (type == "Analytical") {
-#&gt;     eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)
-#&gt; }
-#&gt; debug: if (type == "Analytical") {
-#&gt;     eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)
-#&gt; }
-#&gt; debug: eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)
-#&gt; debug: if (!is.null(self$arg_list$fa)) {
-#&gt;     fa &lt;- transpile_fa(self$arg_list$fa, parameters, covariates, 
-#&gt;         sec)
-#&gt; } else {
-#&gt;     fa &lt;- empty_fa()
-#&gt; }
-#&gt; debug: fa &lt;- empty_fa()
-#&gt; debug: if (!is.null(self$arg_list$lag)) {
-#&gt;     lag &lt;- transpile_lag(self$arg_list$lag, parameters, covariates, 
-#&gt;         sec)
-#&gt; } else {
-#&gt;     lag &lt;- empty_lag()
-#&gt; }
-#&gt; debug: lag &lt;- transpile_lag(self$arg_list$lag, parameters, covariates, 
-#&gt;     sec)
-#&gt; debug: if (!is.null(self$arg_list$ini)) {
-#&gt;     ini &lt;- transpile_ini(self$arg_list$ini, parameters, covariates, 
-#&gt;         sec)
-#&gt; } else {
-#&gt;     ini &lt;- empty_ini()
-#&gt; }
-#&gt; debug: ini &lt;- empty_ini()
-#&gt; debug: if (!is.null(self$arg_list$out)) {
-#&gt;     out &lt;- transpile_out(self$arg_list$out, parameters, covariates, 
-#&gt;         sec)
-#&gt; } else {
-#&gt;     out &lt;- empty_out()
-#&gt; }
-#&gt; debug: out &lt;- transpile_out(self$arg_list$out, parameters, covariates, 
-#&gt;     sec)
-#&gt; debug: if (is.null(self$arg_list$err)) {
-#&gt;     msg &lt;- c(msg, "Error model is missing and required.")
-#&gt; }
-#&gt; debug: if (length(self$arg_list$err) != n_out) {
-#&gt;     msg &lt;- c(msg, "There must be one error model for each output equation.")
-#&gt; }
-#&gt; debug: err &lt;- self$arg_list$err
-#&gt; debug: name &lt;- if (type == "Analytical") {
-#&gt;     model_template$name
-#&gt; } else {
-#&gt;     "user"
-#&gt; }
-#&gt; debug: model_template$name
-#&gt; debug: model_list &lt;- list(pri = self$arg_list$pri, eqn = eqn, sec = sec, 
-#&gt;     lag = lag, fa = fa, ini = ini, out = out, n_eqn = n_eqn, 
-#&gt;     n_out = n_out, parameters = parameters, covariates = covariates, 
-#&gt;     err = err, name = name)
-#&gt; debug: self$model_list &lt;- purrr::map(model_list, function(x) {
-#&gt;     if (is.character(x)) {
-#&gt;         tolower(x)
-#&gt;     }
-#&gt;     else {
-#&gt;         x
-#&gt;     }
-#&gt; })
-#&gt; debug: self$model_list$type &lt;- type
-#&gt; debug: if (length(msg) &gt; 0) {
-#&gt;     cli::cli_alert_danger("{.strong PM_model$new() aborted due to {length(msg)} error{?s}:}")
-#&gt;     purrr::walk(msg, function(m) cli::cli_bullets(c(`*` = m)))
-#&gt;     return(invisible(NULL))
-#&gt; }
-#&gt; debug: extra_args &lt;- list(...)
-#&gt; debug: if ("quiet" %in% names(extra_args) &amp;&amp; extra_args$quiet) {
-#&gt;     quiet &lt;- TRUE
-#&gt; } else {
-#&gt;     quiet &lt;- FALSE
-#&gt; }
-#&gt; debug: quiet &lt;- FALSE
-#&gt; debug: if (!is.null(purrr::pluck(extra_args, "compile"))) {
-#&gt;     if (extra_args$compile) {
-#&gt;         self$compile(quiet)
-#&gt;     }
-#&gt; } else {
-#&gt;     self$compile(quiet = quiet)
-#&gt; }
-#&gt; debug: self$compile(quiet = quiet)
 #&gt; ℹ Compiling model...
 #&gt; 
 #&gt; 
@@ -1918,23 +1358,23 @@ While incomplete models can be copied, a model can only be saved when it is comp
 <p>The following cannot be used as primary, covariate, or secondary variable names. They can be used in equations, however.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="nkejocbvmm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#nkejocbvmm table {
+<div id="yqcaqxfnif" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#yqcaqxfnif table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#nkejocbvmm thead, #nkejocbvmm tbody, #nkejocbvmm tfoot, #nkejocbvmm tr, #nkejocbvmm td, #nkejocbvmm th {
+#yqcaqxfnif thead, #yqcaqxfnif tbody, #yqcaqxfnif tfoot, #yqcaqxfnif tr, #yqcaqxfnif td, #yqcaqxfnif th {
   border-style: none;
 }
 
-#nkejocbvmm p {
+#yqcaqxfnif p {
   margin: 0;
   padding: 0;
 }
 
-#nkejocbvmm .gt_table {
+#yqcaqxfnif .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1960,12 +1400,12 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-left-color: #D3D3D3;
 }
 
-#nkejocbvmm .gt_caption {
+#yqcaqxfnif .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#nkejocbvmm .gt_title {
+#yqcaqxfnif .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1977,7 +1417,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-width: 0;
 }
 
-#nkejocbvmm .gt_subtitle {
+#yqcaqxfnif .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1989,7 +1429,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-top-width: 0;
 }
 
-#nkejocbvmm .gt_heading {
+#yqcaqxfnif .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2001,13 +1441,13 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#nkejocbvmm .gt_bottom_border {
+#yqcaqxfnif .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nkejocbvmm .gt_col_headings {
+#yqcaqxfnif .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2022,7 +1462,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#nkejocbvmm .gt_col_heading {
+#yqcaqxfnif .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2042,7 +1482,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   overflow-x: hidden;
 }
 
-#nkejocbvmm .gt_column_spanner_outer {
+#yqcaqxfnif .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2054,15 +1494,15 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 4px;
 }
 
-#nkejocbvmm .gt_column_spanner_outer:first-child {
+#yqcaqxfnif .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nkejocbvmm .gt_column_spanner_outer:last-child {
+#yqcaqxfnif .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nkejocbvmm .gt_column_spanner {
+#yqcaqxfnif .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2074,11 +1514,11 @@ While incomplete models can be copied, a model can only be saved when it is comp
   width: 100%;
 }
 
-#nkejocbvmm .gt_spanner_row {
+#yqcaqxfnif .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#nkejocbvmm .gt_group_heading {
+#yqcaqxfnif .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2104,7 +1544,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   text-align: left;
 }
 
-#nkejocbvmm .gt_empty_group_heading {
+#yqcaqxfnif .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2119,15 +1559,15 @@ While incomplete models can be copied, a model can only be saved when it is comp
   vertical-align: middle;
 }
 
-#nkejocbvmm .gt_from_md > :first-child {
+#yqcaqxfnif .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nkejocbvmm .gt_from_md > :last-child {
+#yqcaqxfnif .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nkejocbvmm .gt_row {
+#yqcaqxfnif .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2146,7 +1586,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   overflow-x: hidden;
 }
 
-#nkejocbvmm .gt_stub {
+#yqcaqxfnif .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2159,7 +1599,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#nkejocbvmm .gt_stub_row_group {
+#yqcaqxfnif .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2173,15 +1613,15 @@ While incomplete models can be copied, a model can only be saved when it is comp
   vertical-align: top;
 }
 
-#nkejocbvmm .gt_row_group_first td {
+#yqcaqxfnif .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nkejocbvmm .gt_row_group_first th {
+#yqcaqxfnif .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#nkejocbvmm .gt_summary_row {
+#yqcaqxfnif .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2191,16 +1631,16 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#nkejocbvmm .gt_first_summary_row {
+#yqcaqxfnif .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nkejocbvmm .gt_first_summary_row.thick {
+#yqcaqxfnif .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nkejocbvmm .gt_last_summary_row {
+#yqcaqxfnif .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2210,7 +1650,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-color: #D3D3D3;
 }
 
-#nkejocbvmm .gt_grand_summary_row {
+#yqcaqxfnif .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2220,7 +1660,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#nkejocbvmm .gt_first_grand_summary_row {
+#yqcaqxfnif .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2230,7 +1670,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-top-color: #D3D3D3;
 }
 
-#nkejocbvmm .gt_last_grand_summary_row_top {
+#yqcaqxfnif .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2240,11 +1680,11 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-color: #D3D3D3;
 }
 
-#nkejocbvmm .gt_striped {
+#yqcaqxfnif .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nkejocbvmm .gt_table_body {
+#yqcaqxfnif .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2253,7 +1693,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-color: #D3D3D3;
 }
 
-#nkejocbvmm .gt_footnotes {
+#yqcaqxfnif .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2267,7 +1707,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#nkejocbvmm .gt_footnote {
+#yqcaqxfnif .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2276,7 +1716,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#nkejocbvmm .gt_sourcenotes {
+#yqcaqxfnif .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2290,7 +1730,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#nkejocbvmm .gt_sourcenote {
+#yqcaqxfnif .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2298,72 +1738,72 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#nkejocbvmm .gt_left {
+#yqcaqxfnif .gt_left {
   text-align: left;
 }
 
-#nkejocbvmm .gt_center {
+#yqcaqxfnif .gt_center {
   text-align: center;
 }
 
-#nkejocbvmm .gt_right {
+#yqcaqxfnif .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nkejocbvmm .gt_font_normal {
+#yqcaqxfnif .gt_font_normal {
   font-weight: normal;
 }
 
-#nkejocbvmm .gt_font_bold {
+#yqcaqxfnif .gt_font_bold {
   font-weight: bold;
 }
 
-#nkejocbvmm .gt_font_italic {
+#yqcaqxfnif .gt_font_italic {
   font-style: italic;
 }
 
-#nkejocbvmm .gt_super {
+#yqcaqxfnif .gt_super {
   font-size: 65%;
 }
 
-#nkejocbvmm .gt_footnote_marks {
+#yqcaqxfnif .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#nkejocbvmm .gt_asterisk {
+#yqcaqxfnif .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nkejocbvmm .gt_indent_1 {
+#yqcaqxfnif .gt_indent_1 {
   text-indent: 5px;
 }
 
-#nkejocbvmm .gt_indent_2 {
+#yqcaqxfnif .gt_indent_2 {
   text-indent: 10px;
 }
 
-#nkejocbvmm .gt_indent_3 {
+#yqcaqxfnif .gt_indent_3 {
   text-indent: 15px;
 }
 
-#nkejocbvmm .gt_indent_4 {
+#yqcaqxfnif .gt_indent_4 {
   text-indent: 20px;
 }
 
-#nkejocbvmm .gt_indent_5 {
+#yqcaqxfnif .gt_indent_5 {
   text-indent: 25px;
 }
 
-#nkejocbvmm .katex-display {
+#yqcaqxfnif .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#nkejocbvmm div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#yqcaqxfnif div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
