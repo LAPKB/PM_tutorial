@@ -1,6 +1,7 @@
 # Quarto build outputs
 _site/
-# docs/          # ignore if you plan to publish from /docs (see Option B)
+_book/
+docs/          # ignore if you plan to publish from /docs (see Option B)
 # Quarto caches
 _freeze/
 # R/Posit clutter

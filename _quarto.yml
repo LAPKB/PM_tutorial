@@ -43,7 +43,7 @@ format:
     toc: true
     toc-title: "On this page" 
     link-external-newwindow: true
-    embed-resources: true
+    embed-resources: false
 
 pdf:
     documentclass: scrreprt
