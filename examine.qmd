@@ -95,12 +95,20 @@ The following are the older S3 method with `plot(...)` for the first two example
 plot(run1$data)
 ```
 
-#### Data summaries
-
-Here's a summary of the original data file; `?summary.PM_data` for help.
+If you would like to plot the observations and posterior predictions made at `idelta` intervals (see options for `$fit` method in `r gh_help("PM_model")` , you can do that by adding a `pred` line to a data plot. See `r gh_help("plot.PM_data")` for more information.
 
 ```{r}
-run1$data$summary()
+#| eval: false
+# suppress the segments joining observations and add posterior predictions with `pred = "post"`
+run1$data$plot(line = list(join = FALSE, pred = "post"), xlim = c(119, 145)) 
+```
+
+Typically you would want to use `overlay = FALSE` with the above to avoid a mess of lines joining observations and predictions from different subjects, but it will not render easily in this document. You can interact with it in your own script or Quarto document.
+```{r}
+#| eval: true
+#| echo: false
+# suppress the segments joining observations and add posterior predictions with `pred = "post"`
+plotly::plotly_build(run1$data$plot(line = list(join = FALSE, pred = "post"), xlim = c(119, 145))) 
 ```
 
 ### Observed vs. Predicted (OP)
