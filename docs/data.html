@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; Data – Learn Pmetrics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./models.html" rel="next">
+<link href="./workflow.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!-- <button id="copy-all-code"
+        style="position:fixed;top:1rem;right:1rem;z-index:2000;
+               padding:.35rem .6rem;border:0;border-radius:.25rem;
+               background:#2563eb;color:white;cursor:pointer;">
+  Copy all code
+</button>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const btn = document.getElementById('copy-all-code');
+  const grab = () =>
+    Array.from(document.querySelectorAll('div.sourceCode pre code, pre > code.sourceCode'))
+         .map(n => n.innerText).join('\n\n');
+
+  const copyText = async (txt) => {
+    // Prefer Clipboard API; fallback to hidden <textarea> for viewers/file://
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(txt);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      try { document.execCommand('copy'); } finally { document.body.removeChild(ta); }
+    }
+  };
+
+  btn.addEventListener('click', async () => {
+    try {
+      await copyText(grab());
+      const old = btn.textContent; btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = old, 1200);
+    } catch(e) { alert('Copy failed: ' + e); }
+  });
+});
+</script> -->
+
+</head><body class="nav-sidebar floating nav-fixed quarto-light"><button id="copy-all-code" style="position:fixed;top:1rem;right:1rem;z-index:2000;
+               padding:.35rem .6rem;border:0;border-radius:.25rem;
+               background:#2563eb;color:white;cursor:pointer;">
+  Copy all code
+</button>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const btn = document.getElementById('copy-all-code');
+
+  const grab = () => {
+    // 1) Only take code inside .sourceCode (i.e., input cells)
+    const nodes = Array.from(
+      document.querySelectorAll('div.sourceCode pre code')
+    )
+      // 2) Drop anything inside a copy-disabled wrapper
+      .filter(n => !n.closest('div[data-code-copy="false"], div[data-copy-code="false"]'))
+      // 3) Extra safety: ensure we don't accidentally grab outputs
+      .filter(n => !n.closest('.cell-output'));
+
+    return nodes.map(n => n.innerText).join('\n\n');
+  };
+
+  const copyText = async (txt) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(txt);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      try { document.execCommand('copy'); } finally { document.body.removeChild(ta); }
+    }
+  };
+
+  btn.addEventListener('click', async () => {
+    try {
+      const txt = grab();
+      if (!txt.trim()) { alert('No copyable code found.'); return; }
+      await copyText(txt);
+      const old = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = old, 1200);
+    } catch(e) {
+      alert('Copy failed: ' + e);
+    }
+  });
+});
+</script>
+<link href="site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.12.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
+
+
+<link rel="stylesheet" href="Extras/custom.scss">
+
+
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Learn Pmetrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Learn Pmetrics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Overview</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Workflow</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./NPAG.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Fit a model with NPAG</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./objects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The results</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./examine.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Examine results</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./NPAG_cov.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">More complex models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Simulations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PTA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Probability of Target Attainment (PTA)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plotly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Plotting Details</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Compare.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Comparing models</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">5.1</span> Introduction</a></li>
+  <li><a href="#r6-objects" id="toc-r6-objects" class="nav-link" data-scroll-target="#r6-objects"><span class="header-section-number">5.2</span> R6 objects</a></li>
+  <li><a href="#first-data-object" id="toc-first-data-object" class="nav-link" data-scroll-target="#first-data-object"><span class="header-section-number">5.3</span> First data object</a></li>
+  <li><a href="#data-format" id="toc-data-format" class="nav-link" data-scroll-target="#data-format"><span class="header-section-number">5.4</span> Data format</a>
+  <ul class="collapse">
+  <li><a href="#standardized-data" id="toc-standardized-data" class="nav-link" data-scroll-target="#standardized-data"><span class="header-section-number">5.4.1</span> Standardized Data</a></li>
+  </ul></li>
+  <li><a href="#manipulation-of-csv-files" id="toc-manipulation-of-csv-files" class="nav-link" data-scroll-target="#manipulation-of-csv-files"><span class="header-section-number">5.5</span> Manipulation of CSV files</a></li>
+  <li><a href="#more-examples" id="toc-more-examples" class="nav-link" data-scroll-target="#more-examples"><span class="header-section-number">5.6</span> More Examples</a></li>
+  <li><a href="#citations" id="toc-citations" class="nav-link" data-scroll-target="#citations"><span class="header-section-number">5.7</span> Citations</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">5.1</span> Introduction</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Make sure you have run the <a href="./index.html#tutorial-setup">tutorial setup code</a> in your R session before copying, pasting and running example code here.</p>
+</div>
+</div>
+<p><strong>Pmetrics always needs data and a model to run.</strong> Pmetrics data objects are typically read into memory from files. Although the file format is usually comma-separated (.csv), it is possible to use other separators, like the semicolon, by setting the appropriate argument with <a href="https://lapkb.github.io/Pmetrics/reference/setPMoptions.html"><code>setPMoptions</code></a>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># look at and change global Pmetrics options</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setPMoptions</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Examples of programs that can save .csv files are any text editor (e.g.&nbsp;TextEdit on Mac, Notepad on Windows) or spreadsheet program (e.g.&nbsp;Excel).</p>
+<p>It is possible to create a data object in R directly, without reading a file. This is useful for simulation purposes, where you may want to create a small dataset on the fly. We’ll cover this below.</p>
+</section>
+<section id="r6-objects" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="r6-objects"><span class="header-section-number">5.2</span> R6 objects</h2>
+<p>Most Pmetrics objects, including data, follow the <a href="https://r6.r-lib.org/reference/R6Class.html">R6</a> framework. The idea of this object is to represent a dataset that is going to be modeled/simulated. All its behaviour is represented by the class <a href="https://lapkb.github.io/Pmetrics/reference/PM_data.html"><code>PM_data</code></a>. This class allows datasets to be checked, plotted, written to disk and more. Use <code>PM_data$new("filename")</code> to create a <code>PM_data</code> object by reading the file.</p>
+</section>
+<section id="first-data-object" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="first-data-object"><span class="header-section-number">5.3</span> First data object</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># if not using the Rscript/Learn.R template created by PM_tutorial(), </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># modify the path as needed</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> PM_data<span class="sc">$</span><span class="fu">new</span>(<span class="st">"src/ex.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>You can also build an appropriate data frame in R and provide that as an argument to <code>PM_data$new()</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ensure data frame has at least these columns:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># id, time, dose, out</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">time =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">dose =</span> <span class="fu">c</span>(<span class="dv">100</span>,<span class="cn">NA</span>,<span class="cn">NA</span>,<span class="dv">200</span>,<span class="cn">NA</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">out =</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="fl">5.2</span>,<span class="fl">3.1</span>,<span class="cn">NA</span>,<span class="fl">7.4</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>dat_df <span class="ot">&lt;-</span> PM_data<span class="sc">$</span><span class="fu">new</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Lastly, you can take advantage of the <code>addEvent</code> method in <code>PM_data</code> objects to build a data object on the fly. This can be particularly useful for making quick simulation templates. Start with an empty call to <code>PM_data$new()</code> and add successive rows. See <a href="https://lapkb.github.io/Pmetrics/reference/PM_data.html"><code>PM_data</code></a> for details under the <code>addEvent</code> method.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># build a PM_data object row by row</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dat_add <span class="ot">&lt;-</span> PM_data<span class="sc">$</span><span class="fu">new</span>()<span class="sc">$</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">addEvent</span>(<span class="at">id =</span> <span class="dv">1</span>, <span class="at">time =</span> <span class="dv">0</span>, <span class="at">dose =</span> <span class="dv">100</span>, <span class="at">addl =</span> <span class="dv">5</span>, <span class="at">ii =</span> <span class="dv">24</span>)<span class="sc">$</span> <span class="co"># add 6 doses of 100 every 24 hours</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">addEvent</span>(<span class="at">id =</span> <span class="dv">1</span>, <span class="at">time =</span> <span class="dv">144</span>, <span class="at">out =</span> <span class="sc">-</span><span class="dv">1</span>)<span class="sc">$</span> <span class="co"># add an observation of -1 at time 144</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">addEvent</span>(<span class="at">id =</span> <span class="dv">1</span>, <span class="at">wt =</span> <span class="dv">75</span>, <span class="at">validate =</span> <span class="cn">TRUE</span>) <span class="co"># add wt of 75 to all rows for id = 1 and validate</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Notes:</strong></p>
+<ol type="1">
+<li>Lack of time element in the last <code>addEvent</code> will add <em>wt = 75</em> to all rows for <em>id = 1</em></li>
+<li>Use <code>validate = TRUE</code> as an argument in the last <code>addEvent</code> to finalize creation</li>
+<li>You can chain events as shown above by including the <code>$</code> between events.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For those familiar with <a href="https://tidyverse.org">tidyverse</a> or the native R pipe to join functions (“%&gt;%” or “|&gt;”, respectively), chaining in R6 is similar but restricted to methods defined for the object. In this case we chain the <code>addEvent</code> methods. We could even chain an additional <code>PM_data</code> method like <code>$plot()</code> at the end of the above code. However, that would create <code>dat</code> as a plotly plot object, not a <code>PM_data</code> one.</p>
+</div>
+</div>
+<p>Below you see the data standardization and validation reports that are generated when you create a new <code>PM_data</code> object, and the output of typing <code>dat$data</code> and <code>dat$standard_data</code> look like in the viewer. The former is your original data, and the latter is what it looks like after standardization to the full Pmetrics format.</p>
+<div class="cell">
+<pre><code>#&gt; 
+#&gt; ── DATA STANDARDIZATION ────────────────────────────────────────────────────────
+#&gt; EVID inferred as 0 for observations, 1 for doses.
+#&gt;  All doses assumed to be oral (DUR = 0).
+#&gt;  ADDL set to missing for all records.
+#&gt;  II set to missing for all records.
+#&gt;  All doses assumed to be INPUT = 1.
+#&gt;  All observations assumed to be OUTEQ = 1.
+#&gt;  All observations assumed to be uncensored.
+#&gt;  One or more error coefficients not specified. Error in model object will be used.
+#&gt; 
+#&gt; ── DATA VALIDATION ─────────────────────────────────────────────────────────────
+#&gt; No data errors found.</code></pre>
+</div>
+<p><strong>Original data:</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">id</th>
+<th style="text-align: right;">time</th>
+<th style="text-align: right;">dose</th>
+<th style="text-align: right;">out</th>
+<th style="text-align: right;">wt</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">72</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">144</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">75</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Standardized data:</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 4%">
+<col style="width: 9%">
+<col style="width: 6%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">id</th>
+<th style="text-align: right;">evid</th>
+<th style="text-align: right;">time</th>
+<th style="text-align: right;">dur</th>
+<th style="text-align: right;">dose</th>
+<th style="text-align: left;">addl</th>
+<th style="text-align: left;">ii</th>
+<th style="text-align: right;">input</th>
+<th style="text-align: right;">out</th>
+<th style="text-align: right;">outeq</th>
+<th style="text-align: left;">cens</th>
+<th style="text-align: left;">c0</th>
+<th style="text-align: left;">c1</th>
+<th style="text-align: left;">c2</th>
+<th style="text-align: left;">c3</th>
+<th style="text-align: right;">wt</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">72</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">75</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">144</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">75</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Once you have created the <code>PM_data</code> object, you never need to create it again during your R session. You also don’t have to bother copying the data file to the Runs folder each time you run the model, like you used to do with older <strong>(“Legacy”)</strong> versions of Pmetrics. The data are stored in memory and can be used in any Pmetrics function that needs it.</p>
+</section>
+<section id="data-format" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="data-format"><span class="header-section-number">5.4</span> Data format</h2>
+<p>R6 Pmetrics can use file or data frame input. The format is very flexible. A truncated example is shown below, with <code>NA</code> values replaced by “.” as they would appear in a file.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">id</th>
+<th style="text-align: left;">time</th>
+<th style="text-align: left;">dose</th>
+<th style="text-align: left;">out</th>
+<th style="text-align: left;">wt</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">24</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">48</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">72</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">96</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">120</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">10.44</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">120</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">121</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">12.89</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">122</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">14.98</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">125.99</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">16.69</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">129</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">20.15</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">132</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">14.97</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">143.98</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">12.57</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">24</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">48</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">72</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">96</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">120</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">3.56</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">120</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">120.98</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">5.84</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">121.98</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">6.54</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">126</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">6.14</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">129.02</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">6.56</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">132.02</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">4.44</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">144</td>
+<td style="text-align: left;">.</td>
+<td style="text-align: left;">3.76</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+</tbody>
+</table>
+<p>The only required columns are those below. Unlike Legacy Pmetrics, there are no requirements for a header or to prefix the ID column with “#”. However, any subsequent row that begins with “#” will be ignored, which is helpful if you want to exclude data from the analysis, but preserve the integrity of the original dataset, or to add comment lines. The column order can be anything you wish, but the names should be the same as below. Ultimately, <code>PM_data$new()</code> converts all valid data into a standardized format discussed below.</p>
+<ul>
+<li><p><span id="data-id"><strong><em>ID</em></strong></span> This field can be numeric or character and identifies each individual. All rows must contain an ID, and all records from one individual must be contiguous. IDs may be any alphanumeric combination. The number of subjects is unlimited.</p></li>
+<li><p><span id="data-time"><strong><em>TIME</em></strong></span> This is the elapsed time in decimal hours since the first event, which is always <code>TIME  = 0</code>, unless you specify <code>TIME</code> as clock time. In that case, you must include a <code>DATE</code> column, described below. For clock time, the default format is HH:MM. Other formats can be specified. See <a href="https://lapkb.github.io/Pmetrics/reference/PM_data.html"><code>PM_data</code></a> for more details. Every row must have an entry, and within a given ID, rows must be sorted chronologically, earliest to latest.</p>
+<ul>
+<li><span id="data-date"><strong><em>DATE</em></strong></span> This column is only required if <code>TIME</code> is clock time, detected by the presence of “:”. The default format of the date column is YYYY-MM-DD. As for <code>TIME</code>, other formats can be specified. See <a href="https://lapkb.github.io/Pmetrics/reference/PM_data.html"><code>PM_data</code></a> for more details.</li>
+</ul></li>
+<li><p><span id="data-dose"><strong><em>DOSE</em></strong></span> This is the dose amount. It should be “.” for observation rows. All subjects must have a dose event at time 0, which is the first row for that subject. The dose amount can be any numeric value, including 0. If the dose is an infusion, the <code>DUR</code> column must also be included. In other software packages, <code>AMT</code> is equivalent to <code>DOSE</code>.</p></li>
+<li><p><span id="data-out"><strong><em>OUT</em></strong></span> This is the observation, or output value, and it is always required. If <code>EVID = 0</code>, there must be an entry. For such events, if the observation is missing, e.g.&nbsp;a sample was lost or not obtained, this must be coded as -99. It will be ignored for any other <code>EVID</code> and therefore should be “.”. <code>OUT</code> can be coded as <code>DV</code> in other software packages. When <code>OUT = -99</code>, this is equivalent to <code>MDV = 1</code>, or missing dependent variable in other packages, but Pmetrics does not use <code>MDV</code>.</p></li>
+</ul>
+<p><strong>Not required:</strong></p>
+<ul>
+<li><span id="data-cov"><strong><em>COVARIATES…</em></strong></span> Covariates are optional and discussed below. Here, <strong>wt</strong> was included as an example of a covariate.</li>
+</ul>
+<p>When <code>PM_data</code> reads a file, it will standardize it to the format below. This means some inferences are made. For example, in the absence of <code>EVID</code>, all doses are interpreted as oral. If they are infusions, <code>DUR</code> must be included to indicate the duration of the infusion. <code>EVID</code> only needs to be included if <code>EVID=4</code> (reset event) is required, described below. Similarly, <code>INPUT</code> and <code>OUTEQ</code> are only required if multiple inputs or outputs are being modeled. Lastly, <code>ADDL</code> and <code>II</code> are optional.</p>
+<p>Lastly, the standardized data are checked for errors and if found, Pmetrics generates a report with the errors and will attempt to fix those that it can.</p>
+<section id="standardized-data" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="standardized-data"><span class="header-section-number">5.4.1</span> Standardized Data</h3>
+<p>Data are standardized when <code>PM_data$new()</code> is invoked, and the data frame is placed in the <code>PM_data</code> object’s <code>$standard_data</code> field. When the <code>$save()</code> method is called on a <code>PM_data</code> object, the data are saved in this standardized format. The first several rows of example standardized data are below, with details following.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 6%">
+<col style="width: 9%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 4%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">id</th>
+<th style="text-align: left;">evid</th>
+<th style="text-align: left;">time</th>
+<th style="text-align: left;">dur</th>
+<th style="text-align: left;">dose</th>
+<th style="text-align: left;">addl</th>
+<th style="text-align: left;">ii</th>
+<th style="text-align: left;">input</th>
+<th style="text-align: left;">out</th>
+<th style="text-align: left;">outeq</th>
+<th style="text-align: left;">cens</th>
+<th style="text-align: left;">c0</th>
+<th style="text-align: left;">c1</th>
+<th style="text-align: left;">c2</th>
+<th style="text-align: left;">c3</th>
+<th style="text-align: left;">wt</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">24</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">48</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">72</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">96</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">120</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">10.44</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">120</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">121</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">12.89</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">122</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">14.98</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">125.99</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">16.69</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">129</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">20.15</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">132</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">14.97</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">143.98</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">12.57</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">46.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">24</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">48</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">72</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">96</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">120</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">3.56</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">120</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">120.98</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">5.84</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">121.98</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">6.54</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">126</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">6.14</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">129.02</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">6.56</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">132.02</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">4.44</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">144</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">3.76</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">66.5</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p><strong><em>ID</em></strong> See <a href="#data-id">above</a>.</p></li>
+<li><p><strong><em>EVID</em></strong> This is the event ID field. It can be 0, 1, or 4. It is only required if <code>EVID = 4</code> is included in the data, in which case every row must have an entry. If there are no <code>EVID = 4</code> events, the entire <code>EVID</code> column can be omitted from the data.</p>
+<ul>
+<li><p>0 = observation</p></li>
+<li><p>1 = input (e.g.&nbsp;dose)</p></li>
+<li><p>2, 3 are currently unused</p></li>
+<li><p>4 = reset, where all compartment values are set to 0 and the time counter is reset to 0. This is useful when an individual has multiple sampling episodes that are widely spaced in time with no new information gathered. This is a dose event, so dose information needs to be complete. The <code>TIME</code> value for <code>EVID = 4</code> should be 0, and subsequent rows should increase monotonically from 0 until the last record or until another <code>EVID = 4</code> event, which will restart time at 0.</p></li>
+</ul></li>
+<li><p><strong><em>TIME</em></strong> See <a href="#data-time">above</a>.</p></li>
+<li><p><strong><em>DATE</em></strong> See <a href="#data-date">above</a>.</p></li>
+<li><p><strong><em>DUR</em></strong> This is the duration of an infusion in hours. If <code>EVID = 0</code> (observation event), <code>DUR</code> is ignored and should have a “.” placeholder. For a bolus (e.g.&nbsp;an oral dose), set the value equal to 0. As mentioned above, if all doses are oral, <code>DUR</code> can be omitted from the data altogether. Some other packages use <code>RATE</code> instead of <code>DUR</code>, but of course, one can convert rate to duration with <code>DUR = DOSE / RATE</code>.</p></li>
+<li><p><strong><em>DOSE</em></strong> See <a href="#data-dose">above</a>.</p></li>
+<li><p><strong><em>ADDL</em></strong> This specifies the number of additional doses to give at interval <code>II</code>. <code>ADDL</code> can be positive or negative. If positive, it is the number of doses to give after the dose at time 0. If negative, it is the number of doses to give before the dose at time 0. It may be missing (“.”) for dose events (<code>EVID = 1</code> or <code>EVID = 4</code>), in which case it is assumed to be 0. It is ignored for observation (<code>EVID = 0</code>) events. Be sure to adjust the time entry for the subsequent row, if necessary, to account for the extra doses. All compartments in the model will contain the predicted amounts of drug at the end of the <code>II</code> interval after the last <code>ADDL</code> dose.</p></li>
+<li><p><strong><em>II</em></strong> This is the interdose interval and is only relevant if <code>ADDL</code> is not equal to 0, in which case <code>II</code> cannot be missing. If <code>ADDL = 0</code> or is missing, <code>II</code> is ignored.</p></li>
+<li><p><strong><em>INPUT</em></strong> This defines which input (i.e.&nbsp;drug) the <code>DOSE</code> corresponds to. The model defines which compartments receive the input(s). If only modeling one drug, <code>INPUT</code> is unnecessary, as all values will be assumed to be 1. Other packages may use <code>CMT</code> for compartment for both inputs and outputs. It is necessary to separate these in Pmetrics and for outputs, designate the corresponding model input number with <code>INPUT</code> (e.g.&nbsp;R[x] or B[x] for infusions and boluses in the model object), not the compartment.</p></li>
+<li><p><strong><em>OUT</em></strong> See <a href="#data-out">above</a>.</p></li>
+<li><p><strong><em>OUTEQ</em></strong> This is the output equation number that corresponds to the <code>OUT</code> value. Output equations are defined in the model file. If only modeling one output, this column is unnecessary, as all values are assumed to be 1. As discussed in <code>INPUT</code>, other packages may use <code>CMT</code> for compartment for both inputs and outputs. It is necessary to separate these in Pmetrics and for outputs, designate the corresponding model output equation number with <code>OUTEQ</code>, not the compartment.</p></li>
+<li><p><strong><em>CENS</em></strong> This is a new column as of Pmetrics 3.0.0. It indicates whether the observation is censored, i.e.&nbsp;below a lower limit of quantification or above an upper limit . It can take on four values:</p>
+<ul>
+<li><p>Missing for dose events which are not observations. Use a “.” as a placeholder in your data file.</p></li>
+<li><p>0 or “none” = not censored</p></li>
+<li><p>1 or “bloq” = left censored (below lower limit of quantification)</p></li>
+<li><p>-1 or “aloq” = right censored (above upper limit of quantification)</p></li>
+</ul>
+<p>If there are no censored observations, the entire <code>CENS</code> column can be omitted from the data. In data fitting, left censored observations are handled using the M3 method described by Beal <span class="citation" data-cites="bealWaysFitPK2001a">(<a href="#ref-bealWaysFitPK2001a" role="doc-biblioref">Beal 2001</a>)</span>. Right censored observations are handled similarly, but using the complementary probability. The value in the <code>OUT</code> column is the censoring lower limit of quantification (LLOQ) for left censored observations. It is the upper limit of quantification (ULOQ) for right censored observations. For uncensored observations, <code>OUT</code> is the observed value as usual. For example, if <code>OUT = 5</code> and <code>CENS = 1</code> or <code>CENS = "bloq"</code>, this indicates that the observation is below the LLOQ of 5. If <code>OUT = 10</code> and <code>CENS = -1</code> or <code>CENS = "aloq"</code>, this indicates that the observation is above the ULOQ of 10.</p></li>
+<li><p><strong><em>C0, C1, C2, C3</em></strong> These are the coefficients for the assay error polynomial for that observation. Each subject may have up to one set of coefficients per output equation. If more than one set is detected for a given subject and output equation, the last set will be used. If there are no available coefficients, these cells may be omitted. If they are included, for events which are not observations, they can be filled with “.” as a placeholder. In data fitting, if the coefficients are present in the data file, Pmetrics will use them. If missing, Pmetrics will look for coefficients defined in the model.</p></li>
+<li><p><span id="data-cov"><strong><em>COVARIATES…</em></strong></span> Any column named other than above is assumed to be a covariate, one column per covariate. The first row for any subject must have a value for all covariates, since the first row is always a dose. <strong>Covariates are handled differently than in Legacy Pmetrics.</strong> In Legacy, they were only considered at the times of dose events (<code>EVID = 1</code> or <code>EVID = 4</code>). In <em>Pmetrics 3.0</em> and later, they are considered at all times, including observation events (<code>EVID = 0</code>). Therefore, to enter a new covariate value at a time other than a dose or an observation, create a row at the appropriate time (and possibly date if using clock/calendar), making the row either a dose row with <code>DOSE = 0</code> or an observation row with <code>OUT = -99</code> (missing). By default, covariate values are linearly interpolated between entries. This is useful for covariates like weight, which may vary from measurement to measurement. You can change this behavior in the model definition to make them piece-wise constant, i.e.&nbsp;carried forward from the previous value until a new value causes an instant change. This could be used, for example, to indicate periods of off and on dialysis. See the chapter on <a href="./models.html">Models</a> for more details.</p></li>
+</ul>
+</section>
+</section>
+<section id="manipulation-of-csv-files" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="manipulation-of-csv-files"><span class="header-section-number">5.5</span> Manipulation of CSV files</h2>
+<section id="read" class="level4" data-number="5.5.0.1">
+<h4 data-number="5.5.0.1" class="anchored" data-anchor-id="read"><span class="header-section-number">5.5.0.1</span> Read</h4>
+<p>As we have seen, <code>PM_data$new("path/filename")</code> will create a new <code>PM_data</code> object by reading an appropriate data file in the <code>path</code> directory or the current working directory if <code>path</code> is ommitted. Change the column separator in the file from the default “,” (.csv files) to “;” (.ssv files) using <code>setPMoptions()</code>.</p>
+</section>
+<section id="save" class="level4" data-number="5.5.0.2">
+<h4 data-number="5.5.0.2" class="anchored" data-anchor-id="save"><span class="header-section-number">5.5.0.2</span> Save</h4>
+<p><code>PM_data$save("path/filename")</code> will save the <code>PM_data$standard_field</code> to a file called “filename” in the <code>path</code> directory or the current working directory if <code>path</code> is ommitted. This can be useful if you have loaded or created a data file and then changed it in R. Change the column separator in the file from the default “,” (.csv files) to “;” (.ssv files) using <code>setPMoptions()</code>.</p>
+</section>
+<section id="standardize" class="level4" data-number="5.5.0.3">
+<h4 data-number="5.5.0.3" class="anchored" data-anchor-id="standardize"><span class="header-section-number">5.5.0.3</span> Standardize</h4>
+<p><code>PM_data$new()</code> automatically standardizes the data into the full format. This includes conversion of calendar date / clock time into decimal elapsed time.</p>
+</section>
+<section id="validate" class="level4" data-number="5.5.0.4">
+<h4 data-number="5.5.0.4" class="anchored" data-anchor-id="validate"><span class="header-section-number">5.5.0.4</span> Validate</h4>
+<p><code>PM_data$new()</code> automatically calls <a href="https://lapkb.github.io/Pmetrics/reference/PMcheck.html"><code>PMcheck</code></a> so the data are validated as the data object is created.</p>
+</section>
+<section id="data-conversion" class="level4" data-number="5.5.0.5">
+<h4 data-number="5.5.0.5" class="anchored" data-anchor-id="data-conversion"><span class="header-section-number">5.5.0.5</span> Data conversion</h4>
+<ul>
+<li><p><code>PMwrk2csv()</code> This function will convert old-style, single-drug USC*PACK .wrk formatted files into Pmetrics data .csv files. <!-- -   `PMmb2csv()` This function will convert USC\*PACK .mb files into Pmetrics data .csv files. --></p></li>
+<li><p><code>NM2PM()</code> Although the structure of Pmetrics data files is similar to NONMEM, there are some differences. This function attempts to automatically convert to Pmetrics format. It has been tested on several examples, but there are probably NONMEM files which will cause it to crash.</p></li>
+</ul>
+</section>
+</section>
+<section id="more-examples" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="more-examples"><span class="header-section-number">5.6</span> More Examples</h2>
+<p><strong>Pmetrics</strong> comes with an example dataset called <code>dataEx</code> already loaded. You can practice with it. It is the same data as in “src/ex.csv” used above to create the <code>dat</code> object.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the code below and often in this book, <a href="https://rdrr.io/pkg/base/man/file.path.html"><code>file.path</code></a> is a base R function used to create file paths that are compatible with your operating system.</p>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Save data somewhere</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">"src2"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(path) <span class="co"># create a temporary folder</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>dataEx<span class="sc">$</span><span class="fu">save</span>(<span class="fu">file.path</span>(path, <span class="st">"ex2.csv"</span>)) <span class="co"># save the data there</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>dataEx<span class="sc">$</span><span class="fu">save</span>(<span class="st">"src2/ex.csv"</span>) <span class="co"># alternative </span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Load it again with one of these alternatives</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>exData <span class="ot">&lt;-</span> PM_data<span class="sc">$</span><span class="fu">new</span>(<span class="fu">file.path</span>(path, <span class="st">"ex2.csv"</span>))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>exData <span class="ot">&lt;-</span> PM_data<span class="sc">$</span><span class="fu">new</span>(<span class="st">"src2/ex2.csv"</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(<span class="st">"src2"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>) <span class="co"># clean up</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>You can look at the <code>src/ex.csv</code> file directly by opening from your hard drive it in a spreadsheet program like Excel, or a text editor.</p>
+<p><code>exData</code> is an R6 object, which means that contains both data and methods to process that data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See the contents of the object</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(exData)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "nca"             ".__enclos_env__" "summary"         "auc"            </span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] "addEvent"        "post"            "clone"           "initialize"     </span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] "standard_data"   "save"            "print"           "plot"           </span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] "data"            "pop"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The first element is an artifact of the R6 class. The remaining elements are documented in the help for <a href="https://lapkb.github.io/Pmetrics/reference/PM_data.html"><code>PM_data</code></a>. You can of course inspect the data directly.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Your original data (first few rows)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(exData<span class="sc">$</span>data)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   id time dose   out   wt africa age gender height</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  1    0  600    NA 46.7      1  21      1    160</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  1   24  600    NA 46.7      1  21      1    160</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  1   48  600    NA 46.7      1  21      1    160</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  1   72  600    NA 46.7      1  21      1    160</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  1   96  600    NA 46.7      1  21      1    160</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  1  120   NA 10.44 46.7      1  21      1    160</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Typing the name of the <code>PM_data</code> object will display it nicely in the viewer.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See the standardized data nicely formatted in the viewer </span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>exData</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Below we show it truncated for brevity.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">id</th>
+<th style="text-align: right;">evid</th>
+<th style="text-align: right;">time</th>
+<th style="text-align: right;">dur</th>
+<th style="text-align: right;">dose</th>
+<th style="text-align: left;">addl</th>
+<th style="text-align: left;">ii</th>
+<th style="text-align: right;">input</th>
+<th style="text-align: right;">out</th>
+<th style="text-align: right;">outeq</th>
+<th style="text-align: left;">cens</th>
+<th style="text-align: left;">c0</th>
+<th style="text-align: left;">c1</th>
+<th style="text-align: left;">c2</th>
+<th style="text-align: left;">c3</th>
+<th style="text-align: right;">wt</th>
+<th style="text-align: right;">africa</th>
+<th style="text-align: right;">age</th>
+<th style="text-align: right;">gender</th>
+<th style="text-align: right;">height</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">46.7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">160</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">46.7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">160</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">46.7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">160</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">72</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">46.7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">160</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">46.7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">160</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">10.44</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">46.7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">160</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Most <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> objects are R6 objects. As a reminder, you can use the <code>$</code> operator to access their data fields and methods. Many of them have a <code>$summary()</code> method that prints a summary of the object to the console and a <code>$plot()</code> method that creates a plot of the object. See <a href="https://lapkb.github.io/Pmetrics/reference/PM_data.html"><code>PM_data</code></a> for more information on the <code>PM_data</code> class and its methods.</p>
+<p><strong>Note:</strong> We recognize that many users are familiar with the “S3 framework” in R, which uses functions like <code>summary(object)</code> and <code>plot(object)</code>. To comply with better programming standards, <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> uses the R6 framework. However, we have provided S3 methods for most functions, so you can use <code>summary(object)</code> and <code>plot(object)</code> if you prefer.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># S3 method to summarize data</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(exData)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>PM_data</code> has a <code>plot()</code> method that creates a plot of the data. See <a href="https://lapkb.github.io/Pmetrics/reference/plot.PM_data.html"><code>plot.PM_data</code></a> for more information.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>exData<span class="sc">$</span><span class="fu">plot</span>() </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-1369f460905736f3db09" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-1369f460905736f3db09">{"x":{"visdat":{"1d31661cda1":["function () ","plotlyVisDat"],"1d317f03084c":["function () ","data"],"1d312015f6b9":["function () ","data"],"1d311f8fc24":["function () ","data"],"1d31171a07f":["function () ","data"],"1d314adff296":["function () ","data"],"1d3134af7c41":["function () ","data"],"1d316d06aa6c":["function () ","data"],"1d31509ed05f":["function () ","data"],"1d316a823652":["function () ","data"],"1d31abc781f":["function () ","data"],"1d315b7240ba":["function () ","data"],"1d3129f7a23d":["function () ","data"],"1d3140bc6851":["function () ","data"],"1d311164bf0b":["function () ","data"],"1d316d3a7418":["function () ","data"],"1d31189c0bae":["function () ","data"],"1d312cc2d921":["function () ","data"],"1d312c3d1c7c":["function () ","data"],"1d3160192794":["function () ","data"],"1d31137596d6":["function () ","data"],"1d31d01c595":["function () ","data"],"1d316f52bfde":["function () ","data"],"1d3121b2c0eb":["function () ","data"],"1d315e979595":["function () ","data"],"1d3131dd99b7":["function () ","data"],"1d314b96d6f4":["function () ","data"],"1d311bfa53f1":["function () ","data"],"1d314f9d0190":["function () ","data"],"1d314cd1bdc5":["function () ","data"],"1d315e01f7e9":["function () ","data"],"1d31533b1236":["function () ","data"],"1d314b28c1ea":["function () ","data"],"1d3160d31032":["function () ","data"],"1d3140cc7447":["function () ","data"],"1d312ee6028d":["function () ","data"],"1d317eb18f08":["function () ","data"],"1d313b259733":["function () ","data"],"1d3120e9b39b":["function () ","data"],"1d314f0e95fe":["function () ","data"],"1d3146997f3e":["function () ","data"]},"cur_data":"1d3146997f3e","attrs":{"1d317f03084c":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"1","meta":{"id":1},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":true,"inherit":true},"1d312015f6b9":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"1","meta":{"id":1},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d311f8fc24":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"2","meta":{"id":2},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d31171a07f":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"2","meta":{"id":2},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d314adff296":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"3","meta":{"id":3},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d3134af7c41":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"3","meta":{"id":3},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d316d06aa6c":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"4","meta":{"id":4},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d31509ed05f":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"4","meta":{"id":4},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d316a823652":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"5","meta":{"id":5},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d31abc781f":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"5","meta":{"id":5},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d315b7240ba":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"6","meta":{"id":6},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d3129f7a23d":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"6","meta":{"id":6},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d3140bc6851":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"7","meta":{"id":7},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d311164bf0b":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"7","meta":{"id":7},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d316d3a7418":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"8","meta":{"id":8},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d31189c0bae":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"8","meta":{"id":8},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d312cc2d921":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"9","meta":{"id":9},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d312c3d1c7c":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"9","meta":{"id":9},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d3160192794":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"10","meta":{"id":10},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d31137596d6":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"10","meta":{"id":10},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d31d01c595":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"11","meta":{"id":11},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d316f52bfde":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"11","meta":{"id":11},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d3121b2c0eb":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"12","meta":{"id":12},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d315e979595":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"12","meta":{"id":12},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d3131dd99b7":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"13","meta":{"id":13},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d314b96d6f4":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"13","meta":{"id":13},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d311bfa53f1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"14","meta":{"id":14},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d314f9d0190":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"14","meta":{"id":14},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d314cd1bdc5":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"15","meta":{"id":15},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d315e01f7e9":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"15","meta":{"id":15},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d31533b1236":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"16","meta":{"id":16},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d314b28c1ea":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"16","meta":{"id":16},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d3160d31032":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"17","meta":{"id":17},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d3140cc7447":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"17","meta":{"id":17},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d312ee6028d":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"18","meta":{"id":18},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d317eb18f08":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"18","meta":{"id":18},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d313b259733":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"19","meta":{"id":19},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d3120e9b39b":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"19","meta":{"id":19},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d314f0e95fe":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","split":{},"name":{},"uid":"20","meta":{"id":20},"marker":{"color":{},"symbol":{},"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true},"1d3146997f3e":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"lines","name":{},"uid":"20","meta":{"id":20},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":{},"hoverinfo":"text","legendgroup":{},"showlegend":false,"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#FFFFFF","gridwidth":0,"title":{"text":"<b>Time<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"yaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#FFFFFF","gridwidth":0,"title":{"text":"<b>Output<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"title":{"text":"<b><\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":20}},"showlegend":false,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[120,121,122,125.98999999999999,129,132,143.97999999999999],"y":[10.44,12.890000000000001,14.98,16.690000000000001,20.149999999999999,14.970000000000001,12.57],"type":"scatter","mode":"markers","name":"Obs ","uid":"1","meta":{"id":1},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 1<br />Time: 120.00<br />Out: 10.44<br />Obs ","ID: 1<br />Time: 121.00<br />Out: 12.89<br />Obs ","ID: 1<br />Time: 122.00<br />Out: 14.98<br />Obs ","ID: 1<br />Time: 125.99<br />Out: 16.69<br />Obs ","ID: 1<br />Time: 129.00<br />Out: 20.15<br />Obs ","ID: 1<br />Time: 132.00<br />Out: 14.97<br />Obs ","ID: 1<br />Time: 143.98<br />Out: 12.57<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":true,"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122,125.98999999999999,129,132,143.97999999999999],"y":[10.44,12.890000000000001,14.98,16.690000000000001,20.149999999999999,14.970000000000001,12.57],"type":"scatter","mode":"lines","name":"Obs ","uid":"1","meta":{"id":1},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 1<br />Time: 120.00<br />Out: 10.44<br />Obs ","ID: 1<br />Time: 121.00<br />Out: 12.89<br />Obs ","ID: 1<br />Time: 122.00<br />Out: 14.98<br />Obs ","ID: 1<br />Time: 125.99<br />Out: 16.69<br />Obs ","ID: 1<br />Time: 129.00<br />Out: 20.15<br />Obs ","ID: 1<br />Time: 132.00<br />Out: 14.97<br />Obs ","ID: 1<br />Time: 143.98<br />Out: 12.57<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,120.98,121.98,126,129.02000000000001,132.02000000000001,144],"y":[3.5600000000000001,5.8399999999999999,6.54,6.1399999999999997,6.5599999999999996,4.4400000000000004,3.7599999999999998],"type":"scatter","mode":"markers","name":"Obs ","uid":"2","meta":{"id":2},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 2<br />Time: 120.00<br />Out: 3.56<br />Obs ","ID: 2<br />Time: 120.98<br />Out: 5.84<br />Obs ","ID: 2<br />Time: 121.98<br />Out: 6.54<br />Obs ","ID: 2<br />Time: 126.00<br />Out: 6.14<br />Obs ","ID: 2<br />Time: 129.02<br />Out: 6.56<br />Obs ","ID: 2<br />Time: 132.02<br />Out: 4.44<br />Obs ","ID: 2<br />Time: 144.00<br />Out: 3.76<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(44,160,44,1)"},"error_x":{"color":"rgba(44,160,44,1)"},"line":{"color":"rgba(44,160,44,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,120.98,121.98,126,129.02000000000001,132.02000000000001,144],"y":[3.5600000000000001,5.8399999999999999,6.54,6.1399999999999997,6.5599999999999996,4.4400000000000004,3.7599999999999998],"type":"scatter","mode":"lines","name":"Obs ","uid":"2","meta":{"id":2},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 2<br />Time: 120.00<br />Out: 3.56<br />Obs ","ID: 2<br />Time: 120.98<br />Out: 5.84<br />Obs ","ID: 2<br />Time: 121.98<br />Out: 6.54<br />Obs ","ID: 2<br />Time: 126.00<br />Out: 6.14<br />Obs ","ID: 2<br />Time: 129.02<br />Out: 6.56<br />Obs ","ID: 2<br />Time: 132.02<br />Out: 4.44<br />Obs ","ID: 2<br />Time: 144.00<br />Out: 3.76<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(214,39,40,1)","line":{"color":"rgba(214,39,40,1)"}},"error_y":{"color":"rgba(214,39,40,1)"},"error_x":{"color":"rgba(214,39,40,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120.08,121.06999999999999,122.08,126.08,129.05000000000001,132.09999999999999,144.08000000000001],"y":[4.0599999999999996,3.2400000000000002,3.0899999999999999,7.9800000000000004,7.2300000000000004,4.71,3.8199999999999998],"type":"scatter","mode":"markers","name":"Obs ","uid":"3","meta":{"id":3},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 3<br />Time: 120.08<br />Out: 4.06<br />Obs ","ID: 3<br />Time: 121.07<br />Out: 3.24<br />Obs ","ID: 3<br />Time: 122.08<br />Out: 3.09<br />Obs ","ID: 3<br />Time: 126.08<br />Out: 7.98<br />Obs ","ID: 3<br />Time: 129.05<br />Out: 7.23<br />Obs ","ID: 3<br />Time: 132.10<br />Out: 4.71<br />Obs ","ID: 3<br />Time: 144.08<br />Out: 3.82<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(148,103,189,1)"},"error_x":{"color":"rgba(148,103,189,1)"},"line":{"color":"rgba(148,103,189,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120.08,121.06999999999999,122.08,126.08,129.05000000000001,132.09999999999999,144.08000000000001],"y":[4.0599999999999996,3.2400000000000002,3.0899999999999999,7.9800000000000004,7.2300000000000004,4.71,3.8199999999999998],"type":"scatter","mode":"lines","name":"Obs ","uid":"3","meta":{"id":3},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 3<br />Time: 120.08<br />Out: 4.06<br />Obs ","ID: 3<br />Time: 121.07<br />Out: 3.24<br />Obs ","ID: 3<br />Time: 122.08<br />Out: 3.09<br />Obs ","ID: 3<br />Time: 126.08<br />Out: 7.98<br />Obs ","ID: 3<br />Time: 129.05<br />Out: 7.23<br />Obs ","ID: 3<br />Time: 132.10<br />Out: 4.71<br />Obs ","ID: 3<br />Time: 144.08<br />Out: 3.82<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(140,86,75,1)","line":{"color":"rgba(140,86,75,1)"}},"error_y":{"color":"rgba(140,86,75,1)"},"error_x":{"color":"rgba(140,86,75,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122.02,126,129.03,132,144.02000000000001],"y":[2.1000000000000001,3.0499999999999998,5.21,5.0899999999999999,4.2400000000000002,3.6899999999999999,1.96],"type":"scatter","mode":"markers","name":"Obs ","uid":"4","meta":{"id":4},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 4<br />Time: 120.00<br />Out: 2.10<br />Obs ","ID: 4<br />Time: 121.00<br />Out: 3.05<br />Obs ","ID: 4<br />Time: 122.02<br />Out: 5.21<br />Obs ","ID: 4<br />Time: 126.00<br />Out: 5.09<br />Obs ","ID: 4<br />Time: 129.03<br />Out: 4.24<br />Obs ","ID: 4<br />Time: 132.00<br />Out: 3.69<br />Obs ","ID: 4<br />Time: 144.02<br />Out: 1.96<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(227,119,194,1)"},"error_x":{"color":"rgba(227,119,194,1)"},"line":{"color":"rgba(227,119,194,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122.02,126,129.03,132,144.02000000000001],"y":[2.1000000000000001,3.0499999999999998,5.21,5.0899999999999999,4.2400000000000002,3.6899999999999999,1.96],"type":"scatter","mode":"lines","name":"Obs ","uid":"4","meta":{"id":4},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 4<br />Time: 120.00<br />Out: 2.10<br />Obs ","ID: 4<br />Time: 121.00<br />Out: 3.05<br />Obs ","ID: 4<br />Time: 122.02<br />Out: 5.21<br />Obs ","ID: 4<br />Time: 126.00<br />Out: 5.09<br />Obs ","ID: 4<br />Time: 129.03<br />Out: 4.24<br />Obs ","ID: 4<br />Time: 132.00<br />Out: 3.69<br />Obs ","ID: 4<br />Time: 144.02<br />Out: 1.96<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(127,127,127,1)","line":{"color":"rgba(127,127,127,1)"}},"error_y":{"color":"rgba(127,127,127,1)"},"error_x":{"color":"rgba(127,127,127,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122,126,129.02000000000001,132,144],"y":[2.9300000000000002,2.6400000000000001,4.7999999999999998,3.7000000000000002,4.1299999999999999,2.8100000000000001,2.21],"type":"scatter","mode":"markers","name":"Obs ","uid":"5","meta":{"id":5},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 5<br />Time: 120.00<br />Out: 2.93<br />Obs ","ID: 5<br />Time: 121.00<br />Out: 2.64<br />Obs ","ID: 5<br />Time: 122.00<br />Out: 4.80<br />Obs ","ID: 5<br />Time: 126.00<br />Out: 3.70<br />Obs ","ID: 5<br />Time: 129.02<br />Out: 4.13<br />Obs ","ID: 5<br />Time: 132.00<br />Out: 2.81<br />Obs ","ID: 5<br />Time: 144.00<br />Out: 2.21<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(188,189,34,1)"},"error_x":{"color":"rgba(188,189,34,1)"},"line":{"color":"rgba(188,189,34,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122,126,129.02000000000001,132,144],"y":[2.9300000000000002,2.6400000000000001,4.7999999999999998,3.7000000000000002,4.1299999999999999,2.8100000000000001,2.21],"type":"scatter","mode":"lines","name":"Obs ","uid":"5","meta":{"id":5},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 5<br />Time: 120.00<br />Out: 2.93<br />Obs ","ID: 5<br />Time: 121.00<br />Out: 2.64<br />Obs ","ID: 5<br />Time: 122.00<br />Out: 4.80<br />Obs ","ID: 5<br />Time: 126.00<br />Out: 3.70<br />Obs ","ID: 5<br />Time: 129.02<br />Out: 4.13<br />Obs ","ID: 5<br />Time: 132.00<br />Out: 2.81<br />Obs ","ID: 5<br />Time: 144.00<br />Out: 2.21<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(23,190,207,1)","line":{"color":"rgba(23,190,207,1)"}},"error_y":{"color":"rgba(23,190,207,1)"},"error_x":{"color":"rgba(23,190,207,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,121.98,126,129,131.97999999999999,144.97999999999999],"y":[6.9199999999999999,6.8899999999999997,6.6399999999999997,13.720000000000001,12.69,10.58,6.6200000000000001],"type":"scatter","mode":"markers","name":"Obs ","uid":"6","meta":{"id":6},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 6<br />Time: 120.00<br />Out:  6.92<br />Obs ","ID: 6<br />Time: 121.00<br />Out:  6.89<br />Obs ","ID: 6<br />Time: 121.98<br />Out:  6.64<br />Obs ","ID: 6<br />Time: 126.00<br />Out: 13.72<br />Obs ","ID: 6<br />Time: 129.00<br />Out: 12.69<br />Obs ","ID: 6<br />Time: 131.98<br />Out: 10.58<br />Obs ","ID: 6<br />Time: 144.98<br />Out:  6.62<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,121.98,126,129,131.97999999999999,144.97999999999999],"y":[6.9199999999999999,6.8899999999999997,6.6399999999999997,13.720000000000001,12.69,10.58,6.6200000000000001],"type":"scatter","mode":"lines","name":"Obs ","uid":"6","meta":{"id":6},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 6<br />Time: 120.00<br />Out:  6.92<br />Obs ","ID: 6<br />Time: 121.00<br />Out:  6.89<br />Obs ","ID: 6<br />Time: 121.98<br />Out:  6.64<br />Obs ","ID: 6<br />Time: 126.00<br />Out: 13.72<br />Obs ","ID: 6<br />Time: 129.00<br />Out: 12.69<br />Obs ","ID: 6<br />Time: 131.98<br />Out: 10.58<br />Obs ","ID: 6<br />Time: 144.98<br />Out:  6.62<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121.03,122.03,126.02,129.08000000000001,132.03,144.03],"y":[5.4100000000000001,4.46,4.54,12.19,12.1,8.6099999999999994,6.3700000000000001],"type":"scatter","mode":"markers","name":"Obs ","uid":"7","meta":{"id":7},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 7<br />Time: 120.00<br />Out:  5.41<br />Obs ","ID: 7<br />Time: 121.03<br />Out:  4.46<br />Obs ","ID: 7<br />Time: 122.03<br />Out:  4.54<br />Obs ","ID: 7<br />Time: 126.02<br />Out: 12.19<br />Obs ","ID: 7<br />Time: 129.08<br />Out: 12.10<br />Obs ","ID: 7<br />Time: 132.03<br />Out:  8.61<br />Obs ","ID: 7<br />Time: 144.03<br />Out:  6.37<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(44,160,44,1)"},"error_x":{"color":"rgba(44,160,44,1)"},"line":{"color":"rgba(44,160,44,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121.03,122.03,126.02,129.08000000000001,132.03,144.03],"y":[5.4100000000000001,4.46,4.54,12.19,12.1,8.6099999999999994,6.3700000000000001],"type":"scatter","mode":"lines","name":"Obs ","uid":"7","meta":{"id":7},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 7<br />Time: 120.00<br />Out:  5.41<br />Obs ","ID: 7<br />Time: 121.03<br />Out:  4.46<br />Obs ","ID: 7<br />Time: 122.03<br />Out:  4.54<br />Obs ","ID: 7<br />Time: 126.02<br />Out: 12.19<br />Obs ","ID: 7<br />Time: 129.08<br />Out: 12.10<br />Obs ","ID: 7<br />Time: 132.03<br />Out:  8.61<br />Obs ","ID: 7<br />Time: 144.03<br />Out:  6.37<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(214,39,40,1)","line":{"color":"rgba(214,39,40,1)"}},"error_y":{"color":"rgba(214,39,40,1)"},"error_x":{"color":"rgba(214,39,40,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121.03,122,125.98,128.97999999999999,132,143.97999999999999],"y":[6.1900000000000004,6.3300000000000001,6.2400000000000002,13.029999999999999,11.859999999999999,11.449999999999999,7.8300000000000001],"type":"scatter","mode":"markers","name":"Obs ","uid":"8","meta":{"id":8},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 8<br />Time: 120.00<br />Out:  6.19<br />Obs ","ID: 8<br />Time: 121.03<br />Out:  6.33<br />Obs ","ID: 8<br />Time: 122.00<br />Out:  6.24<br />Obs ","ID: 8<br />Time: 125.98<br />Out: 13.03<br />Obs ","ID: 8<br />Time: 128.98<br />Out: 11.86<br />Obs ","ID: 8<br />Time: 132.00<br />Out: 11.45<br />Obs ","ID: 8<br />Time: 143.98<br />Out:  7.83<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(148,103,189,1)"},"error_x":{"color":"rgba(148,103,189,1)"},"line":{"color":"rgba(148,103,189,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121.03,122,125.98,128.97999999999999,132,143.97999999999999],"y":[6.1900000000000004,6.3300000000000001,6.2400000000000002,13.029999999999999,11.859999999999999,11.449999999999999,7.8300000000000001],"type":"scatter","mode":"lines","name":"Obs ","uid":"8","meta":{"id":8},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 8<br />Time: 120.00<br />Out:  6.19<br />Obs ","ID: 8<br />Time: 121.03<br />Out:  6.33<br />Obs ","ID: 8<br />Time: 122.00<br />Out:  6.24<br />Obs ","ID: 8<br />Time: 125.98<br />Out: 13.03<br />Obs ","ID: 8<br />Time: 128.98<br />Out: 11.86<br />Obs ","ID: 8<br />Time: 132.00<br />Out: 11.45<br />Obs ","ID: 8<br />Time: 143.98<br />Out:  7.83<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(140,86,75,1)","line":{"color":"rgba(140,86,75,1)"}},"error_y":{"color":"rgba(140,86,75,1)"},"error_x":{"color":"rgba(140,86,75,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,120.97,122,125.98,128.97999999999999,132,143.97999999999999],"y":[2.8500000000000001,3.7000000000000002,6.6500000000000004,6.8099999999999996,6.5099999999999998,7.4800000000000004,4.5099999999999998],"type":"scatter","mode":"markers","name":"Obs ","uid":"9","meta":{"id":9},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 9<br />Time: 120.00<br />Out: 2.85<br />Obs ","ID: 9<br />Time: 120.97<br />Out: 3.70<br />Obs ","ID: 9<br />Time: 122.00<br />Out: 6.65<br />Obs ","ID: 9<br />Time: 125.98<br />Out: 6.81<br />Obs ","ID: 9<br />Time: 128.98<br />Out: 6.51<br />Obs ","ID: 9<br />Time: 132.00<br />Out: 7.48<br />Obs ","ID: 9<br />Time: 143.98<br />Out: 4.51<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(227,119,194,1)"},"error_x":{"color":"rgba(227,119,194,1)"},"line":{"color":"rgba(227,119,194,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,120.97,122,125.98,128.97999999999999,132,143.97999999999999],"y":[2.8500000000000001,3.7000000000000002,6.6500000000000004,6.8099999999999996,6.5099999999999998,7.4800000000000004,4.5099999999999998],"type":"scatter","mode":"lines","name":"Obs ","uid":"9","meta":{"id":9},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 9<br />Time: 120.00<br />Out: 2.85<br />Obs ","ID: 9<br />Time: 120.97<br />Out: 3.70<br />Obs ","ID: 9<br />Time: 122.00<br />Out: 6.65<br />Obs ","ID: 9<br />Time: 125.98<br />Out: 6.81<br />Obs ","ID: 9<br />Time: 128.98<br />Out: 6.51<br />Obs ","ID: 9<br />Time: 132.00<br />Out: 7.48<br />Obs ","ID: 9<br />Time: 143.98<br />Out: 4.51<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(127,127,127,1)","line":{"color":"rgba(127,127,127,1)"}},"error_y":{"color":"rgba(127,127,127,1)"},"error_x":{"color":"rgba(127,127,127,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122.02,126,129,131.97,144],"y":[2.9300000000000002,4.3600000000000003,7.79,11.02,8.8599999999999994,6.0899999999999999,4.1500000000000004],"type":"scatter","mode":"markers","name":"Obs ","uid":"10","meta":{"id":10},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 10<br />Time: 120.00<br />Out:  2.93<br />Obs ","ID: 10<br />Time: 121.00<br />Out:  4.36<br />Obs ","ID: 10<br />Time: 122.02<br />Out:  7.79<br />Obs ","ID: 10<br />Time: 126.00<br />Out: 11.02<br />Obs ","ID: 10<br />Time: 129.00<br />Out:  8.86<br />Obs ","ID: 10<br />Time: 131.97<br />Out:  6.09<br />Obs ","ID: 10<br />Time: 144.00<br />Out:  4.15<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(188,189,34,1)"},"error_x":{"color":"rgba(188,189,34,1)"},"line":{"color":"rgba(188,189,34,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122.02,126,129,131.97,144],"y":[2.9300000000000002,4.3600000000000003,7.79,11.02,8.8599999999999994,6.0899999999999999,4.1500000000000004],"type":"scatter","mode":"lines","name":"Obs ","uid":"10","meta":{"id":10},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 10<br />Time: 120.00<br />Out:  2.93<br />Obs ","ID: 10<br />Time: 121.00<br />Out:  4.36<br />Obs ","ID: 10<br />Time: 122.02<br />Out:  7.79<br />Obs ","ID: 10<br />Time: 126.00<br />Out: 11.02<br />Obs ","ID: 10<br />Time: 129.00<br />Out:  8.86<br />Obs ","ID: 10<br />Time: 131.97<br />Out:  6.09<br />Obs ","ID: 10<br />Time: 144.00<br />Out:  4.15<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(23,190,207,1)","line":{"color":"rgba(23,190,207,1)"}},"error_y":{"color":"rgba(23,190,207,1)"},"error_x":{"color":"rgba(23,190,207,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121.03,122,125.98,129,132,144.13],"y":[2.0899999999999999,2.6800000000000002,4.71,7.71,6.3099999999999996,5.8200000000000003,2.6299999999999999],"type":"scatter","mode":"markers","name":"Obs ","uid":"11","meta":{"id":11},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 11<br />Time: 120.00<br />Out: 2.09<br />Obs ","ID: 11<br />Time: 121.03<br />Out: 2.68<br />Obs ","ID: 11<br />Time: 122.00<br />Out: 4.71<br />Obs ","ID: 11<br />Time: 125.98<br />Out: 7.71<br />Obs ","ID: 11<br />Time: 129.00<br />Out: 6.31<br />Obs ","ID: 11<br />Time: 132.00<br />Out: 5.82<br />Obs ","ID: 11<br />Time: 144.13<br />Out: 2.63<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121.03,122,125.98,129,132,144.13],"y":[2.0899999999999999,2.6800000000000002,4.71,7.71,6.3099999999999996,5.8200000000000003,2.6299999999999999],"type":"scatter","mode":"lines","name":"Obs ","uid":"11","meta":{"id":11},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 11<br />Time: 120.00<br />Out: 2.09<br />Obs ","ID: 11<br />Time: 121.03<br />Out: 2.68<br />Obs ","ID: 11<br />Time: 122.00<br />Out: 4.71<br />Obs ","ID: 11<br />Time: 125.98<br />Out: 7.71<br />Obs ","ID: 11<br />Time: 129.00<br />Out: 6.31<br />Obs ","ID: 11<br />Time: 132.00<br />Out: 5.82<br />Obs ","ID: 11<br />Time: 144.13<br />Out: 2.63<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121.03,122.13,126,129,132,144],"y":[7.0899999999999999,6.1799999999999997,8.6600000000000001,11.16,9.5099999999999998,8.1400000000000006,7.8899999999999997],"type":"scatter","mode":"markers","name":"Obs ","uid":"12","meta":{"id":12},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 12<br />Time: 120.00<br />Out:  7.09<br />Obs ","ID: 12<br />Time: 121.03<br />Out:  6.18<br />Obs ","ID: 12<br />Time: 122.13<br />Out:  8.66<br />Obs ","ID: 12<br />Time: 126.00<br />Out: 11.16<br />Obs ","ID: 12<br />Time: 129.00<br />Out:  9.51<br />Obs ","ID: 12<br />Time: 132.00<br />Out:  8.14<br />Obs ","ID: 12<br />Time: 144.00<br />Out:  7.89<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(44,160,44,1)"},"error_x":{"color":"rgba(44,160,44,1)"},"line":{"color":"rgba(44,160,44,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121.03,122.13,126,129,132,144],"y":[7.0899999999999999,6.1799999999999997,8.6600000000000001,11.16,9.5099999999999998,8.1400000000000006,7.8899999999999997],"type":"scatter","mode":"lines","name":"Obs ","uid":"12","meta":{"id":12},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 12<br />Time: 120.00<br />Out:  7.09<br />Obs ","ID: 12<br />Time: 121.03<br />Out:  6.18<br />Obs ","ID: 12<br />Time: 122.13<br />Out:  8.66<br />Obs ","ID: 12<br />Time: 126.00<br />Out: 11.16<br />Obs ","ID: 12<br />Time: 129.00<br />Out:  9.51<br />Obs ","ID: 12<br />Time: 132.00<br />Out:  8.14<br />Obs ","ID: 12<br />Time: 144.00<br />Out:  7.89<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(214,39,40,1)","line":{"color":"rgba(214,39,40,1)"}},"error_y":{"color":"rgba(214,39,40,1)"},"error_x":{"color":"rgba(214,39,40,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122,126,129.02000000000001,132,144],"y":[6.6200000000000001,3.1800000000000002,5.4100000000000001,10.18,12.84,12.35,8.0600000000000005],"type":"scatter","mode":"markers","name":"Obs ","uid":"13","meta":{"id":13},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 13<br />Time: 120.00<br />Out:  6.62<br />Obs ","ID: 13<br />Time: 121.00<br />Out:  3.18<br />Obs ","ID: 13<br />Time: 122.00<br />Out:  5.41<br />Obs ","ID: 13<br />Time: 126.00<br />Out: 10.18<br />Obs ","ID: 13<br />Time: 129.02<br />Out: 12.84<br />Obs ","ID: 13<br />Time: 132.00<br />Out: 12.35<br />Obs ","ID: 13<br />Time: 144.00<br />Out:  8.06<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(148,103,189,1)"},"error_x":{"color":"rgba(148,103,189,1)"},"line":{"color":"rgba(148,103,189,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122,126,129.02000000000001,132,144],"y":[6.6200000000000001,3.1800000000000002,5.4100000000000001,10.18,12.84,12.35,8.0600000000000005],"type":"scatter","mode":"lines","name":"Obs ","uid":"13","meta":{"id":13},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 13<br />Time: 120.00<br />Out:  6.62<br />Obs ","ID: 13<br />Time: 121.00<br />Out:  3.18<br />Obs ","ID: 13<br />Time: 122.00<br />Out:  5.41<br />Obs ","ID: 13<br />Time: 126.00<br />Out: 10.18<br />Obs ","ID: 13<br />Time: 129.02<br />Out: 12.84<br />Obs ","ID: 13<br />Time: 132.00<br />Out: 12.35<br />Obs ","ID: 13<br />Time: 144.00<br />Out:  8.06<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(140,86,75,1)","line":{"color":"rgba(140,86,75,1)"}},"error_y":{"color":"rgba(140,86,75,1)"},"error_x":{"color":"rgba(140,86,75,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122,126,129,132,144],"y":[3.6299999999999999,4.4900000000000002,5.5,7.2800000000000002,5.2699999999999996,4.8899999999999997,2.6800000000000002],"type":"scatter","mode":"markers","name":"Obs ","uid":"14","meta":{"id":14},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 14<br />Time: 120.00<br />Out: 3.63<br />Obs ","ID: 14<br />Time: 121.00<br />Out: 4.49<br />Obs ","ID: 14<br />Time: 122.00<br />Out: 5.50<br />Obs ","ID: 14<br />Time: 126.00<br />Out: 7.28<br />Obs ","ID: 14<br />Time: 129.00<br />Out: 5.27<br />Obs ","ID: 14<br />Time: 132.00<br />Out: 4.89<br />Obs ","ID: 14<br />Time: 144.00<br />Out: 2.68<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(227,119,194,1)"},"error_x":{"color":"rgba(227,119,194,1)"},"line":{"color":"rgba(227,119,194,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122,126,129,132,144],"y":[3.6299999999999999,4.4900000000000002,5.5,7.2800000000000002,5.2699999999999996,4.8899999999999997,2.6800000000000002],"type":"scatter","mode":"lines","name":"Obs ","uid":"14","meta":{"id":14},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 14<br />Time: 120.00<br />Out: 3.63<br />Obs ","ID: 14<br />Time: 121.00<br />Out: 4.49<br />Obs ","ID: 14<br />Time: 122.00<br />Out: 5.50<br />Obs ","ID: 14<br />Time: 126.00<br />Out: 7.28<br />Obs ","ID: 14<br />Time: 129.00<br />Out: 5.27<br />Obs ","ID: 14<br />Time: 132.00<br />Out: 4.89<br />Obs ","ID: 14<br />Time: 144.00<br />Out: 2.68<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(127,127,127,1)","line":{"color":"rgba(127,127,127,1)"}},"error_y":{"color":"rgba(127,127,127,1)"},"error_x":{"color":"rgba(127,127,127,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122,126,129,132.05000000000001,144.05000000000001],"y":[5.5300000000000002,4.8099999999999996,8.1400000000000006,9.9600000000000009,8.5500000000000007,7.54,5.7400000000000002],"type":"scatter","mode":"markers","name":"Obs ","uid":"15","meta":{"id":15},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 15<br />Time: 120.00<br />Out: 5.53<br />Obs ","ID: 15<br />Time: 121.00<br />Out: 4.81<br />Obs ","ID: 15<br />Time: 122.00<br />Out: 8.14<br />Obs ","ID: 15<br />Time: 126.00<br />Out: 9.96<br />Obs ","ID: 15<br />Time: 129.00<br />Out: 8.55<br />Obs ","ID: 15<br />Time: 132.05<br />Out: 7.54<br />Obs ","ID: 15<br />Time: 144.05<br />Out: 5.74<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(188,189,34,1)"},"error_x":{"color":"rgba(188,189,34,1)"},"line":{"color":"rgba(188,189,34,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122,126,129,132.05000000000001,144.05000000000001],"y":[5.5300000000000002,4.8099999999999996,8.1400000000000006,9.9600000000000009,8.5500000000000007,7.54,5.7400000000000002],"type":"scatter","mode":"lines","name":"Obs ","uid":"15","meta":{"id":15},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 15<br />Time: 120.00<br />Out: 5.53<br />Obs ","ID: 15<br />Time: 121.00<br />Out: 4.81<br />Obs ","ID: 15<br />Time: 122.00<br />Out: 8.14<br />Obs ","ID: 15<br />Time: 126.00<br />Out: 9.96<br />Obs ","ID: 15<br />Time: 129.00<br />Out: 8.55<br />Obs ","ID: 15<br />Time: 132.05<br />Out: 7.54<br />Obs ","ID: 15<br />Time: 144.05<br />Out: 5.74<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(23,190,207,1)","line":{"color":"rgba(23,190,207,1)"}},"error_y":{"color":"rgba(23,190,207,1)"},"error_x":{"color":"rgba(23,190,207,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122,126,129,132,143.97],"y":[5.4800000000000004,6.5899999999999999,8.9100000000000001,10.57,9.5199999999999996,7.8300000000000001,4.96],"type":"scatter","mode":"markers","name":"Obs ","uid":"16","meta":{"id":16},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 16<br />Time: 120.00<br />Out:  5.48<br />Obs ","ID: 16<br />Time: 121.00<br />Out:  6.59<br />Obs ","ID: 16<br />Time: 122.00<br />Out:  8.91<br />Obs ","ID: 16<br />Time: 126.00<br />Out: 10.57<br />Obs ","ID: 16<br />Time: 129.00<br />Out:  9.52<br />Obs ","ID: 16<br />Time: 132.00<br />Out:  7.83<br />Obs ","ID: 16<br />Time: 143.97<br />Out:  4.96<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122,126,129,132,143.97],"y":[5.4800000000000004,6.5899999999999999,8.9100000000000001,10.57,9.5199999999999996,7.8300000000000001,4.96],"type":"scatter","mode":"lines","name":"Obs ","uid":"16","meta":{"id":16},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 16<br />Time: 120.00<br />Out:  5.48<br />Obs ","ID: 16<br />Time: 121.00<br />Out:  6.59<br />Obs ","ID: 16<br />Time: 122.00<br />Out:  8.91<br />Obs ","ID: 16<br />Time: 126.00<br />Out: 10.57<br />Obs ","ID: 16<br />Time: 129.00<br />Out:  9.52<br />Obs ","ID: 16<br />Time: 132.00<br />Out:  7.83<br />Obs ","ID: 16<br />Time: 143.97<br />Out:  4.96<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121.02,122.02,126,129,132,144.08000000000001],"y":[2.1099999999999999,1.8600000000000001,6.9199999999999999,9.1099999999999994,6.96,5.6399999999999997,3.5899999999999999],"type":"scatter","mode":"markers","name":"Obs ","uid":"17","meta":{"id":17},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 17<br />Time: 120.00<br />Out: 2.11<br />Obs ","ID: 17<br />Time: 121.02<br />Out: 1.86<br />Obs ","ID: 17<br />Time: 122.02<br />Out: 6.92<br />Obs ","ID: 17<br />Time: 126.00<br />Out: 9.11<br />Obs ","ID: 17<br />Time: 129.00<br />Out: 6.96<br />Obs ","ID: 17<br />Time: 132.00<br />Out: 5.64<br />Obs ","ID: 17<br />Time: 144.08<br />Out: 3.59<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(44,160,44,1)"},"error_x":{"color":"rgba(44,160,44,1)"},"line":{"color":"rgba(44,160,44,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121.02,122.02,126,129,132,144.08000000000001],"y":[2.1099999999999999,1.8600000000000001,6.9199999999999999,9.1099999999999994,6.96,5.6399999999999997,3.5899999999999999],"type":"scatter","mode":"lines","name":"Obs ","uid":"17","meta":{"id":17},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 17<br />Time: 120.00<br />Out: 2.11<br />Obs ","ID: 17<br />Time: 121.02<br />Out: 1.86<br />Obs ","ID: 17<br />Time: 122.02<br />Out: 6.92<br />Obs ","ID: 17<br />Time: 126.00<br />Out: 9.11<br />Obs ","ID: 17<br />Time: 129.00<br />Out: 6.96<br />Obs ","ID: 17<br />Time: 132.00<br />Out: 5.64<br />Obs ","ID: 17<br />Time: 144.08<br />Out: 3.59<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(214,39,40,1)","line":{"color":"rgba(214,39,40,1)"}},"error_y":{"color":"rgba(214,39,40,1)"},"error_x":{"color":"rgba(214,39,40,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,120.98,121.98,126,129.16999999999999,132.16999999999999,143.97],"y":[7.9500000000000002,7.4699999999999998,8.6699999999999999,13.83,14.01,8.9700000000000006,8.4000000000000004],"type":"scatter","mode":"markers","name":"Obs ","uid":"18","meta":{"id":18},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 18<br />Time: 120.00<br />Out:  7.95<br />Obs ","ID: 18<br />Time: 120.98<br />Out:  7.47<br />Obs ","ID: 18<br />Time: 121.98<br />Out:  8.67<br />Obs ","ID: 18<br />Time: 126.00<br />Out: 13.83<br />Obs ","ID: 18<br />Time: 129.17<br />Out: 14.01<br />Obs ","ID: 18<br />Time: 132.17<br />Out:  8.97<br />Obs ","ID: 18<br />Time: 143.97<br />Out:  8.40<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(148,103,189,1)"},"error_x":{"color":"rgba(148,103,189,1)"},"line":{"color":"rgba(148,103,189,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,120.98,121.98,126,129.16999999999999,132.16999999999999,143.97],"y":[7.9500000000000002,7.4699999999999998,8.6699999999999999,13.83,14.01,8.9700000000000006,8.4000000000000004],"type":"scatter","mode":"lines","name":"Obs ","uid":"18","meta":{"id":18},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 18<br />Time: 120.00<br />Out:  7.95<br />Obs ","ID: 18<br />Time: 120.98<br />Out:  7.47<br />Obs ","ID: 18<br />Time: 121.98<br />Out:  8.67<br />Obs ","ID: 18<br />Time: 126.00<br />Out: 13.83<br />Obs ","ID: 18<br />Time: 129.17<br />Out: 14.01<br />Obs ","ID: 18<br />Time: 132.17<br />Out:  8.97<br />Obs ","ID: 18<br />Time: 143.97<br />Out:  8.40<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(140,86,75,1)","line":{"color":"rgba(140,86,75,1)"}},"error_y":{"color":"rgba(140,86,75,1)"},"error_x":{"color":"rgba(140,86,75,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122,125.98,128.97999999999999,132,144],"y":[5.4199999999999999,7.0800000000000001,7.2699999999999996,20.07,18.239999999999998,15.359999999999999,10.92],"type":"scatter","mode":"markers","name":"Obs ","uid":"19","meta":{"id":19},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 19<br />Time: 120.00<br />Out:  5.42<br />Obs ","ID: 19<br />Time: 121.00<br />Out:  7.08<br />Obs ","ID: 19<br />Time: 122.00<br />Out:  7.27<br />Obs ","ID: 19<br />Time: 125.98<br />Out: 20.07<br />Obs ","ID: 19<br />Time: 128.98<br />Out: 18.24<br />Obs ","ID: 19<br />Time: 132.00<br />Out: 15.36<br />Obs ","ID: 19<br />Time: 144.00<br />Out: 10.92<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(227,119,194,1)"},"error_x":{"color":"rgba(227,119,194,1)"},"line":{"color":"rgba(227,119,194,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,121,122,125.98,128.97999999999999,132,144],"y":[5.4199999999999999,7.0800000000000001,7.2699999999999996,20.07,18.239999999999998,15.359999999999999,10.92],"type":"scatter","mode":"lines","name":"Obs ","uid":"19","meta":{"id":19},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 19<br />Time: 120.00<br />Out:  5.42<br />Obs ","ID: 19<br />Time: 121.00<br />Out:  7.08<br />Obs ","ID: 19<br />Time: 122.00<br />Out:  7.27<br />Obs ","ID: 19<br />Time: 125.98<br />Out: 20.07<br />Obs ","ID: 19<br />Time: 128.98<br />Out: 18.24<br />Obs ","ID: 19<br />Time: 132.00<br />Out: 15.36<br />Obs ","ID: 19<br />Time: 144.00<br />Out: 10.92<br />Obs "],"hoverinfo":["text","text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(127,127,127,1)","line":{"color":"rgba(127,127,127,1)"}},"error_y":{"color":"rgba(127,127,127,1)"},"error_x":{"color":"rgba(127,127,127,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,120.77,121.75,125.67,128.66999999999999,143.66999999999999],"y":[4.71,4.5,3.3500000000000001,12.35,11.56,6.4500000000000002],"type":"scatter","mode":"markers","name":"Obs ","uid":"20","meta":{"id":20},"marker":{"color":["#FF9999","#FF9999","#FF9999","#FF9999","#FF9999","#FF9999"],"symbol":["circle","circle","circle","circle","circle","circle"],"size":10,"opacity":0.5,"line":{"color":"#000000","width":1}},"text":["ID: 20<br />Time: 120.00<br />Out:  4.71<br />Obs ","ID: 20<br />Time: 120.77<br />Out:  4.50<br />Obs ","ID: 20<br />Time: 121.75<br />Out:  3.35<br />Obs ","ID: 20<br />Time: 125.67<br />Out: 12.35<br />Obs ","ID: 20<br />Time: 128.67<br />Out: 11.56<br />Obs ","ID: 20<br />Time: 143.67<br />Out:  6.45<br />Obs "],"hoverinfo":["text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"error_y":{"color":"rgba(188,189,34,1)"},"error_x":{"color":"rgba(188,189,34,1)"},"line":{"color":"rgba(188,189,34,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[120,120.77,121.75,125.67,128.66999999999999,143.66999999999999],"y":[4.71,4.5,3.3500000000000001,12.35,11.56,6.4500000000000002],"type":"scatter","mode":"lines","name":"Obs ","uid":"20","meta":{"id":20},"line":{"color":"#FF9999","width":1,"dash":"solid"},"text":["ID: 20<br />Time: 120.00<br />Out:  4.71<br />Obs ","ID: 20<br />Time: 120.77<br />Out:  4.50<br />Obs ","ID: 20<br />Time: 121.75<br />Out:  3.35<br />Obs ","ID: 20<br />Time: 125.67<br />Out: 12.35<br />Obs ","ID: 20<br />Time: 128.67<br />Out: 11.56<br />Obs ","ID: 20<br />Time: 143.67<br />Out:  6.45<br />Obs "],"hoverinfo":["text","text","text","text","text","text"],"legendgroup":"Obs ","showlegend":false,"marker":{"color":"rgba(23,190,207,1)","line":{"color":"rgba(23,190,207,1)"}},"error_y":{"color":"rgba(23,190,207,1)"},"error_x":{"color":"rgba(23,190,207,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="citations" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="citations"><span class="header-section-number">5.7</span> Citations</h2>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-bealWaysFitPK2001a" class="csl-entry" role="listitem">
+Beal, S. L. 2001. <span>“<a href="https://www.ncbi.nlm.nih.gov/pubmed/11768292">Ways to Fit a <span>PK</span> Model with Some Data Below the Quantification Limit.</a>”</span> <em>Journal of Pharmacokinetics and Pharmacodynamics</em> 28 (5): 481–504.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./workflow.html" class="pagination-link" aria-label="Workflow">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Workflow</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./models.html" class="pagination-link" aria-label="Models">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Models</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

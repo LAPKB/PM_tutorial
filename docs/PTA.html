@@ -1,0 +1,2575 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>12&nbsp; Probability of Target Attainment (PTA) – Learn Pmetrics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./plotly.html" rel="next">
+<link href="./simulation.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!-- <button id="copy-all-code"
+        style="position:fixed;top:1rem;right:1rem;z-index:2000;
+               padding:.35rem .6rem;border:0;border-radius:.25rem;
+               background:#2563eb;color:white;cursor:pointer;">
+  Copy all code
+</button>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const btn = document.getElementById('copy-all-code');
+  const grab = () =>
+    Array.from(document.querySelectorAll('div.sourceCode pre code, pre > code.sourceCode'))
+         .map(n => n.innerText).join('\n\n');
+
+  const copyText = async (txt) => {
+    // Prefer Clipboard API; fallback to hidden <textarea> for viewers/file://
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(txt);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      try { document.execCommand('copy'); } finally { document.body.removeChild(ta); }
+    }
+  };
+
+  btn.addEventListener('click', async () => {
+    try {
+      await copyText(grab());
+      const old = btn.textContent; btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = old, 1200);
+    } catch(e) { alert('Copy failed: ' + e); }
+  });
+});
+</script> -->
+
+</head><body class="nav-sidebar floating nav-fixed quarto-light"><button id="copy-all-code" style="position:fixed;top:1rem;right:1rem;z-index:2000;
+               padding:.35rem .6rem;border:0;border-radius:.25rem;
+               background:#2563eb;color:white;cursor:pointer;">
+  Copy all code
+</button>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const btn = document.getElementById('copy-all-code');
+
+  const grab = () => {
+    // 1) Only take code inside .sourceCode (i.e., input cells)
+    const nodes = Array.from(
+      document.querySelectorAll('div.sourceCode pre code')
+    )
+      // 2) Drop anything inside a copy-disabled wrapper
+      .filter(n => !n.closest('div[data-code-copy="false"], div[data-copy-code="false"]'))
+      // 3) Extra safety: ensure we don't accidentally grab outputs
+      .filter(n => !n.closest('.cell-output'));
+
+    return nodes.map(n => n.innerText).join('\n\n');
+  };
+
+  const copyText = async (txt) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(txt);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      try { document.execCommand('copy'); } finally { document.body.removeChild(ta); }
+    }
+  };
+
+  btn.addEventListener('click', async () => {
+    try {
+      const txt = grab();
+      if (!txt.trim()) { alert('No copyable code found.'); return; }
+      await copyText(txt);
+      const old = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = old, 1200);
+    } catch(e) {
+      alert('Copy failed: ' + e);
+    }
+  });
+});
+</script>
+<link href="site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.12.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
+
+
+<link rel="stylesheet" href="Extras/custom.scss">
+
+
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Learn Pmetrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./PTA.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Probability of Target Attainment (PTA)</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Learn Pmetrics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Overview</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Workflow</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./NPAG.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Fit a model with NPAG</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./objects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The results</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./examine.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Examine results</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./NPAG_cov.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">More complex models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Simulations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PTA.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Probability of Target Attainment (PTA)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plotly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Plotting Details</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Compare.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Comparing models</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">12.1</span> Introduction</a></li>
+  <li><a href="#pta-creation" id="toc-pta-creation" class="nav-link" data-scroll-target="#pta-creation"><span class="header-section-number">12.2</span> PTA creation</a></li>
+  <li><a href="#pta-options" id="toc-pta-options" class="nav-link" data-scroll-target="#pta-options"><span class="header-section-number">12.3</span> PTA options</a>
+  <ul class="collapse">
+  <li><a href="#critical-parameters" id="toc-critical-parameters" class="nav-link" data-scroll-target="#critical-parameters"><span class="header-section-number">12.3.1</span> Critical parameters</a></li>
+  <li><a href="#target-target_type-and-success-examples" id="toc-target-target_type-and-success-examples" class="nav-link" data-scroll-target="#target-target_type-and-success-examples"><span class="header-section-number">12.3.2</span> Target, target_type, and success examples</a></li>
+  <li><a href="#other-pta-options" id="toc-other-pta-options" class="nav-link" data-scroll-target="#other-pta-options"><span class="header-section-number">12.3.3</span> Other PTA options</a></li>
+  </ul></li>
+  <li><a href="#complete-pta-examples" id="toc-complete-pta-examples" class="nav-link" data-scroll-target="#complete-pta-examples"><span class="header-section-number">12.4</span> Complete PTA examples</a>
+  <ul class="collapse">
+  <li><a href="#load-prior-model-fits" id="toc-load-prior-model-fits" class="nav-link" data-scroll-target="#load-prior-model-fits"><span class="header-section-number">12.4.1</span> Load prior model fits</a></li>
+  <li><a href="#simulate-data-for-pta" id="toc-simulate-data-for-pta" class="nav-link" data-scroll-target="#simulate-data-for-pta"><span class="header-section-number">12.4.2</span> Simulate data for PTA</a></li>
+  <li><a href="#pta-example-1" id="toc-pta-example-1" class="nav-link" data-scroll-target="#pta-example-1"><span class="header-section-number">12.4.3</span> PTA example 1</a></li>
+  <li><a href="#pta-example-2" id="toc-pta-example-2" class="nav-link" data-scroll-target="#pta-example-2"><span class="header-section-number">12.4.4</span> PTA example 2</a></li>
+  <li><a href="#pta-example-3" id="toc-pta-example-3" class="nav-link" data-scroll-target="#pta-example-3"><span class="header-section-number">12.4.5</span> PTA example 3</a></li>
+  <li><a href="#pta-example-4" id="toc-pta-example-4" class="nav-link" data-scroll-target="#pta-example-4"><span class="header-section-number">12.4.6</span> PTA example 4</a></li>
+  <li><a href="#pta-example-5" id="toc-pta-example-5" class="nav-link" data-scroll-target="#pta-example-5"><span class="header-section-number">12.4.7</span> PTA example 5</a></li>
+  <li><a href="#pta-example-6" id="toc-pta-example-6" class="nav-link" data-scroll-target="#pta-example-6"><span class="header-section-number">12.4.8</span> PTA example 6</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Probability of Target Attainment (PTA)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Called from: initialize(...)
+debug: if (length(model_template) &gt; 1 &amp;&amp; model_template$analytical) {
+    type &lt;- "Analytical"
+} else {
+    if (model_template == -1) {
+        msg &lt;- c(msg, "A maximum of one model template can be included in a model.")
+    }
+    type &lt;- "ODE"
+}
+debug: type &lt;- "Analytical"
+debug: n_eqn &lt;- if (type == "Analytical") {
+    model_template$ncomp
+} else {
+    get_assignments(self$arg_list$eqn, "dx")
+}
+debug: model_template$ncomp
+debug: n_out &lt;- get_assignments(self$arg_list$out, "y")
+debug: parameters &lt;- tolower(names(self$arg_list$pri))
+debug: covariates &lt;- tolower(names(self$arg_list$cov))
+debug: if (type == "Analytical") {
+    required_parameters &lt;- tolower(model_template$parameters)
+    pri_list &lt;- map_lgl(required_parameters, function(x) {
+        if (x %in% parameters) {
+            return(TRUE)
+        }
+        else {
+            return(FALSE)
+        }
+    })
+    if (length(covariates) &gt; 0) {
+        cov_list &lt;- map_lgl(required_parameters, function(x) {
+            if (x %in% covariates) {
+                return(TRUE)
+            }
+            else {
+                return(FALSE)
+            }
+        })
+    }
+    else {
+        cov_list &lt;- rep(FALSE, length(required_parameters))
+    }
+    if (!is.null(self$arg_list$sec)) {
+        sec_list &lt;- map_lgl(required_parameters, function(x) {
+            any(stringr::str_detect(tolower(func_to_char(self$arg_list$sec)), 
+                x))
+        })
+    }
+    else {
+        sec_list &lt;- rep(FALSE, length(required_parameters))
+    }
+    eqn_list &lt;- map_lgl(required_parameters, function(x) {
+        any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$eqn)), 
+            "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+    })
+    if (!is.null(self$arg_lag)) {
+        lag_list &lt;- map_lgl(required_parameters, function(x) {
+            any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$lag)), 
+                "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+        })
+    }
+    else {
+        lag_list &lt;- rep(FALSE, length(required_parameters))
+    }
+    if (!is.null(self$arg_fa)) {
+        lag_list &lt;- map_lgl(required_parameters, function(x) {
+            any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$fa)), 
+                "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+        })
+    }
+    else {
+        fa_list &lt;- rep(FALSE, length(required_parameters))
+    }
+    if (!is.null(self$arg_ini)) {
+        ini_list &lt;- map_lgl(required_parameters, function(x) {
+            any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$ini)), 
+                "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+        })
+    }
+    else {
+        ini_list &lt;- rep(FALSE, length(required_parameters))
+    }
+    out_list &lt;- map_lgl(required_parameters, function(x) {
+        any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$out)), 
+            "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+    })
+    all_lists &lt;- bind_rows(tibble::tibble(parameter = required_parameters, 
+        pri = pri_list, cov = cov_list, sec = sec_list, eqn = eqn_list, 
+        lag = lag_list, fa = fa_list, ini = ini_list, out = out_list)) %&gt;% 
+        mutate(ok = purrr::pmap_lgl(across(pri:out), any))
+    if (any(!all_lists$ok)) {
+        missing &lt;- all_lists$parameter[!all_lists$ok]
+        msg &lt;- c(msg, "The following parameters are required for the {.code {model_template$name}} model template but are missing: {missing}", 
+            "They should be defined in one of the model blocks, likely {.code pri}, {.code sec}, {.code eqn}, or {.code out}.", 
+            "Parameters defined in {.code pri} and {.code sec} are available to all blocks.", 
+            "Parameters defined in other blocks are only available to that block.")
+    }
+}
+debug: required_parameters &lt;- tolower(model_template$parameters)
+debug: pri_list &lt;- map_lgl(required_parameters, function(x) {
+    if (x %in% parameters) {
+        return(TRUE)
+    }
+    else {
+        return(FALSE)
+    }
+})
+debug: if (length(covariates) &gt; 0) {
+    cov_list &lt;- map_lgl(required_parameters, function(x) {
+        if (x %in% covariates) {
+            return(TRUE)
+        }
+        else {
+            return(FALSE)
+        }
+    })
+} else {
+    cov_list &lt;- rep(FALSE, length(required_parameters))
+}
+debug: cov_list &lt;- map_lgl(required_parameters, function(x) {
+    if (x %in% covariates) {
+        return(TRUE)
+    }
+    else {
+        return(FALSE)
+    }
+})
+debug: if (!is.null(self$arg_list$sec)) {
+    sec_list &lt;- map_lgl(required_parameters, function(x) {
+        any(stringr::str_detect(tolower(func_to_char(self$arg_list$sec)), 
+            x))
+    })
+} else {
+    sec_list &lt;- rep(FALSE, length(required_parameters))
+}
+debug: sec_list &lt;- rep(FALSE, length(required_parameters))
+debug: eqn_list &lt;- map_lgl(required_parameters, function(x) {
+    any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$eqn)), 
+        "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+})
+debug: if (!is.null(self$arg_lag)) {
+    lag_list &lt;- map_lgl(required_parameters, function(x) {
+        any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$lag)), 
+            "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+    })
+} else {
+    lag_list &lt;- rep(FALSE, length(required_parameters))
+}
+debug: lag_list &lt;- rep(FALSE, length(required_parameters))
+debug: if (!is.null(self$arg_fa)) {
+    lag_list &lt;- map_lgl(required_parameters, function(x) {
+        any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$fa)), 
+            "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+    })
+} else {
+    fa_list &lt;- rep(FALSE, length(required_parameters))
+}
+debug: fa_list &lt;- rep(FALSE, length(required_parameters))
+debug: if (!is.null(self$arg_ini)) {
+    ini_list &lt;- map_lgl(required_parameters, function(x) {
+        any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$ini)), 
+            "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+    })
+} else {
+    ini_list &lt;- rep(FALSE, length(required_parameters))
+}
+debug: ini_list &lt;- rep(FALSE, length(required_parameters))
+debug: out_list &lt;- map_lgl(required_parameters, function(x) {
+    any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$out)), 
+        "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+})
+debug: all_lists &lt;- bind_rows(tibble::tibble(parameter = required_parameters, 
+    pri = pri_list, cov = cov_list, sec = sec_list, eqn = eqn_list, 
+    lag = lag_list, fa = fa_list, ini = ini_list, out = out_list)) %&gt;% 
+    mutate(ok = purrr::pmap_lgl(across(pri:out), any))
+debug: if (any(!all_lists$ok)) {
+    missing &lt;- all_lists$parameter[!all_lists$ok]
+    msg &lt;- c(msg, "The following parameters are required for the {.code {model_template$name}} model template but are missing: {missing}", 
+        "They should be defined in one of the model blocks, likely {.code pri}, {.code sec}, {.code eqn}, or {.code out}.", 
+        "Parameters defined in {.code pri} and {.code sec} are available to all blocks.", 
+        "Parameters defined in other blocks are only available to that block.")
+}
+debug: if (type == "Analytical") {
+    sec_eqn &lt;- function() {
+    }
+    body(sec_eqn) &lt;- suppressWarnings(as.call(c(quote(`{`), as.list(body(self$arg_list$eqn))[-1], 
+        as.list(body(self$arg_list$sec))[-1])))
+}
+debug: sec_eqn &lt;- function() {
+}
+debug: body(sec_eqn) &lt;- suppressWarnings(as.call(c(quote(`{`), as.list(body(self$arg_list$eqn))[-1], 
+    as.list(body(self$arg_list$sec))[-1])))
+debug: if (!is.null(self$arg_list$sec)) {
+    sec &lt;- transpile_sec(self$arg_list$sec)
+} else {
+    sec &lt;- ""
+}
+debug: sec &lt;- ""
+debug: if (type == "ODE") {
+    eqn &lt;- transpile_ode_eqn(self$arg_list$eqn, parameters, covariates, 
+        sec)
+} else if (type == "Analytical") {
+    eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)
+}
+debug: if (type == "Analytical") {
+    eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)
+}
+debug: eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)
+debug: if (!is.null(self$arg_list$fa)) {
+    fa &lt;- transpile_fa(self$arg_list$fa, parameters, covariates, 
+        sec)
+} else {
+    fa &lt;- empty_fa()
+}
+debug: fa &lt;- empty_fa()
+debug: if (!is.null(self$arg_list$lag)) {
+    lag &lt;- transpile_lag(self$arg_list$lag, parameters, covariates, 
+        sec)
+} else {
+    lag &lt;- empty_lag()
+}
+debug: lag &lt;- transpile_lag(self$arg_list$lag, parameters, covariates, 
+    sec)
+debug: if (!is.null(self$arg_list$ini)) {
+    ini &lt;- transpile_ini(self$arg_list$ini, parameters, covariates, 
+        sec)
+} else {
+    ini &lt;- empty_ini()
+}
+debug: ini &lt;- empty_ini()
+debug: if (!is.null(self$arg_list$out)) {
+    out &lt;- transpile_out(self$arg_list$out, parameters, covariates, 
+        sec)
+} else {
+    out &lt;- empty_out()
+}
+debug: out &lt;- transpile_out(self$arg_list$out, parameters, covariates, 
+    sec)
+debug: if (is.null(self$arg_list$err)) {
+    msg &lt;- c(msg, "Error model is missing and required.")
+}
+debug: if (length(self$arg_list$err) != n_out) {
+    msg &lt;- c(msg, "There must be one error model for each output equation.")
+}
+debug: err &lt;- self$arg_list$err
+debug: name &lt;- if (type == "Analytical") {
+    model_template$name
+} else {
+    "user"
+}
+debug: model_template$name
+debug: model_list &lt;- list(pri = self$arg_list$pri, eqn = eqn, sec = sec, 
+    lag = lag, fa = fa, ini = ini, out = out, n_eqn = n_eqn, 
+    n_out = n_out, parameters = parameters, covariates = covariates, 
+    err = err, name = name)
+debug: self$model_list &lt;- purrr::map(model_list, function(x) {
+    if (is.character(x)) {
+        tolower(x)
+    }
+    else {
+        x
+    }
+})
+debug: self$model_list$type &lt;- type
+debug: if (length(msg) &gt; 0) {
+    cli::cli_alert_danger("{.strong PM_model$new() aborted due to {length(msg)} error{?s}:}")
+    purrr::walk(msg, function(m) cli::cli_bullets(c(`*` = m)))
+    return(invisible(NULL))
+}
+debug: extra_args &lt;- list(...)
+debug: if ("quiet" %in% names(extra_args) &amp;&amp; extra_args$quiet) {
+    quiet &lt;- TRUE
+} else {
+    quiet &lt;- FALSE
+}
+debug: quiet &lt;- FALSE
+debug: if (!is.null(purrr::pluck(extra_args, "compile"))) {
+    if (extra_args$compile) {
+        self$compile(quiet)
+    }
+} else {
+    self$compile(quiet = quiet)
+}
+debug: if (extra_args$compile) {
+    self$compile(quiet)
+}</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Called from: initialize(...)
+debug: if (length(model_template) &gt; 1 &amp;&amp; model_template$analytical) {
+    type &lt;- "Analytical"
+} else {
+    if (model_template == -1) {
+        msg &lt;- c(msg, "A maximum of one model template can be included in a model.")
+    }
+    type &lt;- "ODE"
+}
+debug: type &lt;- "Analytical"
+debug: n_eqn &lt;- if (type == "Analytical") {
+    model_template$ncomp
+} else {
+    get_assignments(self$arg_list$eqn, "dx")
+}
+debug: model_template$ncomp
+debug: n_out &lt;- get_assignments(self$arg_list$out, "y")
+debug: parameters &lt;- tolower(names(self$arg_list$pri))
+debug: covariates &lt;- tolower(names(self$arg_list$cov))
+debug: if (type == "Analytical") {
+    required_parameters &lt;- tolower(model_template$parameters)
+    pri_list &lt;- map_lgl(required_parameters, function(x) {
+        if (x %in% parameters) {
+            return(TRUE)
+        }
+        else {
+            return(FALSE)
+        }
+    })
+    if (length(covariates) &gt; 0) {
+        cov_list &lt;- map_lgl(required_parameters, function(x) {
+            if (x %in% covariates) {
+                return(TRUE)
+            }
+            else {
+                return(FALSE)
+            }
+        })
+    }
+    else {
+        cov_list &lt;- rep(FALSE, length(required_parameters))
+    }
+    if (!is.null(self$arg_list$sec)) {
+        sec_list &lt;- map_lgl(required_parameters, function(x) {
+            any(stringr::str_detect(tolower(func_to_char(self$arg_list$sec)), 
+                x))
+        })
+    }
+    else {
+        sec_list &lt;- rep(FALSE, length(required_parameters))
+    }
+    eqn_list &lt;- map_lgl(required_parameters, function(x) {
+        any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$eqn)), 
+            "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+    })
+    if (!is.null(self$arg_lag)) {
+        lag_list &lt;- map_lgl(required_parameters, function(x) {
+            any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$lag)), 
+                "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+        })
+    }
+    else {
+        lag_list &lt;- rep(FALSE, length(required_parameters))
+    }
+    if (!is.null(self$arg_fa)) {
+        lag_list &lt;- map_lgl(required_parameters, function(x) {
+            any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$fa)), 
+                "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+        })
+    }
+    else {
+        fa_list &lt;- rep(FALSE, length(required_parameters))
+    }
+    if (!is.null(self$arg_ini)) {
+        ini_list &lt;- map_lgl(required_parameters, function(x) {
+            any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$ini)), 
+                "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+        })
+    }
+    else {
+        ini_list &lt;- rep(FALSE, length(required_parameters))
+    }
+    out_list &lt;- map_lgl(required_parameters, function(x) {
+        any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$out)), 
+            "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+    })
+    all_lists &lt;- bind_rows(tibble::tibble(parameter = required_parameters, 
+        pri = pri_list, cov = cov_list, sec = sec_list, eqn = eqn_list, 
+        lag = lag_list, fa = fa_list, ini = ini_list, out = out_list)) %&gt;% 
+        mutate(ok = purrr::pmap_lgl(across(pri:out), any))
+    if (any(!all_lists$ok)) {
+        missing &lt;- all_lists$parameter[!all_lists$ok]
+        msg &lt;- c(msg, "The following parameters are required for the {.code {model_template$name}} model template but are missing: {missing}", 
+            "They should be defined in one of the model blocks, likely {.code pri}, {.code sec}, {.code eqn}, or {.code out}.", 
+            "Parameters defined in {.code pri} and {.code sec} are available to all blocks.", 
+            "Parameters defined in other blocks are only available to that block.")
+    }
+}
+debug: required_parameters &lt;- tolower(model_template$parameters)
+debug: pri_list &lt;- map_lgl(required_parameters, function(x) {
+    if (x %in% parameters) {
+        return(TRUE)
+    }
+    else {
+        return(FALSE)
+    }
+})
+debug: if (length(covariates) &gt; 0) {
+    cov_list &lt;- map_lgl(required_parameters, function(x) {
+        if (x %in% covariates) {
+            return(TRUE)
+        }
+        else {
+            return(FALSE)
+        }
+    })
+} else {
+    cov_list &lt;- rep(FALSE, length(required_parameters))
+}
+debug: cov_list &lt;- map_lgl(required_parameters, function(x) {
+    if (x %in% covariates) {
+        return(TRUE)
+    }
+    else {
+        return(FALSE)
+    }
+})
+debug: if (!is.null(self$arg_list$sec)) {
+    sec_list &lt;- map_lgl(required_parameters, function(x) {
+        any(stringr::str_detect(tolower(func_to_char(self$arg_list$sec)), 
+            x))
+    })
+} else {
+    sec_list &lt;- rep(FALSE, length(required_parameters))
+}
+debug: sec_list &lt;- map_lgl(required_parameters, function(x) {
+    any(stringr::str_detect(tolower(func_to_char(self$arg_list$sec)), 
+        x))
+})
+debug: eqn_list &lt;- map_lgl(required_parameters, function(x) {
+    any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$eqn)), 
+        "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+})
+debug: if (!is.null(self$arg_lag)) {
+    lag_list &lt;- map_lgl(required_parameters, function(x) {
+        any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$lag)), 
+            "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+    })
+} else {
+    lag_list &lt;- rep(FALSE, length(required_parameters))
+}
+debug: lag_list &lt;- rep(FALSE, length(required_parameters))
+debug: if (!is.null(self$arg_fa)) {
+    lag_list &lt;- map_lgl(required_parameters, function(x) {
+        any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$fa)), 
+            "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+    })
+} else {
+    fa_list &lt;- rep(FALSE, length(required_parameters))
+}
+debug: fa_list &lt;- rep(FALSE, length(required_parameters))
+debug: if (!is.null(self$arg_ini)) {
+    ini_list &lt;- map_lgl(required_parameters, function(x) {
+        any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$ini)), 
+            "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+    })
+} else {
+    ini_list &lt;- rep(FALSE, length(required_parameters))
+}
+debug: ini_list &lt;- rep(FALSE, length(required_parameters))
+debug: out_list &lt;- map_lgl(required_parameters, function(x) {
+    any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$out)), 
+        "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+})
+debug: all_lists &lt;- bind_rows(tibble::tibble(parameter = required_parameters, 
+    pri = pri_list, cov = cov_list, sec = sec_list, eqn = eqn_list, 
+    lag = lag_list, fa = fa_list, ini = ini_list, out = out_list)) %&gt;% 
+    mutate(ok = purrr::pmap_lgl(across(pri:out), any))
+debug: if (any(!all_lists$ok)) {
+    missing &lt;- all_lists$parameter[!all_lists$ok]
+    msg &lt;- c(msg, "The following parameters are required for the {.code {model_template$name}} model template but are missing: {missing}", 
+        "They should be defined in one of the model blocks, likely {.code pri}, {.code sec}, {.code eqn}, or {.code out}.", 
+        "Parameters defined in {.code pri} and {.code sec} are available to all blocks.", 
+        "Parameters defined in other blocks are only available to that block.")
+}
+debug: if (type == "Analytical") {
+    sec_eqn &lt;- function() {
+    }
+    body(sec_eqn) &lt;- suppressWarnings(as.call(c(quote(`{`), as.list(body(self$arg_list$eqn))[-1], 
+        as.list(body(self$arg_list$sec))[-1])))
+}
+debug: sec_eqn &lt;- function() {
+}
+debug: body(sec_eqn) &lt;- suppressWarnings(as.call(c(quote(`{`), as.list(body(self$arg_list$eqn))[-1], 
+    as.list(body(self$arg_list$sec))[-1])))
+debug: if (!is.null(self$arg_list$sec)) {
+    sec &lt;- transpile_sec(self$arg_list$sec)
+} else {
+    sec &lt;- ""
+}
+debug: sec &lt;- transpile_sec(self$arg_list$sec)
+debug: if (type == "ODE") {
+    eqn &lt;- transpile_ode_eqn(self$arg_list$eqn, parameters, covariates, 
+        sec)
+} else if (type == "Analytical") {
+    eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)
+}
+debug: if (type == "Analytical") {
+    eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)
+}
+debug: eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)
+debug: if (!is.null(self$arg_list$fa)) {
+    fa &lt;- transpile_fa(self$arg_list$fa, parameters, covariates, 
+        sec)
+} else {
+    fa &lt;- empty_fa()
+}
+debug: fa &lt;- empty_fa()
+debug: if (!is.null(self$arg_list$lag)) {
+    lag &lt;- transpile_lag(self$arg_list$lag, parameters, covariates, 
+        sec)
+} else {
+    lag &lt;- empty_lag()
+}
+debug: lag &lt;- transpile_lag(self$arg_list$lag, parameters, covariates, 
+    sec)
+debug: if (!is.null(self$arg_list$ini)) {
+    ini &lt;- transpile_ini(self$arg_list$ini, parameters, covariates, 
+        sec)
+} else {
+    ini &lt;- empty_ini()
+}
+debug: ini &lt;- empty_ini()
+debug: if (!is.null(self$arg_list$out)) {
+    out &lt;- transpile_out(self$arg_list$out, parameters, covariates, 
+        sec)
+} else {
+    out &lt;- empty_out()
+}
+debug: out &lt;- transpile_out(self$arg_list$out, parameters, covariates, 
+    sec)
+debug: if (is.null(self$arg_list$err)) {
+    msg &lt;- c(msg, "Error model is missing and required.")
+}
+debug: if (length(self$arg_list$err) != n_out) {
+    msg &lt;- c(msg, "There must be one error model for each output equation.")
+}
+debug: err &lt;- self$arg_list$err
+debug: name &lt;- if (type == "Analytical") {
+    model_template$name
+} else {
+    "user"
+}
+debug: model_template$name
+debug: model_list &lt;- list(pri = self$arg_list$pri, eqn = eqn, sec = sec, 
+    lag = lag, fa = fa, ini = ini, out = out, n_eqn = n_eqn, 
+    n_out = n_out, parameters = parameters, covariates = covariates, 
+    err = err, name = name)
+debug: self$model_list &lt;- purrr::map(model_list, function(x) {
+    if (is.character(x)) {
+        tolower(x)
+    }
+    else {
+        x
+    }
+})
+debug: self$model_list$type &lt;- type
+debug: if (length(msg) &gt; 0) {
+    cli::cli_alert_danger("{.strong PM_model$new() aborted due to {length(msg)} error{?s}:}")
+    purrr::walk(msg, function(m) cli::cli_bullets(c(`*` = m)))
+    return(invisible(NULL))
+}
+debug: extra_args &lt;- list(...)
+debug: if ("quiet" %in% names(extra_args) &amp;&amp; extra_args$quiet) {
+    quiet &lt;- TRUE
+} else {
+    quiet &lt;- FALSE
+}
+debug: quiet &lt;- FALSE
+debug: if (!is.null(purrr::pluck(extra_args, "compile"))) {
+    if (extra_args$compile) {
+        self$compile(quiet)
+    }
+} else {
+    self$compile(quiet = quiet)
+}
+debug: if (extra_args$compile) {
+    self$compile(quiet)
+}</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is essential that you understand <a href="./simulation.html">simulations</a> first.</p>
+<p>Also, make sure you have run the <a href="./index.html#tutorial-setup">tutorial setup code</a> in your R session before copying, pasting and running example code here.</p>
+</div>
+</div>
+<section id="introduction" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">12.1</span> Introduction</h2>
+<p>Probability of Target Attainment (PTA) analysis is a common method to evaluate the likelihood that a dosing regimen will achieve a specified pharmacodynamic index (e.g., %T&gt;MIC, AUC:MIC, Cmax:MIC, Cmin:MIC) for a range of targets, in this case minimum inhibitory concentrations (MICs). PTA is often used in drug development for dosing optimization.</p>
+<p>The steps to perform PTA analysis using <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> are:</p>
+<ol type="1">
+<li>Simulate concentration-time profiles for various dosing regimens using a previously fitted model.</li>
+<li>Define pharmacodynamic target(s) and success criteria.</li>
+<li>Calculate the probability of target attainment (success) for each dosing regimen across the target(s).</li>
+</ol>
+<p>Here’s an illustration. Suppose our target is %T&gt;MIC of at least 60% over a dosing interval of 24 hours, with an MIC of 4.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/pta1.png" class="quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<p>Of the 4 simulated profiles, only the highest remains above 4 for at least 60% of the interval (14.4 hours), so the PTA at this MIC for this regimen is 1/4 = 25%. The mean pharmacodynamic index (PDI) is 44% T&gt;MIC across all 4 profiles, with a standard deviation of 39%.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <strong>usual acceptance criterion</strong> to consider a regimen successful is a PTA of at least 80% or 90%.</p>
+</div>
+</div>
+<p>Of course, we don’t usually simulate only 4 profiles; 1000 or more is typical, as shown in the expanded figure below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Images/pta2.png" class="quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<p>Now, 95% of the profiles are above the target for at least 60% of the interval; the mean PDI is 91% T&gt;MIC with a standard deviation of 14%.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>MIPD vs.&nbsp;PTA
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It should be noted that Bayesian Model-Informed Personalized Dosing (MIPD) methods provide a more precise and personalized approach to dosing optimization, even for the first dose, compared to population-based PTA analysis.</p>
+<p>Nevertheless, PTA is <em>extremely</em> useful during the drug development process to guide dose selection for clinical trials, to inform dosing recommendations in drug labeling, to support regulatory submissions, and to optimize dosing in populations where individual concentration data is not readily available.</p>
+</div>
+</div>
+</section>
+<section id="pta-creation" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="pta-creation"><span class="header-section-number">12.2</span> PTA creation</h2>
+<p>There are two ways of creating a <a href="https://lapkb.github.io/Pmetrics/reference/PM_pta.html"><code>PM_pta</code></a> object in <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span>.</p>
+<ol type="1">
+<li><strong>PM_sim$pta()</strong> This way is directly from a previously created <a href="https://lapkb.github.io/Pmetrics/reference/PM_sim.html"><code>PM_sim</code></a> object.</li>
+</ol>
+<div data-code-copy="false">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># do not execute; for illustration of syntax only</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ... are arguments to either PM_result$sim() or PM_sim$pta()</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>sim1 <span class="ot">&lt;-</span> run1<span class="sc">$</span><span class="fu">sim</span>(...) <span class="co"># sim1 is a PM_sim object made from run1, a PM_result</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>pta1 <span class="ot">&lt;-</span> sim1<span class="sc">$</span><span class="fu">pta</span>(...) <span class="co"># pta1 is a PM_pta object made from sim1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<ol start="2" type="1">
+<li><strong>PM_pta$new()</strong> This way is identical to the one above, but the <code>PM_sim</code> object is specified as the first argument.</li>
+</ol>
+<div data-code-copy="false">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># do not execute; for illustration of syntax only</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ... are arguments to either PM_result$sim() or PM_pta$new()</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>sim1 <span class="ot">&lt;-</span> run1<span class="sc">$</span><span class="fu">sim</span>(...) <span class="co"># sim1 is a PM_sim object made from run1, a PM_result</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>pta1 <span class="ot">&lt;-</span> PM_pta<span class="sc">$</span><span class="fu">new</span>(sim1, ...) <span class="co"># pta1 is a PM_pta object </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Both methods require the prior creation of a simulation of appropriate regimens.</p>
+</section>
+<section id="pta-options" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="pta-options"><span class="header-section-number">12.3</span> PTA options</h2>
+<section id="critical-parameters" class="level3" data-number="12.3.1">
+<h3 data-number="12.3.1" class="anchored" data-anchor-id="critical-parameters"><span class="header-section-number">12.3.1</span> Critical parameters</h3>
+<p>There are three critical arguments to either <code>PM_sim$pta()</code> or <code>PM_pta$new()</code> to set the <strong>targets</strong>, <strong>target types</strong>, and <strong>success criteria</strong>. By calculating the statistic defined by the target type (e.g.&nbsp;AUC) for each simulated profile relative to the target (e.g.&nbsp;AUC:target) and comparing it to the success threshold (e.g.&nbsp;100), the proportion of profiles that meet or exceed the success criteria can be determined, yielding the PTA for each regimen and target combination.</p>
+<p>It is possible to combine multiple target types and to define success as greater than or less than a threshold metric. For example success could be defined as a percent time &gt; target1 <em>AND</em> AUC &lt; target2. Or, success could be defined as trough &gt; target1 <em>AND</em> peak &lt; target2. This gives you the ability to cacluate complex PTA that combine efficacy with toxicity or other combinations.</p>
+<p>Details on the key arguments are as follows:</p>
+<ul>
+<li><p><strong>target</strong> Defines the PDI target and can be one of several options.</p>
+<ul>
+<li>A vector of values, such as Minimum Inhibitory Concentrations (MICs), e.g.&nbsp;<code>c(0.25, 0.5, 1, 2, 4, 8, 16, 32)</code>.</li>
+<li>A single numerical value, e.g.&nbsp;10.</li>
+<li>A sampled distribution of values using <a href="https://lapkb.github.io/Pmetrics/reference/makePTAtarget.html"><code>makePTAtarget</code></a>.</li>
+<li>A list of multiple targets combining the above if multiple <code>target_type</code>s are used. If so, the first <code>target</code> can be a vector, but subsequent targets must be single values to avoid factorial expansion of combinations.</li>
+</ul></li>
+<li><p><strong>target_type</strong> A vector of the type for each <code>target</code>. For any, place a minus sign in front to make the success less than the target ratio, e.g.&nbsp;<code>target_type = c("min", "-max")</code> means that success will be if minimum concentration is above the target success ratio, and the maximum concentration is below the target success ratio.</p>
+<p>Available types:</p>
+<ul>
+<li>“time” is percent time above <code>target</code> within the time range specified by <code>start</code> and <code>end</code>. Use “-time” for percent time below <code>target</code>.</li>
+<li>“auc” is ratio of area under the curve within the time range to <code>target</code></li>
+<li>“peak” or “max” are the ratio of peak or max (synonymous) concentration to <code>target</code> within the time range. Use “-max” or “-peak” to make the success less than the target ratio.</li>
+<li>“min”, is the ratio of minimum concentration to <code>target</code> within the time range. Use “-min” to make the success less than the target ratio.</li>
+<li>A single numeric value, which must correspond to an observation time common to all ‘PM_sim’ objects in <code>simdata</code>, rounded to the nearest hour. In this case, the target statistic will be the ratio of observation at that time to <code>target</code>. This enables testing of a specific timed concentration (e.g.&nbsp;one hour after a dose or C1). Be sure that the time in the simulated data is used, e.g., 122 after a dose given at 120. As for the other target types, make the number negative to make the success less than the target ratio, eg -122.</li>
+</ul></li>
+<li><p><strong>success</strong> A vector specifying the success statistics, e.g.&nbsp;0.4 for proportion time (end-start) above target, and/or 100 for max:target. For example <code>success = 0.4</code> or <code>success = c(0.4, 100)</code>.</p></li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If <code>target</code> is a list defining multiple target groups, the length of <code>target_type</code> and <code>success</code> must be the same as the length of <code>target</code>.</p>
+</div>
+</div>
+</section>
+<section id="target-target_type-and-success-examples" class="level3" data-number="12.3.2">
+<h3 data-number="12.3.2" class="anchored" data-anchor-id="target-target_type-and-success-examples"><span class="header-section-number">12.3.2</span> Target, target_type, and success examples</h3>
+<p>In the examples below, we omit the first <code>simdata</code> argument to <code>PM_pta$new()</code> and all other arguments to focus on the critical arguments. The code is not meant to be copied as is, but rather to illustrate the syntax for defining multiple targets, target types, and success criteria.</p>
+<div data-code-copy="false">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pta target example 1</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pta1 <span class="ot">&lt;-</span> PM_pta<span class="sc">$</span><span class="fu">new</span>(..., </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">target =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">32</span>), <span class="co"># vector for first target group</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                        <span class="dv">10</span>, <span class="co"># individual value for second target</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                        <span class="dv">50</span>), <span class="co"># individual value for third target</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">target_type =</span> <span class="fu">c</span>(<span class="st">"time"</span>, <span class="st">"min"</span>, <span class="st">"-max"</span>), <span class="co"># three corresponding target types</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">success =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="dv">1</span>, <span class="dv">1</span>) <span class="co"># success criteria</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># pta target example 2</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>pta2 <span class="ot">&lt;-</span> PM_pta<span class="sc">$</span><span class="fu">new</span>(..., </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">target =</span> <span class="fu">makePTAtarget</span>(...), <span class="co"># vector for the only target group</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">target_type =</span> <span class="st">"auc"</span>, <span class="co"># a single target type    </span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>          <span class="at">success =</span> <span class="dv">100</span> <span class="co"># success criteria        </span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>In example 1 above, the first <code>target</code> is a vector of values corresponding to the first <code>target_type</code> of “time”; the second <code>target</code> is a single value of 10 corresponding to the second <code>target_type</code> of “min”, and the third <code>target</code> is a value of 50 corresponding to the third <code>target_type</code> of “-max”. Success for the first target group will be proportion of time above each target value of at least 0.6; success for the second target group will be minimum concentration above 10; success for the third target group will be maximum concentration less than 50. The intersection of these three success criteria will define overall success for each simulated profile.</p>
+<p>In example 2, the auxillary function <a href="https://lapkb.github.io/Pmetrics/reference/makePTAtarget.html"><code>makePTAtarget</code></a> is used to create a vector of sampled targets for the only <code>target_type</code> of “auc”. Success is defined as AUC:target of at least 100.</p>
+</section>
+<section id="other-pta-options" class="level3" data-number="12.3.3">
+<h3 data-number="12.3.3" class="anchored" data-anchor-id="other-pta-options"><span class="header-section-number">12.3.3</span> Other PTA options</h3>
+<p>There are a number of other arguments to <code>PM_sim$pta()</code> and <code>PM_pta$new()</code> to customize the PTA analysis. Some of the more commonly used ones are:</p>
+<ul>
+<li><strong>simlabels</strong> A character vector of labels for each simulation regimen in the same order as in the <code>PM_sim</code> object. If not provided, generic labels will be used.</li>
+<li><strong>free_fraction</strong> A numeric value between 0 and 1 specifying the free (unbound) drug fraction to use when calculating free drug PDIs such as free AUC:MIC, free Cmax:MIC, etc. Default is 1 (total drug).</li>
+<li><strong>start</strong> and <strong>end</strong> Numeric values specifying the time range over which to calculate the PDI. Default is the entire simulation time range.</li>
+<li><strong>outeq</strong> An integer specifying the number of the simulated output equation to use. Default is 1.</li>
+</ul>
+</section>
+</section>
+<section id="complete-pta-examples" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="complete-pta-examples"><span class="header-section-number">12.4</span> Complete PTA examples</h2>
+<section id="load-prior-model-fits" class="level3" data-number="12.4.1">
+<h3 data-number="12.4.1" class="anchored" data-anchor-id="load-prior-model-fits"><span class="header-section-number">12.4.1</span> Load prior model fits</h3>
+<p>We have already created two model fits: one <a href="./NPAG.html#example-mod1_def">without covariates</a> and one <a href="./NPAG_cov.html#example-mod2_def">with covariates</a>. We will use these to simulate data for PTA analysis. Let’s load them now.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load run1 (without covariates) and run2 (with covariates)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>run1 <span class="ot">&lt;-</span> <span class="fu">PM_load</span>(<span class="at">run =</span> <span class="dv">1</span>, <span class="at">path =</span> <span class="st">"Runs"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>run2 <span class="ot">&lt;-</span> <span class="fu">PM_load</span>(<span class="at">run =</span> <span class="dv">2</span>, <span class="at">path =</span> <span class="st">"Runs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="simulate-data-for-pta" class="level3" data-number="12.4.2">
+<h3 data-number="12.4.2" class="anchored" data-anchor-id="simulate-data-for-pta"><span class="header-section-number">12.4.2</span> Simulate data for PTA</h3>
+<p>Now we use the first fit to simulate without covariates (<code>run1</code>). We will simulate 4 dosing regimens contained in the example data file <em>Learn/src/ptaex1.csv</em>. The simulation will be from 0 to 5 days (144 hours) with a prediction interval from 120 to 144 hours (the last day) and predictions within that interval every 0.5 hours. We limit the simulated parameters to be a minimum of 0 and a maximum of 3 * the original upper bound, and we set the seed for reproducibility.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate without covariates</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>simlist1 <span class="ot">&lt;-</span> run1<span class="sc">$</span><span class="fu">sim</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="at">data =</span> <span class="st">"src/ptaex1.csv"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">predInt =</span> <span class="fu">c</span>(<span class="dv">120</span>, <span class="dv">144</span>, <span class="fl">0.5</span>), <span class="at">seed =</span> <span class="fu">rep</span>(<span class="sc">-</span><span class="dv">17</span>, <span class="dv">4</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We repeat the simulation but this time with covariates (<code>run2</code>).</p>
+<div class="cell">
+<pre><code>#&gt; Warning: There was 1 warning in `summarize()`.
+#&gt; ℹ In argument: `across(last_col(offset = nsimcov - 1):last_col(), sd, na.rm =
+#&gt;   TRUE)`.
+#&gt; Caused by warning:
+#&gt; ! The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
+#&gt; Supply arguments directly to `.fns` through an anonymous function instead.
+#&gt; 
+#&gt;   # Previously
+#&gt;   across(a:b, mean, na.rm = TRUE)
+#&gt; 
+#&gt;   # Now
+#&gt;   across(a:b, \(x) mean(x, na.rm = TRUE))
+#&gt; ℹ The deprecated feature was likely used in the Pmetrics package.
+#&gt;   Please report the issue at &lt;https://github.com/LAPKB/Pmetrics_rust/issues&gt;.
+#&gt; Called from: initialize(...)
+#&gt; debug: if (length(model_template) &gt; 1 &amp;&amp; model_template$analytical) {
+#&gt;     type &lt;- "Analytical"
+#&gt; } else {
+#&gt;     if (model_template == -1) {
+#&gt;         msg &lt;- c(msg, "A maximum of one model template can be included in a model.")
+#&gt;     }
+#&gt;     type &lt;- "ODE"
+#&gt; }
+#&gt; debug: type &lt;- "Analytical"
+#&gt; debug: n_eqn &lt;- if (type == "Analytical") {
+#&gt;     model_template$ncomp
+#&gt; } else {
+#&gt;     get_assignments(self$arg_list$eqn, "dx")
+#&gt; }
+#&gt; debug: model_template$ncomp
+#&gt; debug: n_out &lt;- get_assignments(self$arg_list$out, "y")
+#&gt; debug: parameters &lt;- tolower(names(self$arg_list$pri))
+#&gt; debug: covariates &lt;- tolower(names(self$arg_list$cov))
+#&gt; debug: if (type == "Analytical") {
+#&gt;     required_parameters &lt;- tolower(model_template$parameters)
+#&gt;     pri_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         if (x %in% parameters) {
+#&gt;             return(TRUE)
+#&gt;         }
+#&gt;         else {
+#&gt;             return(FALSE)
+#&gt;         }
+#&gt;     })
+#&gt;     if (length(covariates) &gt; 0) {
+#&gt;         cov_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;             if (x %in% covariates) {
+#&gt;                 return(TRUE)
+#&gt;             }
+#&gt;             else {
+#&gt;                 return(FALSE)
+#&gt;             }
+#&gt;         })
+#&gt;     }
+#&gt;     else {
+#&gt;         cov_list &lt;- rep(FALSE, length(required_parameters))
+#&gt;     }
+#&gt;     if (!is.null(self$arg_list$sec)) {
+#&gt;         sec_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;             any(stringr::str_detect(tolower(func_to_char(self$arg_list$sec)), 
+#&gt;                 x))
+#&gt;         })
+#&gt;     }
+#&gt;     else {
+#&gt;         sec_list &lt;- rep(FALSE, length(required_parameters))
+#&gt;     }
+#&gt;     eqn_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$eqn)), 
+#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;     })
+#&gt;     if (!is.null(self$arg_lag)) {
+#&gt;         lag_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;             any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$lag)), 
+#&gt;                 "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;         })
+#&gt;     }
+#&gt;     else {
+#&gt;         lag_list &lt;- rep(FALSE, length(required_parameters))
+#&gt;     }
+#&gt;     if (!is.null(self$arg_fa)) {
+#&gt;         lag_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;             any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$fa)), 
+#&gt;                 "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;         })
+#&gt;     }
+#&gt;     else {
+#&gt;         fa_list &lt;- rep(FALSE, length(required_parameters))
+#&gt;     }
+#&gt;     if (!is.null(self$arg_ini)) {
+#&gt;         ini_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;             any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$ini)), 
+#&gt;                 "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;         })
+#&gt;     }
+#&gt;     else {
+#&gt;         ini_list &lt;- rep(FALSE, length(required_parameters))
+#&gt;     }
+#&gt;     out_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$out)), 
+#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;     })
+#&gt;     all_lists &lt;- bind_rows(tibble::tibble(parameter = required_parameters, 
+#&gt;         pri = pri_list, cov = cov_list, sec = sec_list, eqn = eqn_list, 
+#&gt;         lag = lag_list, fa = fa_list, ini = ini_list, out = out_list)) %&gt;% 
+#&gt;         mutate(ok = purrr::pmap_lgl(across(pri:out), any))
+#&gt;     if (any(!all_lists$ok)) {
+#&gt;         missing &lt;- all_lists$parameter[!all_lists$ok]
+#&gt;         msg &lt;- c(msg, "The following parameters are required for the {.code {model_template$name}} model template but are missing: {missing}", 
+#&gt;             "They should be defined in one of the model blocks, likely {.code pri}, {.code sec}, {.code eqn}, or {.code out}.", 
+#&gt;             "Parameters defined in {.code pri} and {.code sec} are available to all blocks.", 
+#&gt;             "Parameters defined in other blocks are only available to that block.")
+#&gt;     }
+#&gt; }
+#&gt; debug: required_parameters &lt;- tolower(model_template$parameters)
+#&gt; debug: pri_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;     if (x %in% parameters) {
+#&gt;         return(TRUE)
+#&gt;     }
+#&gt;     else {
+#&gt;         return(FALSE)
+#&gt;     }
+#&gt; })
+#&gt; debug: if (length(covariates) &gt; 0) {
+#&gt;     cov_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         if (x %in% covariates) {
+#&gt;             return(TRUE)
+#&gt;         }
+#&gt;         else {
+#&gt;             return(FALSE)
+#&gt;         }
+#&gt;     })
+#&gt; } else {
+#&gt;     cov_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; }
+#&gt; debug: cov_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;     if (x %in% covariates) {
+#&gt;         return(TRUE)
+#&gt;     }
+#&gt;     else {
+#&gt;         return(FALSE)
+#&gt;     }
+#&gt; })
+#&gt; debug: if (!is.null(self$arg_list$sec)) {
+#&gt;     sec_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         any(stringr::str_detect(tolower(func_to_char(self$arg_list$sec)), 
+#&gt;             x))
+#&gt;     })
+#&gt; } else {
+#&gt;     sec_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; }
+#&gt; debug: sec_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;     any(stringr::str_detect(tolower(func_to_char(self$arg_list$sec)), 
+#&gt;         x))
+#&gt; })
+#&gt; debug: eqn_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;     any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$eqn)), 
+#&gt;         "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt; })
+#&gt; debug: if (!is.null(self$arg_lag)) {
+#&gt;     lag_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$lag)), 
+#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;     })
+#&gt; } else {
+#&gt;     lag_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; }
+#&gt; debug: lag_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; debug: if (!is.null(self$arg_fa)) {
+#&gt;     lag_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$fa)), 
+#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;     })
+#&gt; } else {
+#&gt;     fa_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; }
+#&gt; debug: fa_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; debug: if (!is.null(self$arg_ini)) {
+#&gt;     ini_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$ini)), 
+#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;     })
+#&gt; } else {
+#&gt;     ini_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; }
+#&gt; debug: ini_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; debug: out_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;     any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$out)), 
+#&gt;         "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt; })
+#&gt; debug: all_lists &lt;- bind_rows(tibble::tibble(parameter = required_parameters, 
+#&gt;     pri = pri_list, cov = cov_list, sec = sec_list, eqn = eqn_list, 
+#&gt;     lag = lag_list, fa = fa_list, ini = ini_list, out = out_list)) %&gt;% 
+#&gt;     mutate(ok = purrr::pmap_lgl(across(pri:out), any))
+#&gt; debug: if (any(!all_lists$ok)) {
+#&gt;     missing &lt;- all_lists$parameter[!all_lists$ok]
+#&gt;     msg &lt;- c(msg, "The following parameters are required for the {.code {model_template$name}} model template but are missing: {missing}", 
+#&gt;         "They should be defined in one of the model blocks, likely {.code pri}, {.code sec}, {.code eqn}, or {.code out}.", 
+#&gt;         "Parameters defined in {.code pri} and {.code sec} are available to all blocks.", 
+#&gt;         "Parameters defined in other blocks are only available to that block.")
+#&gt; }
+#&gt; debug: if (type == "Analytical") {
+#&gt;     sec_eqn &lt;- function() {
+#&gt;     }
+#&gt;     body(sec_eqn) &lt;- suppressWarnings(as.call(c(quote(`{`), as.list(body(self$arg_list$eqn))[-1], 
+#&gt;         as.list(body(self$arg_list$sec))[-1])))
+#&gt; }
+#&gt; debug: sec_eqn &lt;- function() {
+#&gt; }
+#&gt; debug: body(sec_eqn) &lt;- suppressWarnings(as.call(c(quote(`{`), as.list(body(self$arg_list$eqn))[-1], 
+#&gt;     as.list(body(self$arg_list$sec))[-1])))
+#&gt; debug: if (!is.null(self$arg_list$sec)) {
+#&gt;     sec &lt;- transpile_sec(self$arg_list$sec)
+#&gt; } else {
+#&gt;     sec &lt;- ""
+#&gt; }
+#&gt; debug: sec &lt;- transpile_sec(self$arg_list$sec)
+#&gt; debug: if (type == "ODE") {
+#&gt;     eqn &lt;- transpile_ode_eqn(self$arg_list$eqn, parameters, covariates, 
+#&gt;         sec)
+#&gt; } else if (type == "Analytical") {
+#&gt;     eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)
+#&gt; }
+#&gt; debug: if (type == "Analytical") {
+#&gt;     eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)
+#&gt; }
+#&gt; debug: eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)
+#&gt; debug: if (!is.null(self$arg_list$fa)) {
+#&gt;     fa &lt;- transpile_fa(self$arg_list$fa, parameters, covariates, 
+#&gt;         sec)
+#&gt; } else {
+#&gt;     fa &lt;- empty_fa()
+#&gt; }
+#&gt; debug: fa &lt;- empty_fa()
+#&gt; debug: if (!is.null(self$arg_list$lag)) {
+#&gt;     lag &lt;- transpile_lag(self$arg_list$lag, parameters, covariates, 
+#&gt;         sec)
+#&gt; } else {
+#&gt;     lag &lt;- empty_lag()
+#&gt; }
+#&gt; debug: lag &lt;- transpile_lag(self$arg_list$lag, parameters, covariates, 
+#&gt;     sec)
+#&gt; debug: if (!is.null(self$arg_list$ini)) {
+#&gt;     ini &lt;- transpile_ini(self$arg_list$ini, parameters, covariates, 
+#&gt;         sec)
+#&gt; } else {
+#&gt;     ini &lt;- empty_ini()
+#&gt; }
+#&gt; debug: ini &lt;- empty_ini()
+#&gt; debug: if (!is.null(self$arg_list$out)) {
+#&gt;     out &lt;- transpile_out(self$arg_list$out, parameters, covariates, 
+#&gt;         sec)
+#&gt; } else {
+#&gt;     out &lt;- empty_out()
+#&gt; }
+#&gt; debug: out &lt;- transpile_out(self$arg_list$out, parameters, covariates, 
+#&gt;     sec)
+#&gt; debug: if (is.null(self$arg_list$err)) {
+#&gt;     msg &lt;- c(msg, "Error model is missing and required.")
+#&gt; }
+#&gt; debug: if (length(self$arg_list$err) != n_out) {
+#&gt;     msg &lt;- c(msg, "There must be one error model for each output equation.")
+#&gt; }
+#&gt; debug: err &lt;- self$arg_list$err
+#&gt; debug: name &lt;- if (type == "Analytical") {
+#&gt;     model_template$name
+#&gt; } else {
+#&gt;     "user"
+#&gt; }
+#&gt; debug: model_template$name
+#&gt; debug: model_list &lt;- list(pri = self$arg_list$pri, eqn = eqn, sec = sec, 
+#&gt;     lag = lag, fa = fa, ini = ini, out = out, n_eqn = n_eqn, 
+#&gt;     n_out = n_out, parameters = parameters, covariates = covariates, 
+#&gt;     err = err, name = name)
+#&gt; debug: self$model_list &lt;- purrr::map(model_list, function(x) {
+#&gt;     if (is.character(x)) {
+#&gt;         tolower(x)
+#&gt;     }
+#&gt;     else {
+#&gt;         x
+#&gt;     }
+#&gt; })
+#&gt; debug: self$model_list$type &lt;- type
+#&gt; debug: if (length(msg) &gt; 0) {
+#&gt;     cli::cli_alert_danger("{.strong PM_model$new() aborted due to {length(msg)} error{?s}:}")
+#&gt;     purrr::walk(msg, function(m) cli::cli_bullets(c(`*` = m)))
+#&gt;     return(invisible(NULL))
+#&gt; }
+#&gt; debug: extra_args &lt;- list(...)
+#&gt; debug: if ("quiet" %in% names(extra_args) &amp;&amp; extra_args$quiet) {
+#&gt;     quiet &lt;- TRUE
+#&gt; } else {
+#&gt;     quiet &lt;- FALSE
+#&gt; }
+#&gt; debug: quiet &lt;- FALSE
+#&gt; debug: if (!is.null(purrr::pluck(extra_args, "compile"))) {
+#&gt;     if (extra_args$compile) {
+#&gt;         self$compile(quiet)
+#&gt;     }
+#&gt; } else {
+#&gt;     self$compile(quiet = quiet)
+#&gt; }
+#&gt; debug: if (extra_args$compile) {
+#&gt;     self$compile(quiet)
+#&gt; }
+#&gt; Called from: initialize(...)
+#&gt; debug: if (length(model_template) &gt; 1 &amp;&amp; model_template$analytical) {
+#&gt;     type &lt;- "Analytical"
+#&gt; } else {
+#&gt;     if (model_template == -1) {
+#&gt;         msg &lt;- c(msg, "A maximum of one model template can be included in a model.")
+#&gt;     }
+#&gt;     type &lt;- "ODE"
+#&gt; }
+#&gt; debug: type &lt;- "Analytical"
+#&gt; debug: n_eqn &lt;- if (type == "Analytical") {
+#&gt;     model_template$ncomp
+#&gt; } else {
+#&gt;     get_assignments(self$arg_list$eqn, "dx")
+#&gt; }
+#&gt; debug: model_template$ncomp
+#&gt; debug: n_out &lt;- get_assignments(self$arg_list$out, "y")
+#&gt; debug: parameters &lt;- tolower(names(self$arg_list$pri))
+#&gt; debug: covariates &lt;- tolower(names(self$arg_list$cov))
+#&gt; debug: if (type == "Analytical") {
+#&gt;     required_parameters &lt;- tolower(model_template$parameters)
+#&gt;     pri_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         if (x %in% parameters) {
+#&gt;             return(TRUE)
+#&gt;         }
+#&gt;         else {
+#&gt;             return(FALSE)
+#&gt;         }
+#&gt;     })
+#&gt;     if (length(covariates) &gt; 0) {
+#&gt;         cov_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;             if (x %in% covariates) {
+#&gt;                 return(TRUE)
+#&gt;             }
+#&gt;             else {
+#&gt;                 return(FALSE)
+#&gt;             }
+#&gt;         })
+#&gt;     }
+#&gt;     else {
+#&gt;         cov_list &lt;- rep(FALSE, length(required_parameters))
+#&gt;     }
+#&gt;     if (!is.null(self$arg_list$sec)) {
+#&gt;         sec_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;             any(stringr::str_detect(tolower(func_to_char(self$arg_list$sec)), 
+#&gt;                 x))
+#&gt;         })
+#&gt;     }
+#&gt;     else {
+#&gt;         sec_list &lt;- rep(FALSE, length(required_parameters))
+#&gt;     }
+#&gt;     eqn_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$eqn)), 
+#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;     })
+#&gt;     if (!is.null(self$arg_lag)) {
+#&gt;         lag_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;             any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$lag)), 
+#&gt;                 "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;         })
+#&gt;     }
+#&gt;     else {
+#&gt;         lag_list &lt;- rep(FALSE, length(required_parameters))
+#&gt;     }
+#&gt;     if (!is.null(self$arg_fa)) {
+#&gt;         lag_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;             any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$fa)), 
+#&gt;                 "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;         })
+#&gt;     }
+#&gt;     else {
+#&gt;         fa_list &lt;- rep(FALSE, length(required_parameters))
+#&gt;     }
+#&gt;     if (!is.null(self$arg_ini)) {
+#&gt;         ini_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;             any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$ini)), 
+#&gt;                 "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;         })
+#&gt;     }
+#&gt;     else {
+#&gt;         ini_list &lt;- rep(FALSE, length(required_parameters))
+#&gt;     }
+#&gt;     out_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$out)), 
+#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;     })
+#&gt;     all_lists &lt;- bind_rows(tibble::tibble(parameter = required_parameters, 
+#&gt;         pri = pri_list, cov = cov_list, sec = sec_list, eqn = eqn_list, 
+#&gt;         lag = lag_list, fa = fa_list, ini = ini_list, out = out_list)) %&gt;% 
+#&gt;         mutate(ok = purrr::pmap_lgl(across(pri:out), any))
+#&gt;     if (any(!all_lists$ok)) {
+#&gt;         missing &lt;- all_lists$parameter[!all_lists$ok]
+#&gt;         msg &lt;- c(msg, "The following parameters are required for the {.code {model_template$name}} model template but are missing: {missing}", 
+#&gt;             "They should be defined in one of the model blocks, likely {.code pri}, {.code sec}, {.code eqn}, or {.code out}.", 
+#&gt;             "Parameters defined in {.code pri} and {.code sec} are available to all blocks.", 
+#&gt;             "Parameters defined in other blocks are only available to that block.")
+#&gt;     }
+#&gt; }
+#&gt; debug: required_parameters &lt;- tolower(model_template$parameters)
+#&gt; debug: pri_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;     if (x %in% parameters) {
+#&gt;         return(TRUE)
+#&gt;     }
+#&gt;     else {
+#&gt;         return(FALSE)
+#&gt;     }
+#&gt; })
+#&gt; debug: if (length(covariates) &gt; 0) {
+#&gt;     cov_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         if (x %in% covariates) {
+#&gt;             return(TRUE)
+#&gt;         }
+#&gt;         else {
+#&gt;             return(FALSE)
+#&gt;         }
+#&gt;     })
+#&gt; } else {
+#&gt;     cov_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; }
+#&gt; debug: cov_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;     if (x %in% covariates) {
+#&gt;         return(TRUE)
+#&gt;     }
+#&gt;     else {
+#&gt;         return(FALSE)
+#&gt;     }
+#&gt; })
+#&gt; debug: if (!is.null(self$arg_list$sec)) {
+#&gt;     sec_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         any(stringr::str_detect(tolower(func_to_char(self$arg_list$sec)), 
+#&gt;             x))
+#&gt;     })
+#&gt; } else {
+#&gt;     sec_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; }
+#&gt; debug: sec_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;     any(stringr::str_detect(tolower(func_to_char(self$arg_list$sec)), 
+#&gt;         x))
+#&gt; })
+#&gt; debug: eqn_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;     any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$eqn)), 
+#&gt;         "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt; })
+#&gt; debug: if (!is.null(self$arg_lag)) {
+#&gt;     lag_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$lag)), 
+#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;     })
+#&gt; } else {
+#&gt;     lag_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; }
+#&gt; debug: lag_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; debug: if (!is.null(self$arg_fa)) {
+#&gt;     lag_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$fa)), 
+#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;     })
+#&gt; } else {
+#&gt;     fa_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; }
+#&gt; debug: fa_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; debug: if (!is.null(self$arg_ini)) {
+#&gt;     ini_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;         any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$ini)), 
+#&gt;             "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt;     })
+#&gt; } else {
+#&gt;     ini_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; }
+#&gt; debug: ini_list &lt;- rep(FALSE, length(required_parameters))
+#&gt; debug: out_list &lt;- map_lgl(required_parameters, function(x) {
+#&gt;     any(stringr::str_detect(stringr::str_remove_all(tolower(func_to_char(self$arg_list$out)), 
+#&gt;         "\\s+"), paste0(x, "(?=(&lt;-|=))")))
+#&gt; })
+#&gt; debug: all_lists &lt;- bind_rows(tibble::tibble(parameter = required_parameters, 
+#&gt;     pri = pri_list, cov = cov_list, sec = sec_list, eqn = eqn_list, 
+#&gt;     lag = lag_list, fa = fa_list, ini = ini_list, out = out_list)) %&gt;% 
+#&gt;     mutate(ok = purrr::pmap_lgl(across(pri:out), any))
+#&gt; debug: if (any(!all_lists$ok)) {
+#&gt;     missing &lt;- all_lists$parameter[!all_lists$ok]
+#&gt;     msg &lt;- c(msg, "The following parameters are required for the {.code {model_template$name}} model template but are missing: {missing}", 
+#&gt;         "They should be defined in one of the model blocks, likely {.code pri}, {.code sec}, {.code eqn}, or {.code out}.", 
+#&gt;         "Parameters defined in {.code pri} and {.code sec} are available to all blocks.", 
+#&gt;         "Parameters defined in other blocks are only available to that block.")
+#&gt; }
+#&gt; debug: if (type == "Analytical") {
+#&gt;     sec_eqn &lt;- function() {
+#&gt;     }
+#&gt;     body(sec_eqn) &lt;- suppressWarnings(as.call(c(quote(`{`), as.list(body(self$arg_list$eqn))[-1], 
+#&gt;         as.list(body(self$arg_list$sec))[-1])))
+#&gt; }
+#&gt; debug: sec_eqn &lt;- function() {
+#&gt; }
+#&gt; debug: body(sec_eqn) &lt;- suppressWarnings(as.call(c(quote(`{`), as.list(body(self$arg_list$eqn))[-1], 
+#&gt;     as.list(body(self$arg_list$sec))[-1])))
+#&gt; debug: if (!is.null(self$arg_list$sec)) {
+#&gt;     sec &lt;- transpile_sec(self$arg_list$sec)
+#&gt; } else {
+#&gt;     sec &lt;- ""
+#&gt; }
+#&gt; debug: sec &lt;- transpile_sec(self$arg_list$sec)
+#&gt; debug: if (type == "ODE") {
+#&gt;     eqn &lt;- transpile_ode_eqn(self$arg_list$eqn, parameters, covariates, 
+#&gt;         sec)
+#&gt; } else if (type == "Analytical") {
+#&gt;     eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)
+#&gt; }
+#&gt; debug: if (type == "Analytical") {
+#&gt;     eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)
+#&gt; }
+#&gt; debug: eqn &lt;- transpile_analytic_eqn(sec_eqn, parameters, covariates)
+#&gt; debug: if (!is.null(self$arg_list$fa)) {
+#&gt;     fa &lt;- transpile_fa(self$arg_list$fa, parameters, covariates, 
+#&gt;         sec)
+#&gt; } else {
+#&gt;     fa &lt;- empty_fa()
+#&gt; }
+#&gt; debug: fa &lt;- empty_fa()
+#&gt; debug: if (!is.null(self$arg_list$lag)) {
+#&gt;     lag &lt;- transpile_lag(self$arg_list$lag, parameters, covariates, 
+#&gt;         sec)
+#&gt; } else {
+#&gt;     lag &lt;- empty_lag()
+#&gt; }
+#&gt; debug: lag &lt;- transpile_lag(self$arg_list$lag, parameters, covariates, 
+#&gt;     sec)
+#&gt; debug: if (!is.null(self$arg_list$ini)) {
+#&gt;     ini &lt;- transpile_ini(self$arg_list$ini, parameters, covariates, 
+#&gt;         sec)
+#&gt; } else {
+#&gt;     ini &lt;- empty_ini()
+#&gt; }
+#&gt; debug: ini &lt;- empty_ini()
+#&gt; debug: if (!is.null(self$arg_list$out)) {
+#&gt;     out &lt;- transpile_out(self$arg_list$out, parameters, covariates, 
+#&gt;         sec)
+#&gt; } else {
+#&gt;     out &lt;- empty_out()
+#&gt; }
+#&gt; debug: out &lt;- transpile_out(self$arg_list$out, parameters, covariates, 
+#&gt;     sec)
+#&gt; debug: if (is.null(self$arg_list$err)) {
+#&gt;     msg &lt;- c(msg, "Error model is missing and required.")
+#&gt; }
+#&gt; debug: if (length(self$arg_list$err) != n_out) {
+#&gt;     msg &lt;- c(msg, "There must be one error model for each output equation.")
+#&gt; }
+#&gt; debug: err &lt;- self$arg_list$err
+#&gt; debug: name &lt;- if (type == "Analytical") {
+#&gt;     model_template$name
+#&gt; } else {
+#&gt;     "user"
+#&gt; }
+#&gt; debug: model_template$name
+#&gt; debug: model_list &lt;- list(pri = self$arg_list$pri, eqn = eqn, sec = sec, 
+#&gt;     lag = lag, fa = fa, ini = ini, out = out, n_eqn = n_eqn, 
+#&gt;     n_out = n_out, parameters = parameters, covariates = covariates, 
+#&gt;     err = err, name = name)
+#&gt; debug: self$model_list &lt;- purrr::map(model_list, function(x) {
+#&gt;     if (is.character(x)) {
+#&gt;         tolower(x)
+#&gt;     }
+#&gt;     else {
+#&gt;         x
+#&gt;     }
+#&gt; })
+#&gt; debug: self$model_list$type &lt;- type
+#&gt; debug: if (length(msg) &gt; 0) {
+#&gt;     cli::cli_alert_danger("{.strong PM_model$new() aborted due to {length(msg)} error{?s}:}")
+#&gt;     purrr::walk(msg, function(m) cli::cli_bullets(c(`*` = m)))
+#&gt;     return(invisible(NULL))
+#&gt; }
+#&gt; debug: extra_args &lt;- list(...)
+#&gt; debug: if ("quiet" %in% names(extra_args) &amp;&amp; extra_args$quiet) {
+#&gt;     quiet &lt;- TRUE
+#&gt; } else {
+#&gt;     quiet &lt;- FALSE
+#&gt; }
+#&gt; debug: quiet &lt;- TRUE
+#&gt; debug: if (!is.null(purrr::pluck(extra_args, "compile"))) {
+#&gt;     if (extra_args$compile) {
+#&gt;         self$compile(quiet)
+#&gt;     }
+#&gt; } else {
+#&gt;     self$compile(quiet = quiet)
+#&gt; }
+#&gt; debug: self$compile(quiet = quiet)</code></pre>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate with covariates</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>covariate <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> run2<span class="sc">$</span>cov,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean =</span> <span class="fu">list</span>(<span class="at">wt =</span> <span class="dv">50</span>),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd =</span> <span class="fu">list</span>(<span class="at">wt =</span> <span class="dv">20</span>),</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">limits =</span> <span class="fu">list</span>(<span class="at">wt =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">70</span>)),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">fix =</span> <span class="fu">c</span>(<span class="st">"africa"</span>, <span class="st">"gender"</span>, <span class="st">"height"</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>simlist2 <span class="ot">&lt;-</span> run2<span class="sc">$</span><span class="fu">sim</span>(</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">limits =</span> <span class="dv">5</span>, <span class="at">data =</span> <span class="st">"src/ptaex1.csv"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">predInt =</span> <span class="fu">c</span>(<span class="dv">120</span>, <span class="dv">144</span>, <span class="fl">0.5</span>), <span class="at">seed =</span> <span class="fu">rep</span>(<span class="sc">-</span><span class="dv">17</span>, <span class="dv">4</span>),</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">covariate =</span> covariate</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="pta-example-1" class="level3" data-number="12.4.3">
+<h3 data-number="12.4.3" class="anchored" data-anchor-id="pta-example-1"><span class="header-section-number">12.4.3</span> PTA example 1</h3>
+<p>In our first PTA, we calculate the time above each target during the interval from 120 to 144 hours, defining success as %T&gt;60%. We show two examples for each of the two methods to create PTA, including labels for the simulations in the second method.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># labels for the simulation regimens, each with a different ID value</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>simlabels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"600 mg daily"</span>, <span class="st">"1200 mg daily"</span>, <span class="st">"300 mg bid"</span>, <span class="st">"600 mg bid"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>pta1_2 <span class="ot">&lt;-</span> simlist1<span class="sc">$</span><span class="fu">pta</span>( <span class="co"># first creation method</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">32</span>), <span class="at">target_type =</span> <span class="st">"time"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">success =</span> <span class="fl">0.6</span>, <span class="at">start =</span> <span class="dv">120</span>, <span class="at">end =</span> <span class="dv">144</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>pta1b_2 <span class="ot">&lt;-</span> PM_pta<span class="sc">$</span><span class="fu">new</span>( <span class="co"># second creation method</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">simdata =</span> simlist2,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">simlabels =</span> simlabels, <span class="co"># add labels</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">32</span>), <span class="at">target_type =</span> <span class="st">"time"</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">success =</span> <span class="fl">0.6</span>, <span class="at">start =</span> <span class="dv">120</span>, <span class="at">end =</span> <span class="dv">144</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co"># summarize the results of the second one</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co"># use at = 1 to show the first (and only) PTA</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>pta1b_2<span class="sc">$</span><span class="fu">summary</span>(<span class="at">at =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 15%">
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 14%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 9%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">reg_num</th>
+<th style="text-align: left;">label</th>
+<th style="text-align: right;">target</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">prop_success</th>
+<th style="text-align: right;">median</th>
+<th style="text-align: right;">lower</th>
+<th style="text-align: right;">upper</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">600 mg daily</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: left;">time</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">600 mg daily</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: left;">time</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">600 mg daily</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: left;">time</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">600 mg daily</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: left;">time</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.965</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.996</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">0.686</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">600 mg daily</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: left;">time</td>
+<td style="text-align: right;">0.927</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.368</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.870</td>
+<td style="text-align: right;">0.854</td>
+<td style="text-align: right;">-24.402</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">600 mg daily</td>
+<td style="text-align: right;">8.00</td>
+<td style="text-align: left;">time</td>
+<td style="text-align: right;">0.505</td>
+<td style="text-align: right;">0.608</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.566</td>
+<td style="text-align: right;">0.413</td>
+<td style="text-align: right;">-2.924</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">600 mg daily</td>
+<td style="text-align: right;">16.00</td>
+<td style="text-align: left;">time</td>
+<td style="text-align: right;">0.139</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">4.839</td>
+<td style="text-align: right;">-152.434</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">600 mg daily</td>
+<td style="text-align: right;">32.00</td>
+<td style="text-align: left;">time</td>
+<td style="text-align: right;">0.035</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.815</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.177</td>
+<td style="text-align: right;">-0.012</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">1200 mg daily</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: left;">time</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">1200 mg daily</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: left;">time</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>In the summary, <code>reg_num</code> is the simulation template ID number; label is the corresponding <code>simlabel</code>; target in this case is the MIC; <code>type</code> is the target type, in this case “time” above target; <code>prop_success</code> is the proportion of the simulated profiles for each dose/MIC that are above the success threshold (0.6); <code>median</code> is the median PDI (proportion time above MIC); <code>lower</code> and <code>upper</code> are determined by the <code>ci</code> argument to <code>$summary()</code>, with a default <code>ci = 0.95</code> so <code>lower</code> is 0.025 and <code>upper</code> is 0.975; <code>mean</code>, <code>sd</code>, <code>min</code>, and <code>max</code> are the mean, standard deviation, minimum, and maximum PDI. If we omit <code>at = 1</code>, the default is to summarize the intersection, which will only report the first five statistics, omitting all the PDI statistics since it is not possible to calculate an intersection PDI.</p>
+<p>We can also plot <code>PM_pta</code> objects.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pta1b_2<span class="sc">$</span><span class="fu">plot</span>(<span class="at">ylab =</span> <span class="st">"Proportion with %T&gt;MIC of at least 60%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-c494748989f4aa094171" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-c494748989f4aa094171">{"x":{"visdat":{"1e8d6bba0307":["function () ","plotlyVisDat"]},"cur_data":"1e8d6bba0307","attrs":{"1e8d6bba0307":{"x":{},"y":{},"mode":"lines+markers","marker":{"size":12},"line":{"width":2},"color":{},"stroke":{},"symbol":{},"linetype":{},"colors":"Set1","strokes":"Set1","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"symbols":[1,2,3,4],"linetypes":[1,2,3,4],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Target<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"yaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Proportion with %T>MIC of at least 60%<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"showlegend":true,"legend":{"xanchor":"right","title":{"text":"<b>Regimen<\/b>"}},"title":{"text":"<b><\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":20}},"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,1,1,1,0.92700000000000005,0.505,0.13900000000000001,0.035000000000000003],"mode":"lines+markers","marker":{"color":"rgba(228,26,28,1)","symbol":"circle-open","size":12,"line":{"color":"rgba(228,26,28,1)","width":1}},"line":{"color":"rgba(228,26,28,1)","dash":"solid","width":2},"type":"scatter","name":"600 mg daily","error_y":{"color":"rgba(228,26,28,1)","thickness":1},"error_x":{"color":"rgba(228,26,28,1)","thickness":1},"textfont":{"color":"rgba(228,26,28,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,1,1,1,1,0.92700000000000005,0.505,0.13900000000000001],"mode":"lines+markers","marker":{"color":"rgba(55,126,184,1)","symbol":"triangle-up-open","size":12,"line":{"color":"rgba(55,126,184,1)","width":1}},"line":{"color":"rgba(55,126,184,1)","dash":"dash","width":2},"type":"scatter","name":"1200 mg daily","error_y":{"color":"rgba(55,126,184,1)","thickness":1},"error_x":{"color":"rgba(55,126,184,1)","thickness":1},"textfont":{"color":"rgba(55,126,184,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,1,1,1,0.96299999999999997,0.56599999999999995,0.161,0.035000000000000003],"mode":"lines+markers","marker":{"color":"rgba(77,175,74,1)","symbol":"cross-thin-open","size":12,"line":{"color":"rgba(77,175,74,1)","width":1}},"line":{"color":"rgba(77,175,74,1)","dash":"dot","width":2},"type":"scatter","name":"300 mg bid","error_y":{"color":"rgba(77,175,74,1)","thickness":1},"error_x":{"color":"rgba(77,175,74,1)","thickness":1},"textfont":{"color":"rgba(77,175,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,1,1,1,1,0.96299999999999997,0.56599999999999995,0.161],"mode":"lines+markers","marker":{"color":"rgba(152,78,163,1)","symbol":"x-thin-open","size":12,"line":{"color":"rgba(152,78,163,1)","width":1}},"line":{"color":"rgba(152,78,163,1)","dash":"dashdot","width":2},"type":"scatter","name":"600 mg bid","error_y":{"color":"rgba(152,78,163,1)","thickness":1},"error_x":{"color":"rgba(152,78,163,1)","thickness":1},"textfont":{"color":"rgba(152,78,163,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>See <a href="https://lapkb.github.io/Pmetrics/reference/plot.PM_pta.html"><code>plot.PM_pta</code></a> for details on customizing the plot.</p>
+</section>
+<section id="pta-example-2" class="level3" data-number="12.4.4">
+<h3 data-number="12.4.4" class="anchored" data-anchor-id="pta-example-2"><span class="header-section-number">12.4.4</span> PTA example 2</h3>
+<p>PTA is based on a success of free AUC:MIC &gt; 100, with free fraction 70%.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we'll define success as free auc:mic &gt; 100 with a free drug fraction of 70%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>pta2_2 <span class="ot">&lt;-</span> PM_pta<span class="sc">$</span><span class="fu">new</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">simdata =</span> simlist2,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">simlabels =</span> simlabels, <span class="at">target =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">32</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">free_fraction =</span> <span class="fl">0.7</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">target_type =</span> <span class="st">"auc"</span>, <span class="at">success =</span> <span class="dv">100</span>, <span class="at">start =</span> <span class="dv">120</span>, <span class="at">end =</span> <span class="dv">144</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pta2_2)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>pta2_2<span class="sc">$</span><span class="fu">plot</span>(<span class="at">ylab =</span> <span class="st">"Proportion with free AUC/MIC &gt; 100"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-05e9a86963bd0c267f6b" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-05e9a86963bd0c267f6b">{"x":{"visdat":{"1e8d50d4d588":["function () ","plotlyVisDat"]},"cur_data":"1e8d50d4d588","attrs":{"1e8d50d4d588":{"x":{},"y":{},"mode":"lines+markers","marker":{"size":12},"line":{"width":2},"color":{},"stroke":{},"symbol":{},"linetype":{},"colors":"Set1","strokes":"Set1","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"symbols":[1,2,3,4],"linetypes":[1,2,3,4],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Target<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"yaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Proportion with free AUC/MIC > 100<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"showlegend":true,"legend":{"xanchor":"right","title":{"text":"<b>Regimen<\/b>"}},"title":{"text":"<b><\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":20}},"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,0.997,0.79600000000000004,0.32700000000000001,0.072999999999999995,0.016,0,0],"mode":"lines+markers","marker":{"color":"rgba(228,26,28,1)","symbol":"circle-open","size":12,"line":{"color":"rgba(228,26,28,1)","width":1}},"line":{"color":"rgba(228,26,28,1)","dash":"solid","width":2},"type":"scatter","name":"600 mg daily","error_y":{"color":"rgba(228,26,28,1)","thickness":1},"error_x":{"color":"rgba(228,26,28,1)","thickness":1},"textfont":{"color":"rgba(228,26,28,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,1,0.997,0.79600000000000004,0.32700000000000001,0.072999999999999995,0.016,0],"mode":"lines+markers","marker":{"color":"rgba(55,126,184,1)","symbol":"triangle-up-open","size":12,"line":{"color":"rgba(55,126,184,1)","width":1}},"line":{"color":"rgba(55,126,184,1)","dash":"dash","width":2},"type":"scatter","name":"1200 mg daily","error_y":{"color":"rgba(55,126,184,1)","thickness":1},"error_x":{"color":"rgba(55,126,184,1)","thickness":1},"textfont":{"color":"rgba(55,126,184,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,0.997,0.79600000000000004,0.32700000000000001,0.071999999999999995,0.014999999999999999,0,0],"mode":"lines+markers","marker":{"color":"rgba(77,175,74,1)","symbol":"cross-thin-open","size":12,"line":{"color":"rgba(77,175,74,1)","width":1}},"line":{"color":"rgba(77,175,74,1)","dash":"dot","width":2},"type":"scatter","name":"300 mg bid","error_y":{"color":"rgba(77,175,74,1)","thickness":1},"error_x":{"color":"rgba(77,175,74,1)","thickness":1},"textfont":{"color":"rgba(77,175,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,1,0.997,0.79600000000000004,0.32700000000000001,0.071999999999999995,0.014999999999999999,0],"mode":"lines+markers","marker":{"color":"rgba(152,78,163,1)","symbol":"x-thin-open","size":12,"line":{"color":"rgba(152,78,163,1)","width":1}},"line":{"color":"rgba(152,78,163,1)","dash":"dashdot","width":2},"type":"scatter","name":"600 mg bid","error_y":{"color":"rgba(152,78,163,1)","thickness":1},"error_x":{"color":"rgba(152,78,163,1)","thickness":1},"textfont":{"color":"rgba(152,78,163,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="pta-example-3" class="level3" data-number="12.4.5">
+<h3 data-number="12.4.5" class="anchored" data-anchor-id="pta-example-3"><span class="header-section-number">12.4.5</span> PTA example 3</h3>
+<p>PTA is based on a success of peak (Cmax) : MIC &gt; 10.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># success is Cmax/MIC &gt;=10</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>pta3_2 <span class="ot">&lt;-</span> PM_pta<span class="sc">$</span><span class="fu">new</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">simdata =</span> simlist2,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">simlabels =</span> simlabels,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">32</span>),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">target_type =</span> <span class="st">"peak"</span>, <span class="at">success =</span> <span class="dv">10</span>, <span class="at">start =</span> <span class="dv">120</span>, <span class="at">end =</span> <span class="dv">144</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>pta3_2<span class="sc">$</span><span class="fu">summary</span>()</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>pta3_2<span class="sc">$</span><span class="fu">plot</span>(<span class="at">ylab =</span> <span class="st">"Proportion with peak/MIC &gt; 10"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-5c531fb58df9c1ea2306" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-5c531fb58df9c1ea2306">{"x":{"visdat":{"1e8d217b1747":["function () ","plotlyVisDat"]},"cur_data":"1e8d217b1747","attrs":{"1e8d217b1747":{"x":{},"y":{},"mode":"lines+markers","marker":{"size":12},"line":{"width":2},"color":{},"stroke":{},"symbol":{},"linetype":{},"colors":"Set1","strokes":"Set1","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"symbols":[1,2,3,4],"linetypes":[1,2,3,4],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Target<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"yaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Proportion with peak/MIC > 10<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"showlegend":true,"legend":{"xanchor":"right","title":{"text":"<b>Regimen<\/b>"}},"title":{"text":"<b><\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":20}},"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,0.99199999999999999,0.68600000000000005,0.20899999999999999,0.043999999999999997,0.0060000000000000001,0,0],"mode":"lines+markers","marker":{"color":"rgba(228,26,28,1)","symbol":"circle-open","size":12,"line":{"color":"rgba(228,26,28,1)","width":1}},"line":{"color":"rgba(228,26,28,1)","dash":"solid","width":2},"type":"scatter","name":"600 mg daily","error_y":{"color":"rgba(228,26,28,1)","thickness":1},"error_x":{"color":"rgba(228,26,28,1)","thickness":1},"textfont":{"color":"rgba(228,26,28,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,1,0.99199999999999999,0.68600000000000005,0.20899999999999999,0.043999999999999997,0.0060000000000000001,0],"mode":"lines+markers","marker":{"color":"rgba(55,126,184,1)","symbol":"triangle-up-open","size":12,"line":{"color":"rgba(55,126,184,1)","width":1}},"line":{"color":"rgba(55,126,184,1)","dash":"dash","width":2},"type":"scatter","name":"1200 mg daily","error_y":{"color":"rgba(55,126,184,1)","thickness":1},"error_x":{"color":"rgba(55,126,184,1)","thickness":1},"textfont":{"color":"rgba(55,126,184,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,0.96199999999999997,0.51700000000000002,0.13800000000000001,0.029000000000000001,0.0040000000000000001,0,0],"mode":"lines+markers","marker":{"color":"rgba(77,175,74,1)","symbol":"cross-thin-open","size":12,"line":{"color":"rgba(77,175,74,1)","width":1}},"line":{"color":"rgba(77,175,74,1)","dash":"dot","width":2},"type":"scatter","name":"300 mg bid","error_y":{"color":"rgba(77,175,74,1)","thickness":1},"error_x":{"color":"rgba(77,175,74,1)","thickness":1},"textfont":{"color":"rgba(77,175,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,1,0.96199999999999997,0.51700000000000002,0.13800000000000001,0.029000000000000001,0.0040000000000000001,0],"mode":"lines+markers","marker":{"color":"rgba(152,78,163,1)","symbol":"x-thin-open","size":12,"line":{"color":"rgba(152,78,163,1)","width":1}},"line":{"color":"rgba(152,78,163,1)","dash":"dashdot","width":2},"type":"scatter","name":"600 mg bid","error_y":{"color":"rgba(152,78,163,1)","thickness":1},"error_x":{"color":"rgba(152,78,163,1)","thickness":1},"textfont":{"color":"rgba(152,78,163,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="pta-example-4" class="level3" data-number="12.4.6">
+<h3 data-number="12.4.6" class="anchored" data-anchor-id="pta-example-4"><span class="header-section-number">12.4.6</span> PTA example 4</h3>
+<p>PTA is based on a success of trough (Cmin) : MIC &gt; 1 <em>AND</em> a trough &lt; 8.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># success = Cmin:MIC &gt; 1 AND Cmin &lt; 8</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>pta4_2 <span class="ot">&lt;-</span> simlist2<span class="sc">$</span><span class="fu">pta</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">simlabels =</span> simlabels,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">32</span>), <span class="co"># MIC targets for first target_type</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                <span class="dv">8</span>), <span class="co"># trough target for second target_type</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">target_type =</span> <span class="fu">c</span>(<span class="st">"min"</span>, <span class="st">"-min"</span>), <span class="co"># first is Cmin:MIC &gt; 1, second is Cmin:8 &lt; 1</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">success =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="co"># ratios for both target types</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="dv">120</span>, <span class="at">end =</span> <span class="dv">144</span> <span class="co"># interval to evaluate</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>pta4_2<span class="sc">$</span><span class="fu">summary</span>()</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>pta4_2<span class="sc">$</span><span class="fu">plot</span>(<span class="at">ylab =</span> <span class="st">"Proportion with Cmin/MIC &gt; 1 and Cmin &lt; 8"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-c17a49c54618d82157c2" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-c17a49c54618d82157c2">{"x":{"visdat":{"1e8d26bb3f2b":["function () ","plotlyVisDat"]},"cur_data":"1e8d26bb3f2b","attrs":{"1e8d26bb3f2b":{"x":{},"y":{},"mode":"lines+markers","marker":{"size":12},"line":{"width":2},"color":{},"stroke":{},"symbol":{},"linetype":{},"colors":"Set1","strokes":"Set1","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"symbols":[1,2,3,4],"linetypes":[1,2,3,4],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Target<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}},"type":"category","categoryorder":"array","categoryarray":["(0.25)(8)","(0.5)(8)","(1)(8)","(16)(8)","(2)(8)","(32)(8)","(4)(8)","(8)(8)"]},"yaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Proportion with Cmin/MIC > 1 and Cmin < 8<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"showlegend":true,"legend":{"xanchor":"right","title":{"text":"<b>Regimen<\/b>"}},"title":{"text":"<b><\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":20}},"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["(0.25)(8)","(0.5)(8)","(1)(8)","(2)(8)","(4)(8)","(8)(8)","(16)(8)","(32)(8)"],"y":[0.73299999999999998,0.73299999999999998,0.73299999999999998,0.70099999999999996,0.40200000000000002,0,0,0],"mode":"lines+markers","marker":{"color":"rgba(228,26,28,1)","symbol":"circle-open","size":12,"line":{"color":"rgba(228,26,28,1)","width":1}},"line":{"color":"rgba(228,26,28,1)","dash":"solid","width":2},"type":"scatter","name":"600 mg daily","error_y":{"color":"rgba(228,26,28,1)","thickness":1},"error_x":{"color":"rgba(228,26,28,1)","thickness":1},"textfont":{"color":"rgba(228,26,28,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["(0.25)(8)","(0.5)(8)","(1)(8)","(2)(8)","(4)(8)","(8)(8)","(16)(8)","(32)(8)"],"y":[0.33100000000000002,0.33100000000000002,0.33100000000000002,0.33100000000000002,0.29899999999999999,0,0,0],"mode":"lines+markers","marker":{"color":"rgba(55,126,184,1)","symbol":"triangle-up-open","size":12,"line":{"color":"rgba(55,126,184,1)","width":1}},"line":{"color":"rgba(55,126,184,1)","dash":"dash","width":2},"type":"scatter","name":"1200 mg daily","error_y":{"color":"rgba(55,126,184,1)","thickness":1},"error_x":{"color":"rgba(55,126,184,1)","thickness":1},"textfont":{"color":"rgba(55,126,184,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["(0.25)(8)","(0.5)(8)","(1)(8)","(2)(8)","(4)(8)","(8)(8)","(16)(8)","(32)(8)"],"y":[0.56599999999999995,0.56599999999999995,0.56599999999999995,0.56499999999999995,0.45200000000000001,0,0,0],"mode":"lines+markers","marker":{"color":"rgba(77,175,74,1)","symbol":"cross-thin-open","size":12,"line":{"color":"rgba(77,175,74,1)","width":1}},"line":{"color":"rgba(77,175,74,1)","dash":"dot","width":2},"type":"scatter","name":"300 mg bid","error_y":{"color":"rgba(77,175,74,1)","thickness":1},"error_x":{"color":"rgba(77,175,74,1)","thickness":1},"textfont":{"color":"rgba(77,175,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["(0.25)(8)","(0.5)(8)","(1)(8)","(2)(8)","(4)(8)","(8)(8)","(16)(8)","(32)(8)"],"y":[0.114,0.114,0.114,0.114,0.113,0,0,0],"mode":"lines+markers","marker":{"color":"rgba(152,78,163,1)","symbol":"x-thin-open","size":12,"line":{"color":"rgba(152,78,163,1)","width":1}},"line":{"color":"rgba(152,78,163,1)","dash":"dashdot","width":2},"type":"scatter","name":"600 mg bid","error_y":{"color":"rgba(152,78,163,1)","thickness":1},"error_x":{"color":"rgba(152,78,163,1)","thickness":1},"textfont":{"color":"rgba(152,78,163,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Now we’ll plot the PDI (pharmacodynamic index) of each regimen, rather than the proportion of successful profiles. We need to choose <code>at = 1</code> or <code>at = 2</code> to specify which <code>target_type</code> to plot, since there are two target types in this PTA (“min” and “-min”) and we cannot plot a PDI of the intersection.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the PDI of regimen 1 </span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>pta4_2<span class="sc">$</span><span class="fu">plot</span>(<span class="at">at =</span> <span class="dv">1</span>, <span class="at">type =</span> <span class="st">"pdi"</span>, <span class="at">ylab =</span> <span class="st">"Cmin:MIC"</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the PDI of regimen 2</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>pta4_2<span class="sc">$</span><span class="fu">plot</span>(<span class="at">at =</span> <span class="dv">2</span>, <span class="at">type =</span> <span class="st">"pdi"</span>, <span class="at">ylab =</span> <span class="st">"Cmin:8"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-1793a1a425716de13b56" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-1793a1a425716de13b56">{"x":{"visdat":{"1e8d1d1b559a":["function () ","plotlyVisDat"]},"cur_data":"1e8d1d1b559a","attrs":{"1e8d1d1b559a":{"x":{},"y":{},"mode":"markers+lines","marker":{"size":12},"line":{"width":2},"color":{},"stroke":{},"symbol":{},"linetype":{},"colors":"Set1","strokes":"Set1","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"symbols":[1,2,3,4],"linetypes":[1,2,3,4],"type":"scatter"},"1e8d1d1b559a.1":{"x":{},"y":{},"mode":"lines","marker":{"size":0.01},"line":{"width":0},"color":{},"stroke":{},"symbol":{},"linetype":{},"colors":"Set1","strokes":"Set1","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"symbols":[1,2,3,4],"linetypes":[1,2,3,4],"type":"scatter","ymin":{},"ymax":{},"hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Target<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}},"type":"log"},"yaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Cmin:MIC<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"showlegend":true,"legend":{"xanchor":"right","title":{"text":"<b>Regimen<\/b>"}},"title":{"text":"<b><\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":20}},"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[0.25,0.5,1,2,4,8,16,32],"y":[40.911920874977625,20.455960437488812,10.227980218744406,5.1139901093722031,2.5569950546861016,1.2784975273430508,0.63924876367152539,0.31962438183576269],"mode":"markers+lines","marker":{"color":"rgba(228,26,28,1)","symbol":"circle-open","size":12,"line":{"color":"rgba(228,26,28,1)","width":1}},"line":{"color":"rgba(228,26,28,1)","dash":"solid","width":2},"type":"scatter","name":"1200 mg daily","error_y":{"color":"rgba(228,26,28,1)","thickness":1},"error_x":{"color":"rgba(228,26,28,1)","thickness":1},"textfont":{"color":"rgba(228,26,28,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[29.31173970516053,14.655869852580265,7.3279349262901325,3.6639674631450663,1.8319837315725331,0.91599186578626657,0.45799593289313328,0.22899796644656664],"mode":"markers+lines","marker":{"color":"rgba(55,126,184,1)","symbol":"triangle-up-open","size":12,"line":{"color":"rgba(55,126,184,1)","width":1}},"line":{"color":"rgba(55,126,184,1)","dash":"dash","width":2},"type":"scatter","name":"300 mg bid","error_y":{"color":"rgba(55,126,184,1)","thickness":1},"error_x":{"color":"rgba(55,126,184,1)","thickness":1},"textfont":{"color":"rgba(55,126,184,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[58.62347941032106,29.31173970516053,14.655869852580265,7.3279349262901325,3.6639674631450663,1.8319837315725331,0.91599186578626657,0.45799593289313328],"mode":"markers+lines","marker":{"color":"rgba(77,175,74,1)","symbol":"cross-thin-open","size":12,"line":{"color":"rgba(77,175,74,1)","width":1}},"line":{"color":"rgba(77,175,74,1)","dash":"dot","width":2},"type":"scatter","name":"600 mg bid","error_y":{"color":"rgba(77,175,74,1)","thickness":1},"error_x":{"color":"rgba(77,175,74,1)","thickness":1},"textfont":{"color":"rgba(77,175,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[20.455960437488812,10.227980218744406,5.1139901093722031,2.5569950546861016,1.2784975273430508,0.63924876367152539,0.31962438183576269,0.15981219091788135],"mode":"markers+lines","marker":{"color":"rgba(152,78,163,1)","symbol":"x-thin-open","size":12,"line":{"color":"rgba(152,78,163,1)","width":1}},"line":{"color":"rgba(152,78,163,1)","dash":"dashdot","width":2},"type":"scatter","name":"600 mg daily","error_y":{"color":"rgba(152,78,163,1)","thickness":1},"error_x":{"color":"rgba(152,78,163,1)","thickness":1},"textfont":{"color":"rgba(152,78,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(228,26,28,0.5)","x":[0.25,0.5,1,2,4,8,16,32,32,16,8,4,2,1,0.5,0.25],"y":[17.263779477984407,8.6318897389922036,4.3159448694961018,2.1579724347480509,1.0789862173740254,0.53949310868701272,0.26974655434350636,0.13487327717175318,1.1703967461659248,2.3407934923318496,4.6815869846636993,9.3631739693273985,18.726347938654797,37.452695877309594,74.905391754619188,149.81078350923838],"mode":"lines+markers","marker":{"color":"rgba(228,26,28,1)","symbol":"circle-open","size":0.01,"line":{"color":"rgba(228,26,28,1)","width":1}},"line":{"color":"rgba(228,26,28,1)","width":0,"dash":"solid"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"1200 mg daily","error_y":{"color":"rgba(228,26,28,1)","thickness":1},"error_x":{"color":"rgba(228,26,28,1)","thickness":1},"textfont":{"color":"rgba(228,26,28,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(55,126,184,0.5)","x":[0.25,0.5,1,2,4,8,16,32,32,16,8,4,2,1,0.5,0.25],"y":[13.916404120899234,6.9582020604496169,3.4791010302248084,1.7395505151124042,0.86977525755620211,0.43488762877810105,0.21744381438905053,0.10872190719452526,0.72005422218106108,1.4401084443621222,2.8802168887242443,5.7604337774484886,11.520867554896977,23.041735109793954,46.083470219587909,92.166940439175818],"mode":"lines+markers","marker":{"color":"rgba(55,126,184,1)","symbol":"triangle-up-open","size":0.01,"line":{"color":"rgba(55,126,184,1)","width":1}},"line":{"color":"rgba(55,126,184,1)","width":0,"dash":"dash"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"300 mg bid","error_y":{"color":"rgba(55,126,184,1)","thickness":1},"error_x":{"color":"rgba(55,126,184,1)","thickness":1},"textfont":{"color":"rgba(55,126,184,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(77,175,74,0.5)","x":[0.25,0.5,1,2,4,8,16,32,32,16,8,4,2,1,0.5,0.25],"y":[27.832808241798467,13.916404120899234,6.9582020604496169,3.4791010302248084,1.7395505151124042,0.86977525755620211,0.43488762877810105,0.21744381438905053,1.4401084443621222,2.8802168887242443,5.7604337774484886,11.520867554896977,23.041735109793954,46.083470219587909,92.166940439175818,184.33388087835164],"mode":"lines+markers","marker":{"color":"rgba(77,175,74,1)","symbol":"cross-thin-open","size":0.01,"line":{"color":"rgba(77,175,74,1)","width":1}},"line":{"color":"rgba(77,175,74,1)","width":0,"dash":"dot"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"600 mg bid","error_y":{"color":"rgba(77,175,74,1)","thickness":1},"error_x":{"color":"rgba(77,175,74,1)","thickness":1},"textfont":{"color":"rgba(77,175,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(152,78,163,0.5)","x":[0.25,0.5,1,2,4,8,16,32,32,32,16,8,4,2,1,0.5,0.25],"y":[8.6318897389922036,4.3159448694961018,2.1579724347480509,1.0789862173740254,0.53949310868701272,0.26974655434350636,0.13487327717175318,0.06743663858587659,0.06743663858587659,0.58519837308296241,1.1703967461659248,2.3407934923318496,4.6815869846636993,9.3631739693273985,18.726347938654797,37.452695877309594,74.905391754619188],"mode":"lines+markers","marker":{"color":"rgba(152,78,163,1)","symbol":"x-thin-open","size":0.01,"line":{"color":"rgba(152,78,163,1)","width":1}},"line":{"color":"rgba(152,78,163,1)","width":0,"dash":"dashdot"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"600 mg daily","error_y":{"color":"rgba(152,78,163,1)","thickness":1},"error_x":{"color":"rgba(152,78,163,1)","thickness":1},"textfont":{"color":"rgba(152,78,163,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-0f14b8ec146daeb4688d" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-0f14b8ec146daeb4688d">{"x":{"visdat":{"1e8d4ab09bc7":["function () ","plotlyVisDat"]},"cur_data":"1e8d4ab09bc7","attrs":{"1e8d4ab09bc7":{"x":{},"y":{},"mode":"markers+lines","marker":{"size":12},"line":{"width":2},"color":{},"stroke":{},"symbol":{},"linetype":{},"colors":"Set1","strokes":"Set1","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"symbols":[1,2,3,4],"linetypes":[1,2,3,4],"type":"scatter"},"1e8d4ab09bc7.1":{"x":{},"y":{},"mode":"lines","marker":{"size":0.01},"line":{"width":0},"color":{},"stroke":{},"symbol":{},"linetype":{},"colors":"Set1","strokes":"Set1","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"symbols":[1,2,3,4],"linetypes":[1,2,3,4],"type":"scatter","ymin":{},"ymax":{},"hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Target<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"yaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Cmin:8<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"showlegend":true,"legend":{"xanchor":"right","title":{"text":"<b>Regimen<\/b>"}},"title":{"text":"<b><\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":20}},"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[8],"y":[1.2784975273430508],"mode":"markers+lines","marker":{"color":"rgba(228,26,28,1)","symbol":"circle-open","size":12,"line":{"color":"rgba(228,26,28,1)","width":1}},"line":{"color":"rgba(228,26,28,1)","dash":"solid","width":2},"type":"scatter","name":"1200 mg daily","error_y":{"color":"rgba(228,26,28,1)","thickness":1},"error_x":{"color":"rgba(228,26,28,1)","thickness":1},"textfont":{"color":"rgba(228,26,28,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[8],"y":[0.91599186578626657],"mode":"markers+lines","marker":{"color":"rgba(55,126,184,1)","symbol":"triangle-up-open","size":12,"line":{"color":"rgba(55,126,184,1)","width":1}},"line":{"color":"rgba(55,126,184,1)","dash":"dash","width":2},"type":"scatter","name":"300 mg bid","error_y":{"color":"rgba(55,126,184,1)","thickness":1},"error_x":{"color":"rgba(55,126,184,1)","thickness":1},"textfont":{"color":"rgba(55,126,184,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[8],"y":[1.8319837315725331],"mode":"markers+lines","marker":{"color":"rgba(77,175,74,1)","symbol":"cross-thin-open","size":12,"line":{"color":"rgba(77,175,74,1)","width":1}},"line":{"color":"rgba(77,175,74,1)","dash":"dot","width":2},"type":"scatter","name":"600 mg bid","error_y":{"color":"rgba(77,175,74,1)","thickness":1},"error_x":{"color":"rgba(77,175,74,1)","thickness":1},"textfont":{"color":"rgba(77,175,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[8],"y":[0.63924876367152539],"mode":"markers+lines","marker":{"color":"rgba(152,78,163,1)","symbol":"x-thin-open","size":12,"line":{"color":"rgba(152,78,163,1)","width":1}},"line":{"color":"rgba(152,78,163,1)","dash":"dashdot","width":2},"type":"scatter","name":"600 mg daily","error_y":{"color":"rgba(152,78,163,1)","thickness":1},"error_x":{"color":"rgba(152,78,163,1)","thickness":1},"textfont":{"color":"rgba(152,78,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(228,26,28,0.5)","x":[8,8],"y":[0.53949310868701272,4.6815869846636993],"mode":"lines+markers","marker":{"color":"rgba(228,26,28,1)","symbol":"circle-open","size":0.01,"line":{"color":"rgba(228,26,28,1)","width":1}},"line":{"color":"rgba(228,26,28,1)","width":0,"dash":"solid"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"1200 mg daily","error_y":{"color":"rgba(228,26,28,1)","thickness":1},"error_x":{"color":"rgba(228,26,28,1)","thickness":1},"textfont":{"color":"rgba(228,26,28,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(55,126,184,0.5)","x":[8,8],"y":[0.43488762877810105,2.8802168887242443],"mode":"lines+markers","marker":{"color":"rgba(55,126,184,1)","symbol":"triangle-up-open","size":0.01,"line":{"color":"rgba(55,126,184,1)","width":1}},"line":{"color":"rgba(55,126,184,1)","width":0,"dash":"dash"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"300 mg bid","error_y":{"color":"rgba(55,126,184,1)","thickness":1},"error_x":{"color":"rgba(55,126,184,1)","thickness":1},"textfont":{"color":"rgba(55,126,184,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(77,175,74,0.5)","x":[8,8],"y":[0.86977525755620211,5.7604337774484886],"mode":"lines+markers","marker":{"color":"rgba(77,175,74,1)","symbol":"cross-thin-open","size":0.01,"line":{"color":"rgba(77,175,74,1)","width":1}},"line":{"color":"rgba(77,175,74,1)","width":0,"dash":"dot"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"600 mg bid","error_y":{"color":"rgba(77,175,74,1)","thickness":1},"error_x":{"color":"rgba(77,175,74,1)","thickness":1},"textfont":{"color":"rgba(77,175,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(152,78,163,0.5)","x":[8,8,8],"y":[0.26974655434350636,0.26974655434350636,2.3407934923318496],"mode":"lines+markers","marker":{"color":"rgba(152,78,163,1)","symbol":"x-thin-open","size":0.01,"line":{"color":"rgba(152,78,163,1)","width":1}},"line":{"color":"rgba(152,78,163,1)","width":0,"dash":"dashdot"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"600 mg daily","error_y":{"color":"rgba(152,78,163,1)","thickness":1},"error_x":{"color":"rgba(152,78,163,1)","thickness":1},"textfont":{"color":"rgba(152,78,163,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Modify the plots…</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Each regimen has the 90% confidence interval PDI around the median curve,</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># in the corresponding, semi-transparent color.  Make the CI much narrower...</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>pta4_2<span class="sc">$</span><span class="fu">plot</span>(<span class="at">at =</span> <span class="dv">1</span>, <span class="at">type =</span> <span class="st">"pdi"</span>, <span class="at">ci =</span> <span class="fl">0.1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-42fe6b412db75e1df9d8" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-42fe6b412db75e1df9d8">{"x":{"visdat":{"1e8d1ec3180":["function () ","plotlyVisDat"]},"cur_data":"1e8d1ec3180","attrs":{"1e8d1ec3180":{"x":{},"y":{},"mode":"markers+lines","marker":{"size":12},"line":{"width":2},"color":{},"stroke":{},"symbol":{},"linetype":{},"colors":"Set1","strokes":"Set1","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"symbols":[1,2,3,4],"linetypes":[1,2,3,4],"type":"scatter"},"1e8d1ec3180.1":{"x":{},"y":{},"mode":"lines","marker":{"size":0.01},"line":{"width":0},"color":{},"stroke":{},"symbol":{},"linetype":{},"colors":"Set1","strokes":"Set1","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"symbols":[1,2,3,4],"linetypes":[1,2,3,4],"type":"scatter","ymin":{},"ymax":{},"hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Target<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}},"type":"log"},"yaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Pharmacodynamic Index<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"showlegend":true,"legend":{"xanchor":"right","title":{"text":"<b>Regimen<\/b>"}},"title":{"text":"<b><\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":20}},"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[0.25,0.5,1,2,4,8,16,32],"y":[40.911920874977625,20.455960437488812,10.227980218744406,5.1139901093722031,2.5569950546861016,1.2784975273430508,0.63924876367152539,0.31962438183576269],"mode":"markers+lines","marker":{"color":"rgba(228,26,28,1)","symbol":"circle-open","size":12,"line":{"color":"rgba(228,26,28,1)","width":1}},"line":{"color":"rgba(228,26,28,1)","dash":"solid","width":2},"type":"scatter","name":"1200 mg daily","error_y":{"color":"rgba(228,26,28,1)","thickness":1},"error_x":{"color":"rgba(228,26,28,1)","thickness":1},"textfont":{"color":"rgba(228,26,28,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[29.31173970516053,14.655869852580265,7.3279349262901325,3.6639674631450663,1.8319837315725331,0.91599186578626657,0.45799593289313328,0.22899796644656664],"mode":"markers+lines","marker":{"color":"rgba(55,126,184,1)","symbol":"triangle-up-open","size":12,"line":{"color":"rgba(55,126,184,1)","width":1}},"line":{"color":"rgba(55,126,184,1)","dash":"dash","width":2},"type":"scatter","name":"300 mg bid","error_y":{"color":"rgba(55,126,184,1)","thickness":1},"error_x":{"color":"rgba(55,126,184,1)","thickness":1},"textfont":{"color":"rgba(55,126,184,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[58.62347941032106,29.31173970516053,14.655869852580265,7.3279349262901325,3.6639674631450663,1.8319837315725331,0.91599186578626657,0.45799593289313328],"mode":"markers+lines","marker":{"color":"rgba(77,175,74,1)","symbol":"cross-thin-open","size":12,"line":{"color":"rgba(77,175,74,1)","width":1}},"line":{"color":"rgba(77,175,74,1)","dash":"dot","width":2},"type":"scatter","name":"600 mg bid","error_y":{"color":"rgba(77,175,74,1)","thickness":1},"error_x":{"color":"rgba(77,175,74,1)","thickness":1},"textfont":{"color":"rgba(77,175,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[20.455960437488812,10.227980218744406,5.1139901093722031,2.5569950546861016,1.2784975273430508,0.63924876367152539,0.31962438183576269,0.15981219091788135],"mode":"markers+lines","marker":{"color":"rgba(152,78,163,1)","symbol":"x-thin-open","size":12,"line":{"color":"rgba(152,78,163,1)","width":1}},"line":{"color":"rgba(152,78,163,1)","dash":"dashdot","width":2},"type":"scatter","name":"600 mg daily","error_y":{"color":"rgba(152,78,163,1)","thickness":1},"error_x":{"color":"rgba(152,78,163,1)","thickness":1},"textfont":{"color":"rgba(152,78,163,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(228,26,28,0.5)","x":[0.25,0.5,1,2,4,8,16,32,32,16,8,4,2,1,0.5,0.25],"y":[38.08070297999474,19.04035148999737,9.520175744998685,4.7600878724993425,2.3800439362496713,1.1900219681248356,0.59501098406241781,0.29750549203120891,0.34665215446277858,0.69330430892555717,1.3866086178511143,2.7732172357022287,5.5464344714044573,11.092868942808915,22.185737885617829,44.371475771235659],"mode":"lines+markers","marker":{"color":"rgba(228,26,28,1)","symbol":"circle-open","size":0.01,"line":{"color":"rgba(228,26,28,1)","width":1}},"line":{"color":"rgba(228,26,28,1)","width":0,"dash":"solid"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"1200 mg daily","error_y":{"color":"rgba(228,26,28,1)","thickness":1},"error_x":{"color":"rgba(228,26,28,1)","thickness":1},"textfont":{"color":"rgba(228,26,28,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(55,126,184,0.5)","x":[0.25,0.5,1,2,4,8,16,32,32,16,8,4,2,1,0.5,0.25],"y":[27.284858358425232,13.642429179212616,6.8212145896063081,3.4106072948031541,1.705303647401577,0.85265182370078851,0.42632591185039426,0.21316295592519713,0.24350488454083699,0.48700976908167398,0.97401953816334796,1.9480390763266959,3.8960781526533919,7.7921563053067837,15.584312610613567,31.168625221227135],"mode":"lines+markers","marker":{"color":"rgba(55,126,184,1)","symbol":"triangle-up-open","size":0.01,"line":{"color":"rgba(55,126,184,1)","width":1}},"line":{"color":"rgba(55,126,184,1)","width":0,"dash":"dash"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"300 mg bid","error_y":{"color":"rgba(55,126,184,1)","thickness":1},"error_x":{"color":"rgba(55,126,184,1)","thickness":1},"textfont":{"color":"rgba(55,126,184,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(77,175,74,0.5)","x":[0.25,0.5,1,2,4,8,16,32,32,16,8,4,2,1,0.5,0.25],"y":[54.569716716850465,27.284858358425232,13.642429179212616,6.8212145896063081,3.4106072948031541,1.705303647401577,0.85265182370078851,0.42632591185039426,0.48700976908167398,0.97401953816334796,1.9480390763266959,3.8960781526533919,7.7921563053067837,15.584312610613567,31.168625221227135,62.33725044245427],"mode":"lines+markers","marker":{"color":"rgba(77,175,74,1)","symbol":"cross-thin-open","size":0.01,"line":{"color":"rgba(77,175,74,1)","width":1}},"line":{"color":"rgba(77,175,74,1)","width":0,"dash":"dot"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"600 mg bid","error_y":{"color":"rgba(77,175,74,1)","thickness":1},"error_x":{"color":"rgba(77,175,74,1)","thickness":1},"textfont":{"color":"rgba(77,175,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(152,78,163,0.5)","x":[0.25,0.5,1,2,4,8,16,32,32,32,16,8,4,2,1,0.5,0.25],"y":[19.04035148999737,9.520175744998685,4.7600878724993425,2.3800439362496713,1.1900219681248356,0.59501098406241781,0.29750549203120891,0.14875274601560445,0.14875274601560445,0.17332607723138929,0.34665215446277858,0.69330430892555717,1.3866086178511143,2.7732172357022287,5.5464344714044573,11.092868942808915,22.185737885617829],"mode":"lines+markers","marker":{"color":"rgba(152,78,163,1)","symbol":"x-thin-open","size":0.01,"line":{"color":"rgba(152,78,163,1)","width":1}},"line":{"color":"rgba(152,78,163,1)","width":0,"dash":"dashdot"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"600 mg daily","error_y":{"color":"rgba(152,78,163,1)","thickness":1},"error_x":{"color":"rgba(152,78,163,1)","thickness":1},"textfont":{"color":"rgba(152,78,163,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...or gone altogether, remove the grid, redefine the colors, and make lines narrower</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>pta4_2<span class="sc">$</span><span class="fu">plot</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">at =</span> <span class="dv">1</span>, <span class="at">type =</span> <span class="st">"pdi"</span>, <span class="at">ci =</span> <span class="dv">0</span>, <span class="at">grid =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">line =</span> <span class="fu">list</span>(</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"purple"</span>, <span class="st">"black"</span>, <span class="st">"brown"</span>),</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="dv">1</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  ), <span class="at">log =</span> <span class="cn">TRUE</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-08ac33b5274df741aec0" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-08ac33b5274df741aec0">{"x":{"visdat":{"1e8d4bd9dc78":["function () ","plotlyVisDat"]},"cur_data":"1e8d4bd9dc78","attrs":{"1e8d4bd9dc78":{"x":{},"y":{},"mode":"markers+lines","marker":{"size":12},"line":{"width":1},"color":{},"stroke":{},"symbol":{},"linetype":{},"colors":["blue","purple","black","brown"],"strokes":["blue","purple","black","brown"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"symbols":[1,2,3,4],"linetypes":[1,2,3,4],"type":"scatter"},"1e8d4bd9dc78.1":{"x":{},"y":{},"mode":"lines","marker":{"size":0.01},"line":{"width":0},"color":{},"stroke":{},"symbol":{},"linetype":{},"colors":["blue","purple","black","brown"],"strokes":["blue","purple","black","brown"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"symbols":[1,2,3,4],"linetypes":[1,2,3,4],"type":"scatter","ymin":{},"ymax":{},"hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#FFFFFF","gridwidth":0,"title":{"text":"<b>Target<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}},"type":"log"},"yaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#FFFFFF","gridwidth":0,"title":{"text":"<b>Pharmacodynamic Index<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"showlegend":true,"legend":{"xanchor":"right","title":{"text":"<b>Regimen<\/b>"}},"title":{"text":"<b><\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":20}},"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[0.25,0.5,1,2,4,8,16,32],"y":[40.911920874977625,20.455960437488812,10.227980218744406,5.1139901093722031,2.5569950546861016,1.2784975273430508,0.63924876367152539,0.31962438183576269],"mode":"markers+lines","marker":{"color":"rgba(0,0,255,1)","symbol":"circle-open","size":12,"line":{"color":"rgba(0,0,255,1)","width":1}},"line":{"color":"rgba(0,0,255,1)","dash":"solid","width":1},"type":"scatter","name":"1200 mg daily","error_y":{"color":"rgba(0,0,255,1)","thickness":1},"error_x":{"color":"rgba(0,0,255,1)","thickness":1},"textfont":{"color":"rgba(0,0,255,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[29.31173970516053,14.655869852580265,7.3279349262901325,3.6639674631450663,1.8319837315725331,0.91599186578626657,0.45799593289313328,0.22899796644656664],"mode":"markers+lines","marker":{"color":"rgba(160,32,240,1)","symbol":"triangle-up-open","size":12,"line":{"color":"rgba(160,32,240,1)","width":1}},"line":{"color":"rgba(160,32,240,1)","dash":"dash","width":1},"type":"scatter","name":"300 mg bid","error_y":{"color":"rgba(160,32,240,1)","thickness":1},"error_x":{"color":"rgba(160,32,240,1)","thickness":1},"textfont":{"color":"rgba(160,32,240,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[58.62347941032106,29.31173970516053,14.655869852580265,7.3279349262901325,3.6639674631450663,1.8319837315725331,0.91599186578626657,0.45799593289313328],"mode":"markers+lines","marker":{"color":"rgba(0,0,0,1)","symbol":"cross-thin-open","size":12,"line":{"color":"rgba(0,0,0,1)","width":1}},"line":{"color":"rgba(0,0,0,1)","dash":"dot","width":1},"type":"scatter","name":"600 mg bid","error_y":{"color":"rgba(0,0,0,1)","thickness":1},"error_x":{"color":"rgba(0,0,0,1)","thickness":1},"textfont":{"color":"rgba(0,0,0,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[20.455960437488812,10.227980218744406,5.1139901093722031,2.5569950546861016,1.2784975273430508,0.63924876367152539,0.31962438183576269,0.15981219091788135],"mode":"markers+lines","marker":{"color":"rgba(165,42,42,1)","symbol":"x-thin-open","size":12,"line":{"color":"rgba(165,42,42,1)","width":1}},"line":{"color":"rgba(165,42,42,1)","dash":"dashdot","width":1},"type":"scatter","name":"600 mg daily","error_y":{"color":"rgba(165,42,42,1)","thickness":1},"error_x":{"color":"rgba(165,42,42,1)","thickness":1},"textfont":{"color":"rgba(165,42,42,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(0,0,255,0.5)","x":[0.25,0.5,1,2,4,8,16,32,32,16,8,4,2,1,0.5,0.25],"y":[40.911920874977625,20.455960437488812,10.227980218744406,5.1139901093722031,2.5569950546861016,1.2784975273430508,0.63924876367152539,0.31962438183576269,0.31962438183576269,0.63924876367152539,1.2784975273430508,2.5569950546861016,5.1139901093722031,10.227980218744406,20.455960437488812,40.911920874977625],"mode":"lines+markers","marker":{"color":"rgba(0,0,255,1)","symbol":"circle-open","size":0.01,"line":{"color":"rgba(0,0,255,1)","width":1}},"line":{"color":"rgba(0,0,255,1)","width":0,"dash":"solid"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"1200 mg daily","error_y":{"color":"rgba(0,0,255,1)","thickness":1},"error_x":{"color":"rgba(0,0,255,1)","thickness":1},"textfont":{"color":"rgba(0,0,255,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(160,32,240,0.5)","x":[0.25,0.5,1,2,4,8,16,32,32,16,8,4,2,1,0.5,0.25],"y":[29.31173970516053,14.655869852580265,7.3279349262901325,3.6639674631450663,1.8319837315725331,0.91599186578626657,0.45799593289313328,0.22899796644656664,0.22899796644656664,0.45799593289313328,0.91599186578626657,1.8319837315725331,3.6639674631450663,7.3279349262901325,14.655869852580265,29.31173970516053],"mode":"lines+markers","marker":{"color":"rgba(160,32,240,1)","symbol":"triangle-up-open","size":0.01,"line":{"color":"rgba(160,32,240,1)","width":1}},"line":{"color":"rgba(160,32,240,1)","width":0,"dash":"dash"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"300 mg bid","error_y":{"color":"rgba(160,32,240,1)","thickness":1},"error_x":{"color":"rgba(160,32,240,1)","thickness":1},"textfont":{"color":"rgba(160,32,240,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(0,0,0,0.5)","x":[0.25,0.5,1,2,4,8,16,32,32,16,8,4,2,1,0.5,0.25],"y":[58.62347941032106,29.31173970516053,14.655869852580265,7.3279349262901325,3.6639674631450663,1.8319837315725331,0.91599186578626657,0.45799593289313328,0.45799593289313328,0.91599186578626657,1.8319837315725331,3.6639674631450663,7.3279349262901325,14.655869852580265,29.31173970516053,58.62347941032106],"mode":"lines+markers","marker":{"color":"rgba(0,0,0,1)","symbol":"cross-thin-open","size":0.01,"line":{"color":"rgba(0,0,0,1)","width":1}},"line":{"color":"rgba(0,0,0,1)","width":0,"dash":"dot"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"600 mg bid","error_y":{"color":"rgba(0,0,0,1)","thickness":1},"error_x":{"color":"rgba(0,0,0,1)","thickness":1},"textfont":{"color":"rgba(0,0,0,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(165,42,42,0.5)","x":[0.25,0.5,1,2,4,8,16,32,32,32,16,8,4,2,1,0.5,0.25],"y":[20.455960437488812,10.227980218744406,5.1139901093722031,2.5569950546861016,1.2784975273430508,0.63924876367152539,0.31962438183576269,0.15981219091788135,0.15981219091788135,0.15981219091788135,0.31962438183576269,0.63924876367152539,1.2784975273430508,2.5569950546861016,5.1139901093722031,10.227980218744406,20.455960437488812],"mode":"lines+markers","marker":{"color":"rgba(165,42,42,1)","symbol":"x-thin-open","size":0.01,"line":{"color":"rgba(165,42,42,1)","width":1}},"line":{"color":"rgba(165,42,42,1)","width":0,"dash":"dashdot"},"type":"scatter","hoveron":"points","fill":"toself","opacity":0.5,"showlegend":false,"name":"600 mg daily","error_y":{"color":"rgba(165,42,42,1)","thickness":1},"error_x":{"color":"rgba(165,42,42,1)","thickness":1},"textfont":{"color":"rgba(165,42,42,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="pta-example-5" class="level3" data-number="12.4.7">
+<h3 data-number="12.4.7" class="anchored" data-anchor-id="pta-example-5"><span class="header-section-number">12.4.7</span> PTA example 5</h3>
+<p>Now let’s repeat the analysis but simulate the distribution of MICs using susceptibility of Staphylococcus aureus to vancomycin contained in the <a href="https://lapkb.github.io/Pmetrics/reference/mic1.html"><code>mic1</code></a> dataset within <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span>. Note that the plot changes since target MICs are no longer discrete. Since most of the MICs are very low, the regimens all look very similar.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># success = Cmin:MIC &gt; 1 AND Cmin &lt; 8</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>pta5_2 <span class="ot">&lt;-</span> simlist2<span class="sc">$</span><span class="fu">pta</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">simlabels =</span> simlabels,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">makePTAtarget</span>(mic1), <span class="co"># sampled MIC values</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">target_type =</span> <span class="st">"time"</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">success =</span> <span class="fu">c</span>(<span class="fl">0.6</span>), </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="dv">120</span>, <span class="at">end =</span> <span class="dv">144</span> </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>pta5_2<span class="sc">$</span><span class="fu">summary</span>()</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>pta5_2<span class="sc">$</span><span class="fu">plot</span>(<span class="at">ylab =</span> <span class="st">"Proportion with %T&gt;MIC of at least 60%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-45fa812e612e749042ac" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-45fa812e612e749042ac">{"x":{"visdat":{"1e8d7a0616bd":["function () ","plotlyVisDat"]},"cur_data":"1e8d7a0616bd","attrs":{"1e8d7a0616bd":{"x":{},"y":{},"mode":"lines+markers","line":{"color":"Set1","width":2,"dash":[1,2,3,4]},"marker":{"color":"Set1","symbol":[1,2,3,4],"size":12},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Regimen<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}},"tickvals":["600 mg daily","1200 mg daily","300 mg bid","600 mg bid"],"ticktext":["600 mg daily","1200 mg daily","300 mg bid","600 mg bid"]},"yaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Proportion with %T>MIC of at least 60%<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"showlegend":false,"legend":{"xanchor":"right","title":{"text":"<b>Regimen<\/b>"}},"title":{"text":"<b><\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":20}},"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["600 mg daily","1200 mg daily","300 mg bid","600 mg bid"],"y":[0.998,1,0.999,1],"mode":"lines+markers","line":{"color":"Set1","width":2,"dash":[1,2,3,4]},"marker":{"color":"Set1","symbol":[1,2,3,4],"size":12,"line":{"color":"rgba(31,119,180,1)"}},"type":"scatter","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="pta-example-6" class="level3" data-number="12.4.8">
+<h3 data-number="12.4.8" class="anchored" data-anchor-id="pta-example-6"><span class="header-section-number">12.4.8</span> PTA example 6</h3>
+<p>Lastly, let’s calculate PTA based on concentration at a specific time point, 123 hours (3 hours after the last dose at 120 hours), defining success as C3:MIC &gt; 2.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># success = concentration at time 123 hours (3 hours after dose at 120 hours):MIC &gt; 2</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>pta6_2 <span class="ot">&lt;-</span> PM_pta<span class="sc">$</span><span class="fu">new</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">simdata =</span> simlist2,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">simlabels =</span> simlabels,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>, <span class="dv">32</span>), <span class="at">target_type =</span> <span class="dv">123</span>, <span class="at">success =</span> <span class="dv">2</span>, <span class="at">start =</span> <span class="dv">120</span>, <span class="at">end =</span> <span class="dv">144</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>pta6_2<span class="sc">$</span><span class="fu">summary</span>()</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>pta6_2<span class="sc">$</span><span class="fu">plot</span>(<span class="at">ylab =</span> <span class="st">"Proportion with C3/MIC of at least 1"</span>, <span class="at">grid =</span> <span class="cn">TRUE</span>, <span class="at">legend =</span> <span class="fu">list</span>(<span class="at">x =</span> .<span class="dv">3</span>, <span class="at">y =</span> <span class="fl">0.1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-067ba0ba0d42edfcbce3" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-067ba0ba0d42edfcbce3">{"x":{"visdat":{"1e8d3b2e9af2":["function () ","plotlyVisDat"]},"cur_data":"1e8d3b2e9af2","attrs":{"1e8d3b2e9af2":{"x":{},"y":{},"mode":"lines+markers","marker":{"size":12},"line":{"width":2},"color":{},"stroke":{},"symbol":{},"linetype":{},"colors":"Set1","strokes":"Set1","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"symbols":[1,2,3,4],"linetypes":[1,2,3,4],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Target<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"yaxis":{"domain":[0,1],"automargin":true,"gridcolor":"#999999","gridwidth":1,"title":{"text":"<b>Proportion with C3/MIC of at least 1<\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":16}}},"showlegend":true,"legend":{"xanchor":"right","title":{"text":"<b>Regimen<\/b>"},"x":0.29999999999999999,"y":0.10000000000000001},"title":{"text":"<b><\/b>","font":{"family":"Arial","color":"#000000","bold":true,"size":20}},"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,1,1,0.97599999999999998,0.66000000000000003,0.19700000000000001,0.036999999999999998,0.0060000000000000001],"mode":"lines+markers","marker":{"color":"rgba(228,26,28,1)","symbol":"circle-open","size":12,"line":{"color":"rgba(228,26,28,1)","width":1}},"line":{"color":"rgba(228,26,28,1)","dash":"solid","width":2},"type":"scatter","name":"600 mg daily","error_y":{"color":"rgba(228,26,28,1)","thickness":1},"error_x":{"color":"rgba(228,26,28,1)","thickness":1},"textfont":{"color":"rgba(228,26,28,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,1,1,1,0.97599999999999998,0.66000000000000003,0.19700000000000001,0.036999999999999998],"mode":"lines+markers","marker":{"color":"rgba(55,126,184,1)","symbol":"triangle-up-open","size":12,"line":{"color":"rgba(55,126,184,1)","width":1}},"line":{"color":"rgba(55,126,184,1)","dash":"dash","width":2},"type":"scatter","name":"1200 mg daily","error_y":{"color":"rgba(55,126,184,1)","thickness":1},"error_x":{"color":"rgba(55,126,184,1)","thickness":1},"textfont":{"color":"rgba(55,126,184,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,1,1,0.98299999999999998,0.61899999999999999,0.17599999999999999,0.037999999999999999,0.0060000000000000001],"mode":"lines+markers","marker":{"color":"rgba(77,175,74,1)","symbol":"cross-thin-open","size":12,"line":{"color":"rgba(77,175,74,1)","width":1}},"line":{"color":"rgba(77,175,74,1)","dash":"dot","width":2},"type":"scatter","name":"300 mg bid","error_y":{"color":"rgba(77,175,74,1)","thickness":1},"error_x":{"color":"rgba(77,175,74,1)","thickness":1},"textfont":{"color":"rgba(77,175,74,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0.25,0.5,1,2,4,8,16,32],"y":[1,1,1,1,0.98299999999999998,0.61899999999999999,0.17599999999999999,0.037999999999999999],"mode":"lines+markers","marker":{"color":"rgba(152,78,163,1)","symbol":"x-thin-open","size":12,"line":{"color":"rgba(152,78,163,1)","width":1}},"line":{"color":"rgba(152,78,163,1)","dash":"dashdot","width":2},"type":"scatter","name":"600 mg bid","error_y":{"color":"rgba(152,78,163,1)","thickness":1},"error_x":{"color":"rgba(152,78,163,1)","thickness":1},"textfont":{"color":"rgba(152,78,163,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p><strong>Next</strong> we will explore another useful application of simulation: model validation.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./simulation.html" class="pagination-link" aria-label="Simulations">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Simulations</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./plotly.html" class="pagination-link" aria-label="Plotting Details">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Plotting Details</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
