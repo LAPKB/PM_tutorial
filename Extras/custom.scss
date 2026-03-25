@@ -1,0 +1,21 @@
+/*-- scss:defaults --*/
+
+
+/*-- scss:rules --*/
+
+.cell-output {
+  background-color: #1e90ff20;
+  border-radius: 4px; 
+}
+
+div[data-code-copy="false"] button.code-copy-button {
+  display: none;
+}
+
+div[data-code-copy="false"]:not(.no-code-style) {
+  background-color: #777373;   /* darker grey than the default */
+  border-radius: 6px;
+}
+
+
+
