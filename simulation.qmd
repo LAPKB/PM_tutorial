@@ -35,8 +35,9 @@ gh_help <- function(name) {
     glue::glue("[`{name}`](https://lapkb.github.io/Pmetrics/reference/{name}.html)")
 }
 
-exData <- PM_data$new(data = "Data/src/ex.csv")
-mod1 <- PM_model$new("Data/src/model.txt")
+exData <- PM_data$new(data = "Data/src/ex.csv", quiet = TRUE)
+run1 <- PM_load(run = 1, path = "Data/Runs")
+mod1 <- run1$model
 run2 <- PM_load(run = 2, path = "Data/Runs")
 
 ```
@@ -160,7 +161,7 @@ Details of all arguments available to modify simulations are available by typing
 
 Simulation from a non-parametric prior distribution (from NPAG) can be done in one of two ways. The first is simply to take the mean and covariance matrix of the distribution and perform a standard Monte Carlo simulation. This is accomplished by setting `split = FALSE` as an argument.
 
-The second way is what we call semi-parametric [@goutelle_nonparametric_2022]. In this method, the non-parametric "support points" in the population model, each a vector of one value for each parameter in the model and the associated probability of that set of parameter values, serve as the mean of one multi-variate normal distribution in a multi-modal, multi-variate joint distribution. The weight of each multi-variate distribution is equal to the probability of the point. The overall population covariance matrix is divided by the number of support points and applied to each distribution for sampling.
+The second way is what we call semi-parametric [@goutelleNonparametricMethodsPopulation2022]. In this method, the non-parametric "support points" in the population model, each a vector of one value for each parameter in the model and the associated probability of that set of parameter values, serve as the mean of one multi-variate normal distribution in a multi-modal, multi-variate joint distribution. The weight of each multi-variate distribution is equal to the probability of the point. The overall population covariance matrix is divided by the number of support points and applied to each distribution for sampling.
 
 Below are illustrations of simulations with a single mean and covariance for two parameters (left, `split = FALSE`), and with multi-modal sampling (right, `split = TRUE`).
 
@@ -222,7 +223,7 @@ Setting `limits = NA` makes the simulated parameter values stay within the same 
 
 ```{r}
 #| eval: true
-simdata <- run2$sim(include = 1, limits = c(0,3), nsim = 100)
+simdata <- run1$sim(include = 1, limits = c(0,3), nsim = 100)
 ```
 
 Below is the alternate way to simulate, which is particularly useful if you define 
@@ -247,7 +248,7 @@ Simulate from a model with new data.
 
 ```{r}
 #| eval: true
-sim_new <- run2$sim(
+sim_new <- run1$sim(
   data = "Data/src/ptaex1.csv",
   include = 2, limits = NA,
   predInt = c(120, 144, 1)
@@ -265,16 +266,17 @@ sim_new$plot(log = FALSE)
 
 ```{r}
 #| eval: true
-plotly::plotly_build(simdata$plot())
-plotly::plotly_build(simOther$plot()) 
-plotly::plotly_build(sim_new$plot(log = FALSE))
+#| echo: false
+plotly::plotly_build(simdata$plot()$p)
+plotly::plotly_build(simOther$plot()$p) 
+plotly::plotly_build(sim_new$plot(log = FALSE)$p)
 ```
 
 Simulate using multiple subjects as templates.
 
 ```{r}
 #| eval: true
-simdata <- run2$sim(include = 1:4, limits = NA, nsim = 100)
+simdata <- run1$sim(include = 1:4, limits = NA, nsim = 100)
 ```
 
 Plot the third simulation; use include/exclude to specify the ID numbers, which are the same as the ID numbers in the template data file
@@ -288,8 +290,9 @@ simdata$plot(exclude = 3) # all but one regimen; notice the jagged profiles aris
 
 ```{r}
 #| eval: true
-plotly::plotly_build(simdata$plot(include = 3)) # one regimen
-plotly::plotly_build(simdata$plot(exclude = 3)) # all but one regimen; notice the jagged profiles arising from combining different regimens
+#| echo: false
+plotly::plotly_build(simdata$plot(include = 3)$p) # one regimen
+plotly::plotly_build(simdata$plot(exclude = 3)$p) # all but one regimen; notice the jagged profiles arising from combining different regimens
 ```
 
 ## Simulate with covariates
@@ -325,8 +328,9 @@ simdata3$plot(include = 4) # ...and with covariates simulated
 
 ```{r}
 #| eval: true
-plotly::plotly_build(simdata$plot(include = 4))  # without covariates
-plotly::plotly_build(simdata3$plot(include = 4)) # ...and with covariates simulated
+#| echo: false
+plotly::plotly_build(simdata$plot(include = 4)$p)  # without covariates
+plotly::plotly_build(simdata3$plot(include = 4)$p) # ...and with covariates simulated
 ```
 
 Here are the simulated parameters and covariates for the first subject's

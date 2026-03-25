@@ -220,7 +220,7 @@ You can see that the value of b is printed above.
 
 ### Data and model objects
 
-You supply the data and model objects. These can come from the hard drive or directly defined within R. We devote whole chapters in this book to creating [data](data.qmd) and [model](model.qmd) objects, which are at the heart of `r pmetrics()`.
+You supply the data and model objects. These can come from the hard drive or directly defined within R. We devote whole chapters in this book to creating [data](data.qmd) and [model](models.qmd) objects, which are at the heart of `r pmetrics()`.
 
 ### Fit the model to the data
 
