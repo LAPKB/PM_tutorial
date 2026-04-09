@@ -314,7 +314,7 @@ It is possible to add other shapes, but it will require more manual effort as th
 
 ```{r echo = T, eval = T, label = "shapes2"}
 NPex$data$plot() %>%
-  add_shapes(shape = list(
+  add_shapes(shapes = list(
     type = "circle", x0 = 122, x1 = 132,
     y0 = 15, y1 = 22
   ))
@@ -357,7 +357,7 @@ A single text item...
 ```{r echo = T, eval = T, label = "annot3"}
 NPex$data$plot() %>%
   add_text(x = 125, y = 2, text = "<b>Limit of quantification</b>", textfont = list(size = 12)) %>%
-  add_shapes(shape = ab_line(h = 1.8))
+  add_shapes(shapes = ab_line(h = 1.8))
 ```
 
 Notice how the tidyverse pipe `%>%` lets you string together commands. [Tidyverse](https://www.tidyverse.org) is a powerful set of libraries for R that permit methodical, advanced data manipulation. You can load it with `library(tidyverse)`. In the plot below, we return to `add_annotations` to demonstrate that it gives you more control over the formatting. Generally, this function is likely the more useful to add text pop ups or to label data. Notice the use of the html tags <b></b> to surround the text and make it bold. You can also use `<i></i>` for italics, but plotly does not support `<u></u>` for underline.
@@ -366,7 +366,7 @@ Notice how the tidyverse pipe `%>%` lets you string together commands. [Tidyvers
 NPex$data$plot() %>%
   add_annotations(x = 125, y = 2, text = "<i>Limit of quantification</i>", font = list(size = 10, color = "white"), showarrow = F, bgcolor = "navy", bordercolor = "black") %>%
   add_shapes(
-    shape = ab_line(h = 1.8, line = list(color = "navy", dash = "dashdot"))
+    shapes = ab_line(h = 1.8, line = list(color = "navy", dash = "dashdot"))
   )
 ```
 

@@ -115,7 +115,7 @@ plotly::plotly_build(run1$data$plot(line = list(join = FALSE, pred = "post"), xl
 
 #### OP plots
 
-You can plot observed vs. predicted data. Type `?plot.PMop` in the R console for help or check out `r gh_help("plot.PM_op")`.
+You can plot observed vs. predicted data. Type `?plot.PM_op` in the R console for help or check out `r gh_help("plot.PM_op")`.
 
 ```{r}
 #| eval: false

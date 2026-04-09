@@ -266,7 +266,7 @@ As we have seen, `PM_data$new("path/filename")` will create a new `PM_data` obje
 
 #### Data conversion
 
--   `PMwrk2csv()` This function will convert old-style, single-drug USC\*PACK .wrk formatted files into Pmetrics data .csv files. <!-- -   `PMmb2csv()` This function will convert USC\*PACK .mb files into Pmetrics data .csv files. -->
+-   `PMwrk2csv()` This function will convert old-style, single-drug USC\*PACK .wrk formatted files into Pmetrics data .csv files. 
 
 -   `NM2PM()` Although the structure of Pmetrics data files is similar to NONMEM, there are some differences. This function attempts to automatically convert to Pmetrics format. It has been tested on several examples, but there are probably NONMEM files which will cause it to crash.
 
