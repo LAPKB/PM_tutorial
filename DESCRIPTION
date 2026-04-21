@@ -1,6 +1,6 @@
 Package: Tutorial
 Title: Tutorials for Pmetrics
-Version: 0.0.0.9000
+Version: 1.0
 Authors@R: 
     person("Michael", "Neely", , "mneely@usc.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-1675-8276"))
