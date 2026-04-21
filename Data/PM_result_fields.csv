@@ -16,7 +16,7 @@ $op (class: PM_op),$id,,Subject identification
 ,$data,,All of the above fields as a single data frame
 ,,$plot,See `plot.PM_op` for details
 ,,$summary,See `summary.PM_op` for details
-,,$auc,See `makeAUC` for details
+,,$auc,See `make_AUC` for details
 $final (class: PM_final),$popPoints,,Data frame of the final cycle joint population density of grid points with column names equal to the name of each random parameter plus $prob for the associated probability of that point 
 ,$popMean,,The final cycle mean for each random parameter distribution
 ,$popSD,,The final cycle standard deviation for each random parameter distribution
@@ -66,8 +66,8 @@ $post (class: PM_post),$time,,"Time of each prediction at a frequency specified 
 ,$pred,,Population prior (PMpop) or Bayesian posterior (PMpost) predictions for each output equation
 ,$outeq,,Output equation for each prediction
 ,$block,,Same as for PMop objects above
-,,$auc,See `makeAUC` for details
-,,$nca,See `makeNCA` for details
+,,$auc,See `make_AUC` for details
+,,$nca,See `make_NCA` for details
 $data (class: PM_data),,,"Your original raw data object , see `PM_data` for details"
 $model (class: PM_model),,,"Your original model object, see `PM_model` for details"
 $errfile,,,Name of error file if it exists

@@ -534,7 +534,7 @@ Warning
 <!-- You can write the file by hand, or use the app to create a model and then save it to a file.  -->
 <p>The format of the .txt model file has been mostly unchanged since <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> v.0.4, and such files are created by hand. Once you have a file, it can be loaded in to R with <code>PM_model$new("file")</code>. To facilitate learning the preferred method of defining models directly in R rather than with files, when you create a model from a text file, the R code for the model is copied to the clipboard for easy pasting into your R script or Quarto document.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="st">"src/model.txt"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="st">"Data/src/model.txt"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The above code will copy the following to your clipboard, allowing you to paste it into your script or Quarto document.</p>
 <div data-code-copy="false">
@@ -544,33 +544,35 @@ Warning
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="fu">list</span>(</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ka =</span> <span class="fu">ab</span>(<span class="fl">0.100</span>, <span class="fl">0.900</span>),</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ke =</span> <span class="fu">ab</span>(<span class="fl">0.001</span>, <span class="fl">0.100</span>),</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">v =</span> <span class="fu">ab</span>(<span class="fl">30.000</span>, <span class="fl">120.000</span>),</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag1 =</span> <span class="fu">ab</span>(<span class="fl">0.000</span>, <span class="fl">4.000</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">list</span>(</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">wt =</span> <span class="fu">interp</span>(),</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">africa =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">interp</span>(),</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="fu">interp</span>()</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">lag =</span> <span class="cf">function</span> () </span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>      lag[<span class="dv">1</span>] <span class="ot">=</span> lag1</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">eqn =</span> <span class="cf">function</span> () </span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>      two_comp_bolus</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="cf">function</span> () </span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>      y[<span class="dv">1</span>] <span class="ot">=</span> x[<span class="dv">2</span>]<span class="sc">/</span>v</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">err =</span> <span class="fu">list</span>(</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">proportional</span>(<span class="dv">5</span>, <span class="fu">c</span>(<span class="fl">0.0</span>, <span class="fl">0.1</span>, <span class="sc">-</span><span class="fl">0.0</span>, <span class="fl">0.0</span>))</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">k23 =</span> <span class="fu">ab</span>(<span class="fl">0.000</span>, <span class="fl">5.000</span>),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">k32 =</span> <span class="fu">ab</span>(<span class="fl">0.000</span>, <span class="fl">5.000</span>),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">v =</span> <span class="fu">ab</span>(<span class="fl">30.000</span>, <span class="fl">120.000</span>),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag1 =</span> <span class="fu">ab</span>(<span class="fl">0.000</span>, <span class="fl">4.000</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">list</span>(</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">wt =</span> <span class="fu">interp</span>(),</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">africa =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">interp</span>(),</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="fu">interp</span>()</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">lag =</span> <span class="cf">function</span> () </span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>      lag[<span class="dv">1</span>] <span class="ot">=</span> lag1</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">eqn =</span> <span class="cf">function</span> () </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>      two_comp_bolus</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="cf">function</span> () </span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>      y[<span class="dv">1</span>] <span class="ot">=</span> x[<span class="dv">2</span>]<span class="sc">/</span>v</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">err =</span> <span class="fu">list</span>(</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">proportional</span>(<span class="dv">5</span>, <span class="fu">c</span>(<span class="fl">0.0</span>, <span class="fl">0.1</span>, <span class="sc">-</span><span class="fl">0.0</span>, <span class="fl">0.0</span>))</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>Saved models are only text files. You can write files directly yourself, although it is easier and more stable to use the model building app. We will review the format of the files in detail.</p>
@@ -1163,16 +1165,14 @@ This block will be for advanced Rust programmers only who wish to include additi
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Ke: [0, 5], ~N(2.5, 0.83)</span></span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; V: [10, 190], ~N(100, 30)</span></span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Covariates</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Primary Equations</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; one_comp_iv</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Outputs</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Y[1] = X[1]/V</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Error Model</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Proportional, with initial value of 5 and coefficients 0.05, 0.1, 0, and 0.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Primary Equations</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; one_comp_iv</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Outputs</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Y[1] = X[1]/V</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Error Model</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Proportional, with initial value of 5 and coefficients 0.05, 0.1, 0, and 0.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mod1<span class="sc">$</span><span class="fu">plot</span>() <span class="co">#plots the model structure</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1244,6 +1244,8 @@ This last example is known as the Bateman equation for a model with linear absor
 <div class="script">
 <p>#Pri<br>
 KE, 0, 5<br>
+K23, 0, 5<br>
+K32, 0, 5<br>
 V0, 0.1, 100<br>
 KA, 0, 5<br>
 Lag1, 0, 3<br>
@@ -1282,9 +1284,8 @@ L=0.4<br>
 <p>Create and save such a file in any text editor, giving it a name ending in “.txt”.</p>
 <p><code>PM_model$new()</code> also accepts the path to a model file to create the same model using the file. <strong>Remember</strong> that you should phase model files out of your workflow in favor of direct definition in R.</p>
 <div class="cell">
-<pre><code>#&gt; → Model code copied to clipboard.
-#&gt; → Paste the code into your script for future use, renaming the assigned
-#&gt;   variable if needed.
+<pre><code>#&gt; ✔ Model with default values compiled and code copied to clipboard.
+#&gt; → Paste the code into your script to edit and recompile (typical).
 #&gt; ℹ Compiling model...
 #&gt; 
 #&gt; 
@@ -1297,6 +1298,10 @@ L=0.4<br>
 #&gt; ka: [0.1, 0.9], ~N(0.5, 0.13)
 #&gt; 
 #&gt; ke: [0.001, 0.1], ~N(0.05, 0.02)
+#&gt; 
+#&gt; k23: [0, 5], ~N(2.5, 0.83)
+#&gt; 
+#&gt; k32: [0, 5], ~N(2.5, 0.83)
 #&gt; 
 #&gt; v: [30, 120], ~N(75, 15)
 #&gt; 
@@ -1336,7 +1341,7 @@ L=0.4<br>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># if not using the Rscript/Learn.R template created by PM_tutorial(), </span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># modify the path as needed</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>mod1b <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="st">"src/model.txt"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>mod1b <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="st">"Data/src/model.txt"</span>)</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>mod1b <span class="co"># look at it</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <!-- If you build the same algebraic model in the app by selecting it from the library, and save the file, Pmetrics will write the #EQN blocks for you. -->
@@ -1358,23 +1363,23 @@ While incomplete models can be copied, a model can only be saved when it is comp
 <p>The following cannot be used as primary, covariate, or secondary variable names. They can be used in equations, however.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="depbvvdmew" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#depbvvdmew table {
+<div id="eholasqjat" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#eholasqjat table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#depbvvdmew thead, #depbvvdmew tbody, #depbvvdmew tfoot, #depbvvdmew tr, #depbvvdmew td, #depbvvdmew th {
+#eholasqjat thead, #eholasqjat tbody, #eholasqjat tfoot, #eholasqjat tr, #eholasqjat td, #eholasqjat th {
   border-style: none;
 }
 
-#depbvvdmew p {
+#eholasqjat p {
   margin: 0;
   padding: 0;
 }
 
-#depbvvdmew .gt_table {
+#eholasqjat .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1400,12 +1405,12 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-left-color: #D3D3D3;
 }
 
-#depbvvdmew .gt_caption {
+#eholasqjat .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#depbvvdmew .gt_title {
+#eholasqjat .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1417,7 +1422,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-width: 0;
 }
 
-#depbvvdmew .gt_subtitle {
+#eholasqjat .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1429,7 +1434,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-top-width: 0;
 }
 
-#depbvvdmew .gt_heading {
+#eholasqjat .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1441,13 +1446,13 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#depbvvdmew .gt_bottom_border {
+#eholasqjat .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#depbvvdmew .gt_col_headings {
+#eholasqjat .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1462,7 +1467,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#depbvvdmew .gt_col_heading {
+#eholasqjat .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1482,7 +1487,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   overflow-x: hidden;
 }
 
-#depbvvdmew .gt_column_spanner_outer {
+#eholasqjat .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1494,15 +1499,15 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 4px;
 }
 
-#depbvvdmew .gt_column_spanner_outer:first-child {
+#eholasqjat .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#depbvvdmew .gt_column_spanner_outer:last-child {
+#eholasqjat .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#depbvvdmew .gt_column_spanner {
+#eholasqjat .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1514,11 +1519,11 @@ While incomplete models can be copied, a model can only be saved when it is comp
   width: 100%;
 }
 
-#depbvvdmew .gt_spanner_row {
+#eholasqjat .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#depbvvdmew .gt_group_heading {
+#eholasqjat .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1544,7 +1549,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   text-align: left;
 }
 
-#depbvvdmew .gt_empty_group_heading {
+#eholasqjat .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1559,15 +1564,15 @@ While incomplete models can be copied, a model can only be saved when it is comp
   vertical-align: middle;
 }
 
-#depbvvdmew .gt_from_md > :first-child {
+#eholasqjat .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#depbvvdmew .gt_from_md > :last-child {
+#eholasqjat .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#depbvvdmew .gt_row {
+#eholasqjat .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1586,7 +1591,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   overflow-x: hidden;
 }
 
-#depbvvdmew .gt_stub {
+#eholasqjat .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1599,7 +1604,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#depbvvdmew .gt_stub_row_group {
+#eholasqjat .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1613,15 +1618,15 @@ While incomplete models can be copied, a model can only be saved when it is comp
   vertical-align: top;
 }
 
-#depbvvdmew .gt_row_group_first td {
+#eholasqjat .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#depbvvdmew .gt_row_group_first th {
+#eholasqjat .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#depbvvdmew .gt_summary_row {
+#eholasqjat .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1631,16 +1636,16 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#depbvvdmew .gt_first_summary_row {
+#eholasqjat .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#depbvvdmew .gt_first_summary_row.thick {
+#eholasqjat .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#depbvvdmew .gt_last_summary_row {
+#eholasqjat .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1650,7 +1655,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-color: #D3D3D3;
 }
 
-#depbvvdmew .gt_grand_summary_row {
+#eholasqjat .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1660,7 +1665,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#depbvvdmew .gt_first_grand_summary_row {
+#eholasqjat .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1670,7 +1675,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-top-color: #D3D3D3;
 }
 
-#depbvvdmew .gt_last_grand_summary_row_top {
+#eholasqjat .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1680,11 +1685,11 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-color: #D3D3D3;
 }
 
-#depbvvdmew .gt_striped {
+#eholasqjat .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#depbvvdmew .gt_table_body {
+#eholasqjat .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1693,7 +1698,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-color: #D3D3D3;
 }
 
-#depbvvdmew .gt_footnotes {
+#eholasqjat .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1707,7 +1712,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#depbvvdmew .gt_footnote {
+#eholasqjat .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1716,7 +1721,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#depbvvdmew .gt_sourcenotes {
+#eholasqjat .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1730,7 +1735,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#depbvvdmew .gt_sourcenote {
+#eholasqjat .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1738,72 +1743,72 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#depbvvdmew .gt_left {
+#eholasqjat .gt_left {
   text-align: left;
 }
 
-#depbvvdmew .gt_center {
+#eholasqjat .gt_center {
   text-align: center;
 }
 
-#depbvvdmew .gt_right {
+#eholasqjat .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#depbvvdmew .gt_font_normal {
+#eholasqjat .gt_font_normal {
   font-weight: normal;
 }
 
-#depbvvdmew .gt_font_bold {
+#eholasqjat .gt_font_bold {
   font-weight: bold;
 }
 
-#depbvvdmew .gt_font_italic {
+#eholasqjat .gt_font_italic {
   font-style: italic;
 }
 
-#depbvvdmew .gt_super {
+#eholasqjat .gt_super {
   font-size: 65%;
 }
 
-#depbvvdmew .gt_footnote_marks {
+#eholasqjat .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#depbvvdmew .gt_asterisk {
+#eholasqjat .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#depbvvdmew .gt_indent_1 {
+#eholasqjat .gt_indent_1 {
   text-indent: 5px;
 }
 
-#depbvvdmew .gt_indent_2 {
+#eholasqjat .gt_indent_2 {
   text-indent: 10px;
 }
 
-#depbvvdmew .gt_indent_3 {
+#eholasqjat .gt_indent_3 {
   text-indent: 15px;
 }
 
-#depbvvdmew .gt_indent_4 {
+#eholasqjat .gt_indent_4 {
   text-indent: 20px;
 }
 
-#depbvvdmew .gt_indent_5 {
+#eholasqjat .gt_indent_5 {
   text-indent: 25px;
 }
 
-#depbvvdmew .katex-display {
+#eholasqjat .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#depbvvdmew div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#eholasqjat div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1873,62 +1878,66 @@ You can update an existing model in one of two ways in the app:
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="fu">list</span>(</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ka =</span> <span class="fu">ab</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>),</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">ab</span>(<span class="fl">0.001</span>, <span class="fl">0.1</span>),</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">ab</span>(<span class="dv">30</span>, <span class="dv">120</span>),</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag1 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">4</span>)</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">list</span>(</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">wt =</span> <span class="fu">interp</span>(),</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">africa =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">interp</span>(),</span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="fu">interp</span>()</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">eqn =</span> <span class="cf">function</span>() {</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    two_comp_bolus</span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">lag =</span> <span class="cf">function</span>() {</span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    lag[<span class="dv">1</span>] <span class="ot">&lt;-</span> lag1</span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="cf">function</span>() {</span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    Y[<span class="dv">1</span>] <span class="ot">&lt;-</span> X[<span class="dv">2</span>] <span class="sc">/</span> V</span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">err =</span> <span class="fu">list</span>(</span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">proportional</span>(<span class="dv">5</span>, <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="sc">-</span><span class="fl">0.0002</span>, <span class="dv">0</span>))</span>
-<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(</span>
-<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="fu">list</span>(</span>
-<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ka =</span> <span class="fu">ab</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>),</span>
-<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">ab</span>(<span class="fl">0.001</span>, <span class="fl">0.5</span>), <span class="co"># changed range</span></span>
-<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">V0 =</span> <span class="fu">ab</span>(<span class="dv">30</span>, <span class="dv">120</span>), <span class="co"># note the new name</span></span>
-<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag1 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">4</span>)</span>
-<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">list</span>(</span>
-<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">wt =</span> <span class="fu">interp</span>(),</span>
-<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">africa =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
-<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">interp</span>(),</span>
-<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
-<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="fu">interp</span>()</span>
-<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">sec =</span> <span class="cf">function</span>() { <span class="co"># new secondary block</span></span>
-<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>    V <span class="ot">=</span> V0 <span class="sc">*</span> wt <span class="co"># the library model expects a parameter named "V" defined somewhere</span></span>
-<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">eqn =</span> <span class="cf">function</span>() {</span>
-<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>    two_comp_bolus</span>
-<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">lag =</span> <span class="cf">function</span>() {</span>
-<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>    lag[<span class="dv">1</span>] <span class="ot">&lt;-</span> lag1</span>
-<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="cf">function</span>() {</span>
-<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a>    Y[<span class="dv">1</span>] <span class="ot">&lt;-</span> X[<span class="dv">2</span>] <span class="sc">/</span> V</span>
-<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">err =</span> <span class="fu">list</span>(</span>
-<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">proportional</span>(<span class="dv">5</span>, <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="sc">-</span><span class="fl">0.0002</span>, <span class="dv">0</span>))</span>
-<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">K23 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">5</span>),</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">K32 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">5</span>),</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">ab</span>(<span class="dv">30</span>, <span class="dv">120</span>),</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag1 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">4</span>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">list</span>(</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">wt =</span> <span class="fu">interp</span>(),</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">africa =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">interp</span>(),</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="fu">interp</span>()</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">eqn =</span> <span class="cf">function</span>() {</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    two_comp_bolus</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">lag =</span> <span class="cf">function</span>() {</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    lag[<span class="dv">1</span>] <span class="ot">&lt;-</span> lag1</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="cf">function</span>() {</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    Y[<span class="dv">1</span>] <span class="ot">&lt;-</span> X[<span class="dv">2</span>] <span class="sc">/</span> V</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">err =</span> <span class="fu">list</span>(</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">proportional</span>(<span class="dv">5</span>, <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="sc">-</span><span class="fl">0.0002</span>, <span class="dv">0</span>))</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(</span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="fu">list</span>(</span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ka =</span> <span class="fu">ab</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>),</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">ab</span>(<span class="fl">0.001</span>, <span class="fl">0.5</span>), <span class="co"># changed range</span></span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">K23 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">5</span>),</span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">K32 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">5</span>),</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">V0 =</span> <span class="fu">ab</span>(<span class="dv">30</span>, <span class="dv">120</span>), <span class="co"># note the new name</span></span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag1 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">4</span>)</span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">list</span>(</span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">wt =</span> <span class="fu">interp</span>(),</span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">africa =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">interp</span>(),</span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="fu">interp</span>()</span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">sec =</span> <span class="cf">function</span>() { <span class="co"># new secondary block</span></span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a>    V <span class="ot">=</span> V0 <span class="sc">*</span> wt <span class="co"># the library model expects a parameter named "V" defined somewhere</span></span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">eqn =</span> <span class="cf">function</span>() {</span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a>    two_comp_bolus</span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">lag =</span> <span class="cf">function</span>() {</span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a>    lag[<span class="dv">1</span>] <span class="ot">&lt;-</span> lag1</span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="cf">function</span>() {</span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a>    Y[<span class="dv">1</span>] <span class="ot">&lt;-</span> X[<span class="dv">2</span>] <span class="sc">/</span> V</span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a>  <span class="at">err =</span> <span class="fu">list</span>(</span>
+<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a>    <span class="fu">proportional</span>(<span class="dv">5</span>, <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="sc">-</span><span class="fl">0.0002</span>, <span class="dv">0</span>))</span>
+<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>This example changes the range of <em>Ke</em>, deletes <em>V</em>, adds <em>V0</em>, and defines a new secondary relationship for <em>V = V0 * wt</em>.</p>
+<p>This example changes the range of <em>Ke</em>, deletes <em>V</em>, adds <em>V0</em>, keeps <em>K23</em> and <em>K32</em> for <code>two_comp_bolus</code>, and defines a new secondary relationship for <em>V = V0 * wt</em>.</p>
 </section>
 <section id="file-9" class="level3" data-number="6.6.2">
 <h3 data-number="6.6.2" class="anchored" data-anchor-id="file-9"><span class="header-section-number">6.6.2</span> File</h3>
