@@ -8,6 +8,9 @@ title: "Simulations"
 #| echo: false
 #| message: false
 #| eval: true
+#| include: false
+#| results: 'hide'
+#| warning: false
 library(glue)
 library(knitr)
 library(Pmetrics)

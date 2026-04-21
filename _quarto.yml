@@ -2,7 +2,7 @@ project:
   type: book
   resources: 
     - Images/**
-    - Data/**
+   # - Data/**
 
 book:
   title: "Learn Pmetrics"
