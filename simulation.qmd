@@ -36,9 +36,75 @@ gh_help <- function(name) {
 }
 
 exData <- PM_data$new(data = "Data/src/ex.csv", quiet = TRUE)
-run1 <- PM_load(run = 1, path = "Data/Runs")
-mod1 <- run1$model
-run2 <- PM_load(run = 2, path = "Data/Runs")
+
+mod1 <- PM_model$new(
+  pri = list(
+    Ka = ab(0.1, 0.9),
+    Ke = ab(0.001, 0.1),
+    K23 = ab(0, 5),
+    K32 = ab(0, 5),
+    V = ab(30, 120),
+    lag1 = ab(0, 4)
+  ),
+  cov = list(
+    wt = interp(),
+    africa = interp("none"),
+    age = interp(),
+    gender = interp("none"),
+    height = interp()
+  ),
+  eqn = function() {
+    two_comp_bolus
+  },
+  lag = function() {
+    lag[1] = lag1
+  },
+  out = function() {
+    Y[1] = X[2] / V
+  },
+  err = list(
+    proportional(5, c(0.02, 0.05, -0.0002, 0))
+  ),
+  quiet = TRUE
+)
+
+mod2 <- PM_model$new(
+  pri = list(
+    Ka = ab(0.1, 0.9),
+    Ke = ab(0.001, 0.1),
+    K23 = ab(0, 5),
+    K32 = ab(0, 5),
+    V0 = ab(30, 120),
+    lag1 = ab(0, 4)
+  ),
+  cov = list(
+    wt = interp(),
+    africa = interp("none"),
+    age = interp(),
+    gender = interp("none"),
+    height = interp()
+  ),
+  eqn = function() {
+    two_comp_bolus
+  },
+  lag = function() {
+    lag[1] = lag1
+  },
+  out = function() {
+    V = V0 * (wt / 70)
+    Y[1] = X[2] / V
+  },
+  err = list(
+    proportional(5, c(0.02, 0.05, -0.0002, 0))
+  ),
+  quiet = TRUE
+)
+
+runs_path <- file.path(tempdir(), "tutorial-runs")
+dir.create(runs_path, showWarnings = FALSE, recursive = TRUE)
+
+run1 <- mod1$fit(data = exData, run = 1, overwrite = TRUE, path = runs_path, quiet = TRUE)
+run2 <- mod2$fit(data = exData, run = 2, overwrite = TRUE, path = runs_path, quiet = TRUE)
 
 ```
 
@@ -196,7 +262,7 @@ All of these are detailed further in `r gh_help("PM_sim")`.
 
 Methods are accessed with `$` and include parentheses to indicate a function, possibly with arguments e.g. `sim1$auc()` or `sim1$save("sim1.rds")`.
 
--   **auc** Call `r gh_help("makeAUC")` to calculate the area under the curve from the simulated data.
+-   **auc** Call `r gh_help("make_AUC")` to calculate the area under the curve from the simulated data.
 -   **pta** Call `r gh_help("PM_pta")` to perform a probability of target attainment analysis with the simulated data.
 -   **plot** Call `r gh_help("plot.PM_sim")` to plot the simulated data.
 -   **summary** Call `r gh_help("summary.PM_sim")` to summarize any data field with or without grouping.
@@ -235,8 +301,8 @@ the article on simulation.
 
 # define population parameters for simulation
 poppar <- list(
-  mean = list(ka = 0.6, ke = 0.05, v = 77.8, lag1 = 1.2),
-  cov = diag(c(0.07, 0.0004, 830, 0.45))
+  mean = list(ka = 0.6, ke = 0.05, k23 = 0.2, k32 = 0.2, v = 77.8, lag1 = 1.2),
+  cov = diag(c(0.07, 0.0004, 0.02, 0.02, 830, 0.45))
 )
 
 # now we need to provide parameter value distributions (poppar), data, and model

@@ -94,6 +94,8 @@ mod1 <- PM_model$new(
   pri = list(
     Ka = ab(0.1, 0.9),
     Ke = ab(0.001, 0.1),
+    K23 = ab(0, 5),
+    K32 = ab(0, 5),
     V = ab(30, 120),
     lag1 = ab(0, 4)
   ),

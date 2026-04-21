@@ -36,8 +36,76 @@ gh_help <- function(name) {
 }
 
 
-run1 <- PM_load(run = 1, path = "Data/Runs")
-run2 <- PM_load(run = 2, path = "Data/Runs")
+exData <- PM_data$new(data = "Data/src/ex.csv", quiet = TRUE)
+
+mod1 <- PM_model$new(
+  pri = list(
+    Ka = ab(0.1, 0.9),
+    Ke = ab(0.001, 0.1),
+    K23 = ab(0, 5),
+    K32 = ab(0, 5),
+    V = ab(30, 120),
+    lag1 = ab(0, 4)
+  ),
+  cov = list(
+    wt = interp(),
+    africa = interp("none"),
+    age = interp(),
+    gender = interp("none"),
+    height = interp()
+  ),
+  eqn = function() {
+    two_comp_bolus
+  },
+  lag = function() {
+    lag[1] = lag1
+  },
+  out = function() {
+    Y[1] = X[2] / V
+  },
+  err = list(
+    proportional(5, c(0.02, 0.05, -0.0002, 0))
+  ),
+  quiet = TRUE
+)
+
+mod2 <- PM_model$new(
+  pri = list(
+    Ka = ab(0.1, 0.9),
+    Ke = ab(0.001, 0.1),
+    K23 = ab(0, 5),
+    K32 = ab(0, 5),
+    V0 = ab(30, 120),
+    lag1 = ab(0, 4)
+  ),
+  cov = list(
+    wt = interp(),
+    africa = interp("none"),
+    age = interp(),
+    gender = interp("none"),
+    height = interp()
+  ),
+  eqn = function() {
+    two_comp_bolus
+  },
+  lag = function() {
+    lag[1] = lag1
+  },
+  out = function() {
+    V = V0 * (wt / 70)
+    Y[1] = X[2] / V
+  },
+  err = list(
+    proportional(5, c(0.02, 0.05, -0.0002, 0))
+  ),
+  quiet = TRUE
+)
+
+runs_path <- file.path(tempdir(), "tutorial-runs")
+dir.create(runs_path, showWarnings = FALSE, recursive = TRUE)
+
+run1 <- mod1$fit(data = exData, run = 1, overwrite = TRUE, path = runs_path, quiet = TRUE)
+run2 <- mod2$fit(data = exData, run = 2, overwrite = TRUE, path = runs_path, quiet = TRUE)
 
 ```
 

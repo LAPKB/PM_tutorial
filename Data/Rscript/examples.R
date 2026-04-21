@@ -777,8 +777,8 @@ makeErrorPoly(obs = obs, sd = sd)
 
 # Be sure to check out the help files for the following functions:
 #
-# makeAUC() - calculate AUC from a variety of inputs
-# makeNCA() - non-compartmental analysis
+# make_AUC() - calculate AUC from a variety of inputs
+# make_NCA() - non-compartmental analysis
 # NM2PM() - convert NONMEM data files to Pmetrics data files
 # qgrowth() - CDC growth charts
 # zBMI() - CDC Pediatric BMI z-scores and percentiles

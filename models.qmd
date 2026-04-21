@@ -157,7 +157,7 @@ The format of the .txt model file has been mostly unchanged since `r pmetrics()`
 
 ```{r}
 #| label: load-model-file
-mod1 <- PM_model$new("src/model.txt") 
+mod1 <- PM_model$new("Data/src/model.txt") 
 
 ```
 
@@ -172,6 +172,8 @@ mod <- PM_model$new(
   pri = list(
     ka = ab(0.100, 0.900),
     ke = ab(0.001, 0.100),
+    k23 = ab(0.000, 5.000),
+    k32 = ab(0.000, 5.000),
     v = ab(30.000, 120.000),
     lag1 = ab(0.000, 4.000)
   ),
@@ -950,6 +952,8 @@ Here is a complete example of a model file, as of Pmetrics version 3.0 and highe
 ::: script
 #Pri\
 KE, 0, 5\
+K23, 0, 5\
+K32, 0, 5\
 V0, 0.1, 100\
 KA, 0, 5\
 Lag1, 0, 3\
@@ -1002,7 +1006,7 @@ mod1b # look at it
 #| label: example-mod1b-def
 # if not using the Rscript/Learn.R template created by PM_tutorial(), 
 # modify the path as needed
-mod1b <- PM_model$new("src/model.txt")
+mod1b <- PM_model$new("Data/src/model.txt")
 mod1b # look at it
 ```
 
@@ -1054,6 +1058,8 @@ mod1 <- PM_model$new(
   pri = list(
     Ka = ab(0.1, 0.9),
     Ke = ab(0.001, 0.1),
+    K23 = ab(0, 5),
+    K32 = ab(0, 5),
     V = ab(30, 120),
     lag1 = ab(0, 4)
   ),
@@ -1082,6 +1088,8 @@ mod2 <- PM_model$new(
   pri = list(
     Ka = ab(0.1, 0.9),
     Ke = ab(0.001, 0.5), # changed range
+    K23 = ab(0, 5),
+    K32 = ab(0, 5),
     V0 = ab(30, 120), # note the new name
     lag1 = ab(0, 4)
   ),
@@ -1110,7 +1118,7 @@ mod2 <- PM_model$new(
 )
 ```
 
-This example changes the range of *Ke*, deletes *V*, adds *V0*, and defines a new secondary relationship for *V = V0 \* wt*.
+This example changes the range of *Ke*, deletes *V*, adds *V0*, keeps *K23* and *K32* for `two_comp_bolus`, and defines a new secondary relationship for *V = V0 \* wt*.
 
 ### File
 

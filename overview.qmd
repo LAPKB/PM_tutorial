@@ -270,7 +270,7 @@ Comparison between the current and the Legacy methods are shown for education.
 custom_table("RLcomp_other.csv")
 ```
 
-<!-- * Process data: `makeAUC`, `makeCov`, `makeCycle`, `makeFinal`, `makeOP`, `makePTA`, -->
+<!-- * Process data: `make_AUC`, `makeCov`, `makeCycle`, `makeFinal`, `makeOP`, `makePTA`, -->
 
 <!-- `makeErrorPoly` -->
 

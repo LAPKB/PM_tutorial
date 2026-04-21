@@ -60,6 +60,8 @@ mod1 <- PM_model$new(
   pri = list(
     Ka = ab(0.1, 0.9),
     Ke = ab(0.001, 0.1),
+    K23 = ab(0, 5),
+    K32 = ab(0, 5),
     V = ab(30, 120),
     lag1 = ab(0, 4)
   ),
@@ -94,6 +96,8 @@ mod2 <- PM_model$new(
   pri = list(
     Ka = ab(0.1, 0.9),
     Ke = ab(0.001, 0.1),
+    K23 = ab(0, 5),
+    K32 = ab(0, 5),
     V0 = ab(30, 120),
     lag1 = ab(0, 4)
   ),
@@ -152,8 +156,10 @@ mod3 <- PM_model$new(
     Ka = ab(0.1, 0.9),
     Ke = ab(0.001, 0.1),
     V0 = ab(30, 120),
-    KCP = ab(0.001, 0.5),
-    KPC = ab(0.001, 0.5),
+    K23 = ab(0.001, 0.5),
+    K24 = ab(0.001, 0.5),
+    K32 = ab(0.001, 0.5),
+    K42 = ab(0.001, 0.5),
     lag1 = ab(0, 4)
   ),
   cov = list(
@@ -181,7 +187,7 @@ mod3 <- PM_model$new(
 
 **Notes:**
 
-1. We used `r gh_help("model_lib")` to check the name of the algebraic 3-compartment model and the required parameters that should be declared (Ka, Ke, KCP, KPC and V).
+1. We used `r gh_help("model_lib")` to check the name of the algebraic 3-compartment model and the required parameters that should be declared (Ka, Ke, K23, K24, K32, K42 and V).
 2. Don't forget that you can simply type the name of the library model into the console to get information about it.
 ```{r}
 # type the name to get information about the model
