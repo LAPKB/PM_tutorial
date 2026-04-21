@@ -662,7 +662,7 @@ mod <- PM_model$new(
         V = V0 * wt # here we define the last parameter, V, found in model_lib() for this model
     },
     eqn = function(){
-        "three_comp_bolus" # name acquired from model_lib()
+        three_comp_bolus # name acquired from model_lib()
     }, 
     out = function(){
         Y[1] = X[2]/V # correct compartment (2) identified as the output
