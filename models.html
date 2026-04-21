@@ -971,7 +971,7 @@ Tip
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        V <span class="ot">=</span> V0 <span class="sc">*</span> wt <span class="co"># here we define the last parameter, V, found in model_lib() for this model</span></span>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    },</span>
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">eqn =</span> <span class="cf">function</span>(){</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"three_comp_bolus"</span> <span class="co"># name acquired from model_lib()</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        three_comp_bolus <span class="co"># name acquired from model_lib()</span></span>
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    }, </span>
 <span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">out =</span> <span class="cf">function</span>(){</span>
 <span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        Y[<span class="dv">1</span>] <span class="ot">=</span> X[<span class="dv">2</span>]<span class="sc">/</span>V <span class="co"># correct compartment (2) identified as the output</span></span>
@@ -1363,23 +1363,23 @@ While incomplete models can be copied, a model can only be saved when it is comp
 <p>The following cannot be used as primary, covariate, or secondary variable names. They can be used in equations, however.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="eholasqjat" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#eholasqjat table {
+<div id="krqisoovey" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#krqisoovey table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#eholasqjat thead, #eholasqjat tbody, #eholasqjat tfoot, #eholasqjat tr, #eholasqjat td, #eholasqjat th {
+#krqisoovey thead, #krqisoovey tbody, #krqisoovey tfoot, #krqisoovey tr, #krqisoovey td, #krqisoovey th {
   border-style: none;
 }
 
-#eholasqjat p {
+#krqisoovey p {
   margin: 0;
   padding: 0;
 }
 
-#eholasqjat .gt_table {
+#krqisoovey .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1405,12 +1405,12 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-left-color: #D3D3D3;
 }
 
-#eholasqjat .gt_caption {
+#krqisoovey .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#eholasqjat .gt_title {
+#krqisoovey .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1422,7 +1422,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-width: 0;
 }
 
-#eholasqjat .gt_subtitle {
+#krqisoovey .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1434,7 +1434,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-top-width: 0;
 }
 
-#eholasqjat .gt_heading {
+#krqisoovey .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1446,13 +1446,13 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#eholasqjat .gt_bottom_border {
+#krqisoovey .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#eholasqjat .gt_col_headings {
+#krqisoovey .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1467,7 +1467,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#eholasqjat .gt_col_heading {
+#krqisoovey .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1487,7 +1487,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   overflow-x: hidden;
 }
 
-#eholasqjat .gt_column_spanner_outer {
+#krqisoovey .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1499,15 +1499,15 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 4px;
 }
 
-#eholasqjat .gt_column_spanner_outer:first-child {
+#krqisoovey .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#eholasqjat .gt_column_spanner_outer:last-child {
+#krqisoovey .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#eholasqjat .gt_column_spanner {
+#krqisoovey .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1519,11 +1519,11 @@ While incomplete models can be copied, a model can only be saved when it is comp
   width: 100%;
 }
 
-#eholasqjat .gt_spanner_row {
+#krqisoovey .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#eholasqjat .gt_group_heading {
+#krqisoovey .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1549,7 +1549,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   text-align: left;
 }
 
-#eholasqjat .gt_empty_group_heading {
+#krqisoovey .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1564,15 +1564,15 @@ While incomplete models can be copied, a model can only be saved when it is comp
   vertical-align: middle;
 }
 
-#eholasqjat .gt_from_md > :first-child {
+#krqisoovey .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#eholasqjat .gt_from_md > :last-child {
+#krqisoovey .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#eholasqjat .gt_row {
+#krqisoovey .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1591,7 +1591,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   overflow-x: hidden;
 }
 
-#eholasqjat .gt_stub {
+#krqisoovey .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1604,7 +1604,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#eholasqjat .gt_stub_row_group {
+#krqisoovey .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1618,15 +1618,15 @@ While incomplete models can be copied, a model can only be saved when it is comp
   vertical-align: top;
 }
 
-#eholasqjat .gt_row_group_first td {
+#krqisoovey .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#eholasqjat .gt_row_group_first th {
+#krqisoovey .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#eholasqjat .gt_summary_row {
+#krqisoovey .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1636,16 +1636,16 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#eholasqjat .gt_first_summary_row {
+#krqisoovey .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#eholasqjat .gt_first_summary_row.thick {
+#krqisoovey .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#eholasqjat .gt_last_summary_row {
+#krqisoovey .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1655,7 +1655,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-color: #D3D3D3;
 }
 
-#eholasqjat .gt_grand_summary_row {
+#krqisoovey .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1665,7 +1665,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#eholasqjat .gt_first_grand_summary_row {
+#krqisoovey .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1675,7 +1675,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-top-color: #D3D3D3;
 }
 
-#eholasqjat .gt_last_grand_summary_row_top {
+#krqisoovey .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1685,11 +1685,11 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-color: #D3D3D3;
 }
 
-#eholasqjat .gt_striped {
+#krqisoovey .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#eholasqjat .gt_table_body {
+#krqisoovey .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1698,7 +1698,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-color: #D3D3D3;
 }
 
-#eholasqjat .gt_footnotes {
+#krqisoovey .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1712,7 +1712,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#eholasqjat .gt_footnote {
+#krqisoovey .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1721,7 +1721,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#eholasqjat .gt_sourcenotes {
+#krqisoovey .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1735,7 +1735,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#eholasqjat .gt_sourcenote {
+#krqisoovey .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1743,72 +1743,72 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#eholasqjat .gt_left {
+#krqisoovey .gt_left {
   text-align: left;
 }
 
-#eholasqjat .gt_center {
+#krqisoovey .gt_center {
   text-align: center;
 }
 
-#eholasqjat .gt_right {
+#krqisoovey .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#eholasqjat .gt_font_normal {
+#krqisoovey .gt_font_normal {
   font-weight: normal;
 }
 
-#eholasqjat .gt_font_bold {
+#krqisoovey .gt_font_bold {
   font-weight: bold;
 }
 
-#eholasqjat .gt_font_italic {
+#krqisoovey .gt_font_italic {
   font-style: italic;
 }
 
-#eholasqjat .gt_super {
+#krqisoovey .gt_super {
   font-size: 65%;
 }
 
-#eholasqjat .gt_footnote_marks {
+#krqisoovey .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#eholasqjat .gt_asterisk {
+#krqisoovey .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#eholasqjat .gt_indent_1 {
+#krqisoovey .gt_indent_1 {
   text-indent: 5px;
 }
 
-#eholasqjat .gt_indent_2 {
+#krqisoovey .gt_indent_2 {
   text-indent: 10px;
 }
 
-#eholasqjat .gt_indent_3 {
+#krqisoovey .gt_indent_3 {
   text-indent: 15px;
 }
 
-#eholasqjat .gt_indent_4 {
+#krqisoovey .gt_indent_4 {
   text-indent: 20px;
 }
 
-#eholasqjat .gt_indent_5 {
+#krqisoovey .gt_indent_5 {
   text-indent: 25px;
 }
 
-#eholasqjat .katex-display {
+#krqisoovey .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#eholasqjat div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#krqisoovey div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
