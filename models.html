@@ -273,7 +273,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Learn Pmetrics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pmetrics in R</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -534,7 +534,7 @@ Warning
 <!-- You can write the file by hand, or use the app to create a model and then save it to a file.  -->
 <p>The format of the .txt model file has been mostly unchanged since <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span> v.0.4, and such files are created by hand. Once you have a file, it can be loaded in to R with <code>PM_model$new("file")</code>. To facilitate learning the preferred method of defining models directly in R rather than with files, when you create a model from a text file, the R code for the model is copied to the clipboard for easy pasting into your R script or Quarto document.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="st">"Data/src/model.txt"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="st">"src/model.txt"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The above code will copy the following to your clipboard, allowing you to paste it into your script or Quarto document.</p>
 <div data-code-copy="false">
@@ -612,7 +612,7 @@ Once you choose a model, hit the "Select" button at the bottom to populate remai
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># see the library contents</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">model_lib</span>()</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># an example of a model in the library</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>two_comp_bolus</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">two_comp_bolus</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="mb-pri" class="level3" data-number="6.3.2">
@@ -1140,7 +1140,7 @@ This block will be for advanced Rust programmers only who wish to include additi
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">proportional</span>(<span class="dv">5</span>, <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ Compiling model...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ Preparing model...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>When you execute the above code in your own script or Quarto document, you will see a message indicating that the model has compiled.</p>
 <p><em>Notes</em>:</p>
@@ -1286,7 +1286,7 @@ L=0.4<br>
 <div class="cell">
 <pre><code>#&gt; ✔ Model with default values compiled and code copied to clipboard.
 #&gt; → Paste the code into your script to edit and recompile (typical).
-#&gt; ℹ Compiling model...
+#&gt; ℹ Preparing model...
 #&gt; 
 #&gt; 
 #&gt; ── Model summary ───────────────────────────────────────────────────────────────
@@ -1341,7 +1341,7 @@ L=0.4<br>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># if not using the Rscript/Learn.R template created by PM_tutorial(), </span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># modify the path as needed</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>mod1b <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="st">"Data/src/model.txt"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>mod1b <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="st">"src/model.txt"</span>)</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>mod1b <span class="co"># look at it</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <!-- If you build the same algebraic model in the app by selecting it from the library, and save the file, Pmetrics will write the #EQN blocks for you. -->
@@ -1363,23 +1363,23 @@ While incomplete models can be copied, a model can only be saved when it is comp
 <p>The following cannot be used as primary, covariate, or secondary variable names. They can be used in equations, however.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="jdniuxobao" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jdniuxobao table {
+<div id="eamnmkiriw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#eamnmkiriw table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jdniuxobao thead, #jdniuxobao tbody, #jdniuxobao tfoot, #jdniuxobao tr, #jdniuxobao td, #jdniuxobao th {
+#eamnmkiriw thead, #eamnmkiriw tbody, #eamnmkiriw tfoot, #eamnmkiriw tr, #eamnmkiriw td, #eamnmkiriw th {
   border-style: none;
 }
 
-#jdniuxobao p {
+#eamnmkiriw p {
   margin: 0;
   padding: 0;
 }
 
-#jdniuxobao .gt_table {
+#eamnmkiriw .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1405,12 +1405,12 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-left-color: #D3D3D3;
 }
 
-#jdniuxobao .gt_caption {
+#eamnmkiriw .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jdniuxobao .gt_title {
+#eamnmkiriw .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1422,7 +1422,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-width: 0;
 }
 
-#jdniuxobao .gt_subtitle {
+#eamnmkiriw .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1434,7 +1434,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-top-width: 0;
 }
 
-#jdniuxobao .gt_heading {
+#eamnmkiriw .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1446,13 +1446,13 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#jdniuxobao .gt_bottom_border {
+#eamnmkiriw .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jdniuxobao .gt_col_headings {
+#eamnmkiriw .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1467,7 +1467,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#jdniuxobao .gt_col_heading {
+#eamnmkiriw .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1487,7 +1487,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   overflow-x: hidden;
 }
 
-#jdniuxobao .gt_column_spanner_outer {
+#eamnmkiriw .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1499,15 +1499,15 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 4px;
 }
 
-#jdniuxobao .gt_column_spanner_outer:first-child {
+#eamnmkiriw .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jdniuxobao .gt_column_spanner_outer:last-child {
+#eamnmkiriw .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jdniuxobao .gt_column_spanner {
+#eamnmkiriw .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1519,11 +1519,11 @@ While incomplete models can be copied, a model can only be saved when it is comp
   width: 100%;
 }
 
-#jdniuxobao .gt_spanner_row {
+#eamnmkiriw .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jdniuxobao .gt_group_heading {
+#eamnmkiriw .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1549,7 +1549,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   text-align: left;
 }
 
-#jdniuxobao .gt_empty_group_heading {
+#eamnmkiriw .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1564,15 +1564,15 @@ While incomplete models can be copied, a model can only be saved when it is comp
   vertical-align: middle;
 }
 
-#jdniuxobao .gt_from_md > :first-child {
+#eamnmkiriw .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jdniuxobao .gt_from_md > :last-child {
+#eamnmkiriw .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jdniuxobao .gt_row {
+#eamnmkiriw .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1591,7 +1591,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   overflow-x: hidden;
 }
 
-#jdniuxobao .gt_stub {
+#eamnmkiriw .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1604,7 +1604,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#jdniuxobao .gt_stub_row_group {
+#eamnmkiriw .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1618,15 +1618,15 @@ While incomplete models can be copied, a model can only be saved when it is comp
   vertical-align: top;
 }
 
-#jdniuxobao .gt_row_group_first td {
+#eamnmkiriw .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jdniuxobao .gt_row_group_first th {
+#eamnmkiriw .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jdniuxobao .gt_summary_row {
+#eamnmkiriw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1636,16 +1636,16 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#jdniuxobao .gt_first_summary_row {
+#eamnmkiriw .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jdniuxobao .gt_first_summary_row.thick {
+#eamnmkiriw .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jdniuxobao .gt_last_summary_row {
+#eamnmkiriw .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1655,7 +1655,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-color: #D3D3D3;
 }
 
-#jdniuxobao .gt_grand_summary_row {
+#eamnmkiriw .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1665,7 +1665,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#jdniuxobao .gt_first_grand_summary_row {
+#eamnmkiriw .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1675,7 +1675,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-top-color: #D3D3D3;
 }
 
-#jdniuxobao .gt_last_grand_summary_row_top {
+#eamnmkiriw .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1685,11 +1685,11 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-color: #D3D3D3;
 }
 
-#jdniuxobao .gt_striped {
+#eamnmkiriw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jdniuxobao .gt_table_body {
+#eamnmkiriw .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1698,7 +1698,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-color: #D3D3D3;
 }
 
-#jdniuxobao .gt_footnotes {
+#eamnmkiriw .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1712,7 +1712,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#jdniuxobao .gt_footnote {
+#eamnmkiriw .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1721,7 +1721,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#jdniuxobao .gt_sourcenotes {
+#eamnmkiriw .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1735,7 +1735,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#jdniuxobao .gt_sourcenote {
+#eamnmkiriw .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1743,72 +1743,72 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#jdniuxobao .gt_left {
+#eamnmkiriw .gt_left {
   text-align: left;
 }
 
-#jdniuxobao .gt_center {
+#eamnmkiriw .gt_center {
   text-align: center;
 }
 
-#jdniuxobao .gt_right {
+#eamnmkiriw .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jdniuxobao .gt_font_normal {
+#eamnmkiriw .gt_font_normal {
   font-weight: normal;
 }
 
-#jdniuxobao .gt_font_bold {
+#eamnmkiriw .gt_font_bold {
   font-weight: bold;
 }
 
-#jdniuxobao .gt_font_italic {
+#eamnmkiriw .gt_font_italic {
   font-style: italic;
 }
 
-#jdniuxobao .gt_super {
+#eamnmkiriw .gt_super {
   font-size: 65%;
 }
 
-#jdniuxobao .gt_footnote_marks {
+#eamnmkiriw .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jdniuxobao .gt_asterisk {
+#eamnmkiriw .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jdniuxobao .gt_indent_1 {
+#eamnmkiriw .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jdniuxobao .gt_indent_2 {
+#eamnmkiriw .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jdniuxobao .gt_indent_3 {
+#eamnmkiriw .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jdniuxobao .gt_indent_4 {
+#eamnmkiriw .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jdniuxobao .gt_indent_5 {
+#eamnmkiriw .gt_indent_5 {
   text-indent: 25px;
 }
 
-#jdniuxobao .katex-display {
+#eamnmkiriw .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#jdniuxobao div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#eamnmkiriw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
