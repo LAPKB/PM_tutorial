@@ -106,7 +106,7 @@ dat_add <- PM_data$new()$
 3.  You can chain events as shown above by including the `$` between events. 
 
 :::{.callout-note}
-For those familiar with [tidyverse](https://tidyverse.org) or the native R pipe to join functions ("%>%" or "|>", respectively), chaining in R6 is similar but restricted to methods defined for the object. In this case we chain the `addEvent` 
+For those familiar with [tidyverse](https://tidyverse.org) or the native R pipe to join functions ("|>", used throughout this book, or the older magrittr "%>%"), chaining in R6 is similar but restricted to methods defined for the object. In this case we chain the `addEvent` 
 methods. We could even chain an additional `PM_data` method like `$plot()` at the end of the above code. However, that would create `dat` as a plotly plot object, not a `PM_data` one.
 :::
 
@@ -154,10 +154,10 @@ R6 Pmetrics can use file or data frame input. The format is very flexible. A tru
 #| results: 'asis'
 #| eval: true
 
-tab <- Pmetrics::dataEx$data %>% 
-    filter(id %in% 1:2) %>%
-    select(id, time, dose, out, wt) %>%
-    mutate(across(everything(), ~replace_na(as.character(.), "."))) %>%
+tab <- Pmetrics::dataEx$data |> 
+    filter(id %in% 1:2) |>
+    select(id, time, dose, out, wt) |>
+    mutate(across(everything(), ~replace_na(as.character(.), "."))) |>
     mutate(across(everything(), as.character))
 knitr::kable(tab)
 ```
@@ -192,10 +192,10 @@ Data are standardized when `PM_data$new()` is invoked, and the data frame is pla
 #| results: 'asis'
 #| eval: true
 
-tab <- Pmetrics::dataEx$standard_data %>% 
-    filter(id %in% 1:2) %>%
-    select(-africa, -gender, -age, -height) %>%
-    #mutate(across(everything(), ~replace_na(as.character(.), "."))) %>%
+tab <- Pmetrics::dataEx$standard_data |> 
+    filter(id %in% 1:2) |>
+    select(-africa, -gender, -age, -height) |>
+    #mutate(across(everything(), ~replace_na(as.character(.), "."))) |>
     mutate(across(everything(), as.character))
 knitr::kable(tab)
 ```
@@ -254,7 +254,7 @@ As we have seen, `PM_data$new("path/filename")` will create a new `PM_data` obje
 
 #### Save
 
-`PM_data$save("path/filename")` will save the `PM_data$standard_field` to a file called "filename" in the `path` directory or the current working directory if `path` is ommitted. This can be useful if you have loaded or created a data file and then changed it in R.  Change the column separator in the file from the default "," (.csv files) to ";" (.ssv files) using `setPMoptions()`.
+If `dat` is a `PM_data` object, `dat$save("path/filename")` will save the `dat$standard_field` to a file called "filename" in the `path` directory or the current working directory if `path` is ommitted. This can be useful if you have loaded or created a data file and then changed it in R.  Change the column separator in the file from the default "," (.csv files) to ";" (.ssv files) using `setPMoptions()`.
 
 #### Standardize
 
@@ -333,7 +333,10 @@ Most `r pmetrics()` objects are R6 objects. As a reminder, you can use the `$` o
 
 ```{r}
 #| label: example-npag-6
-# S3 method to summarize data
+# R6 method to summarize data (preferred)
+exData$summary()
+
+# S3 method to summarize data (legacy)
 summary(exData)
 ```
 

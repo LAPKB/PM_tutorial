@@ -40,8 +40,8 @@ pmetrics <- function(){
 library(gt)
 
 custom_table <- function(tab){
-  #system.file("extData", tab, package = "Pmetrics") %>%
-    read.csv(file.path("Data",tab), na.strings = ".") %>% gt() %>%
+  #system.file("extData", tab, package = "Pmetrics") |>
+    read.csv(file.path("Data",tab), na.strings = ".") |> gt() |>
     tab_style(
       style = list(
         cell_fill(color = "black"),
@@ -157,7 +157,7 @@ The format of the .txt model file has been mostly unchanged since `r pmetrics()`
 
 ```{r}
 #| label: load-model-file
-mod1 <- PM_model$new("Data/src/model.txt") 
+mod1 <- PM_model$new("src/model.txt") 
 
 ```
 
@@ -250,7 +250,7 @@ All of the models are pre-loaded as R6 objects. You can get details of the model
 # see the library contents
 model_lib()
 # an example of a model in the library
-two_comp_bolus
+two_comp_bolus()
 ```
 
 
@@ -1006,7 +1006,7 @@ mod1b # look at it
 #| label: example-mod1b-def
 # if not using the Rscript/Learn.R template created by PM_tutorial(), 
 # modify the path as needed
-mod1b <- PM_model$new("Data/src/model.txt")
+mod1b <- PM_model$new("src/model.txt")
 mod1b # look at it
 ```
 

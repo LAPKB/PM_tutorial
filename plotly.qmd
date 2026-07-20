@@ -17,7 +17,6 @@ knitr::opts_chunk$set(
 #| eval: true
 #| message: false
 library(Pmetrics)
-library(magrittr)
 library(dplyr)
 library(plotly)
 
@@ -39,7 +38,7 @@ pmetrics <- function(){
 library(gt)
 
 custom_table <- function(tab){
-    read.csv(file.path("Data",tab), na.strings = ".") %>% gt() %>%
+    read.csv(file.path("Data",tab), na.strings = ".") |> gt() |>
     tab_style(
       style = list(
         cell_fill(color = "black"),
@@ -303,17 +302,17 @@ The workflow is to first create a plot. All Pmetrics functions return the plot o
 Since reference lines are by far the most common shape to add, Pmetrics has a helper function called `ab_line`, which is very similar to the workflow in base R that uses the `abline` function to add a line to the current plot.
 
 ```{r echo = T, eval = T, label = "shapes1"}
-NPex$data$plot() %>%
+NPex$data$plot() |>
   add_shapes(ab_line(h = 5, line = list(color = "green", width = 3)))
 ```
 
-Note the use of the pipe operator `%>%` to pipe the plot directly into the `add_shapes` function. This is not mandatory, since `add_shapes` by default takes the current plot as its target. If you have a previously saved plot in a variable, you can add a shape any time by supplying that variable to `add_shapes`, for example `add_shapes(p, ab_line(h = 5))`.
+Note the use of the pipe operator `|>` to pipe the plot directly into the `add_shapes` function. This is not mandatory, since `add_shapes` by default takes the current plot as its target. If you have a previously saved plot in a variable, you can add a shape any time by supplying that variable to `add_shapes`, for example `add_shapes(p, ab_line(h = 5))`.
 
 It is possible to add other shapes, but it will require more manual effort as there are no Pmetrics helper functions to add circles, rectangles, or paths.  Here's an example of adding a circle.
 
 
 ```{r echo = T, eval = T, label = "shapes2"}
-NPex$data$plot() %>%
+NPex$data$plot() |>
   add_shapes(shapes = list(
     type = "circle", x0 = 122, x1 = 132,
     y0 = 15, y1 = 22
@@ -335,19 +334,19 @@ Similarly, `plotly::add_text()` adds labels/text to a plot, but without the conn
 Annotations with connecting arrows...
 
 ```{r echo = T, eval = T, label = "annot1"}
-NPex$data$plot() %>%
-  add_annotations(text = ~id, x = ~time, y = ~out, data = NPex$data$data %>% filter(out>0)) # use the raw data to obtain the id labels and positions
+NPex$data$plot() |>
+  add_annotations(text = ~id, x = ~time, y = ~out, data = NPex$data$data |> filter(out>0)) # use the raw data to obtain the id labels and positions
 ```
 
 
 Text without arrows...
 
 ```{r echo = T, eval = T, label = "annot2"}
-NPex$data$plot() %>%
+NPex$data$plot() |>
   add_text(
     text = ~id,  x = ~time, y = ~out, textposition = "top right",
     textfont = list(color = "navy", size = 12),
-    data = NPex$data$data %>% filter(out>0)
+    data = NPex$data$data |> filter(out>0)
   )
 ```
 
@@ -355,16 +354,16 @@ A single text item...
 
 
 ```{r echo = T, eval = T, label = "annot3"}
-NPex$data$plot() %>%
-  add_text(x = 125, y = 2, text = "<b>Limit of quantification</b>", textfont = list(size = 12)) %>%
+NPex$data$plot() |>
+  add_text(x = 125, y = 2, text = "<b>Limit of quantification</b>", textfont = list(size = 12)) |>
   add_shapes(shapes = ab_line(h = 1.8))
 ```
 
-Notice how the tidyverse pipe `%>%` lets you string together commands. [Tidyverse](https://www.tidyverse.org) is a powerful set of libraries for R that permit methodical, advanced data manipulation. You can load it with `library(tidyverse)`. In the plot below, we return to `add_annotations` to demonstrate that it gives you more control over the formatting. Generally, this function is likely the more useful to add text pop ups or to label data. Notice the use of the html tags <b></b> to surround the text and make it bold. You can also use `<i></i>` for italics, but plotly does not support `<u></u>` for underline.
+Notice how the native R pipe `|>` lets you string together commands. [Tidyverse](https://www.tidyverse.org) is a powerful set of libraries for R that permit methodical, advanced data manipulation. You can load it with `library(tidyverse)`. In the plot below, we return to `add_annotations` to demonstrate that it gives you more control over the formatting. Generally, this function is likely the more useful to add text pop ups or to label data. Notice the use of the html tags <b></b> to surround the text and make it bold. You can also use `<i></i>` for italics, but plotly does not support `<u></u>` for underline.
 
 ```{r echo = T, eval = T, label = "annot4"}
-NPex$data$plot() %>%
-  add_annotations(x = 125, y = 2, text = "<i>Limit of quantification</i>", font = list(size = 10, color = "white"), showarrow = F, bgcolor = "navy", bordercolor = "black") %>%
+NPex$data$plot() |>
+  add_annotations(x = 125, y = 2, text = "<i>Limit of quantification</i>", font = list(size = 10, color = "white"), showarrow = F, bgcolor = "navy", bordercolor = "black") |>
   add_shapes(
     shapes = ab_line(h = 1.8, line = list(color = "navy", dash = "dashdot"))
   )

@@ -170,16 +170,16 @@ As with any object in `r pmetrics()`, the `PM_op` R6 object has fields and metho
 run1$op$data
 ```
 
-Having the raw data provides a data frame compatible with any R function, particularly those from [**Tidyverse**](https://www.tidyverse.org), including piping (`%>%`). If you're not familiar with the pipe operator, see [this article](https://magrittr.tidyverse.org/). We strongly recommend Tidvyerse for data manipulation and visualization in R, and `r pmetrics()` works well with it. See [R for Data Science](https://r4ds.hadley.nz) for more information.
+Having the raw data provides a data frame compatible with any R function, particularly those from [**Tidyverse**](https://www.tidyverse.org), including piping (`|>`). If you're not familiar with the pipe operator, see [this article](https://magrittr.tidyverse.org/). We strongly recommend Tidvyerse for data manipulation and visualization in R, and `r pmetrics()` works well with it. See [R for Data Science](https://r4ds.hadley.nz) for more information.
 
 This allows pre-processing in ways more flexible than the default plot method.
 
 ```{r}
 library(tidyverse)
-run1$op$data %>% plot()
-run1$op$data %>%
-  filter(pred > 5) %>%
-  filter(pred < 10) %>%
+run1$op$data |> plot()
+run1$op$data |>
+  filter(pred > 5) |>
+  filter(pred < 10) |>
   summary()
 ```
 
@@ -199,7 +199,7 @@ Plot the final population joint density. Type `?plot.PM_final` in the R console 
 run1$final$plot()
 
 # alternate methods with same result
-run1$final$data %>% plot() # tidyverse style
+run1$final$data |> plot() # tidyverse style
 plot(run1$final) # S3 method
 plot(run1$final$data) # S3 method
 ```
@@ -302,7 +302,7 @@ Summarize the cycle information; `?summary.PM_cycle` for help.
 run1$cycle$summary()
 
 # alternatives
-run1$cycle$data %>% summary() # tidyverse style
+run1$cycle$data |> summary() # tidyverse style
 summary(run1$cycle) # S3 method
 summary(run1$cycle$data) # S3 method
 ```
@@ -334,8 +334,8 @@ run1$cov$plot(v ~ wt))
 You can also use the raw data in the `$data` field to make plots with other R functions, including those from **Tidyverse**. Here we will filter the data for age \> 25 and then plot volume vs. weight.
 
 ```{r}
-run1$cov$data %>%
-  filter(age > 25) %>%
+run1$cov$data |>
+  filter(age > 25) |>
   plot(v ~ wt)
 ```
 
@@ -343,8 +343,8 @@ run1$cov$data %>%
 #| eval: false
 #| echo: false
 
-run1$cov$data %>%
-  dplyr::filter(age > 25) %>%
+run1$cov$data |>
+  dplyr::filter(age > 25) |>
   plot(v ~ wt)
 ```
 
@@ -405,7 +405,7 @@ The `run1$cov` object looks like a data frame, but is really an R6 `PM_cov` obje
 
 ```{r}
 run1$cov$data[, 1:3] # for example
-run1$cov$data %>% filter(gender == 1) %>% summary() # using Tidyverse
+run1$cov$data |> filter(gender == 1) |> summary() # using Tidyverse
 ```
 
 

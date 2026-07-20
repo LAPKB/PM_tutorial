@@ -38,15 +38,15 @@ pmetrics <- function(){
 
 
 custom_table <- function(tab){
-    tab2 <- read.csv(file.path("Data", tab), na.strings = ".")  %>% dplyr::mutate(Comments = stringr::str_replace_all(
+    tab2 <- read.csv(file.path("Data", tab), na.strings = ".")  |> dplyr::mutate(Comments = stringr::str_replace_all(
       Comments,
       "`([^$`]+)`",  # capture any run of non-backtick chars
         gh_help("\\1")
     ))   
     
     md <- stringr::str_detect(tab2$Comments, "`.+`")
-    tab3 <- tab2 %>% gt() %>%
-      gt::fmt_markdown(columns = Comments, rows = md) %>%
+    tab3 <- tab2 |> gt() |>
+      gt::fmt_markdown(columns = Comments, rows = md) |>
     gt::tab_style(
       style = list(
         cell_fill(color = "black"),

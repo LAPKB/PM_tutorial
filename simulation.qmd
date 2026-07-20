@@ -316,14 +316,25 @@ simOther <- PM_sim$new(poppar = poppar, data = exData, model = mod1,
 Simulate from a model with new data.
 
 ```{r}
+#| eval: false
+#| echo: true
+sim_new <- run1$sim(
+  data = "src/ptaex1.csv",
+  include = 2, limits = NA,
+  predInt = c(120, 144, 1)
+)
+```
+
+
+```{r}
 #| eval: true
+#| echo: false
 sim_new <- run1$sim(
   data = "Data/src/ptaex1.csv",
   include = 2, limits = NA,
   predInt = c(120, 144, 1)
 )
 ```
-
 
 Plot them; `?plot.PM_sim` for help.
 

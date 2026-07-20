@@ -7,7 +7,7 @@ project:
 book:
   title: "Learn Pmetrics"
   author: "Michael Neely"
-  date: "April 2026"
+  date: "July 20, 2026"
   chapters:
     - index.qmd
     - intro.qmd

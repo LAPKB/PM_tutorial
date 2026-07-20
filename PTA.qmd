@@ -104,8 +104,8 @@ mod2 <- PM_model$new(
 runs_path <- file.path(tempdir(), "tutorial-runs")
 dir.create(runs_path, showWarnings = FALSE, recursive = TRUE)
 
-run1 <- mod1$fit(data = exData, run = 1, overwrite = TRUE, path = runs_path, quiet = TRUE)
-run2 <- mod2$fit(data = exData, run = 2, overwrite = TRUE, path = runs_path, quiet = TRUE)
+run1 <- mod1$fit(data = exData, run = 1, overwrite = TRUE, path = runs_path, quiet = TRUE, report = "none")
+run2 <- mod2$fit(data = exData, run = 2, overwrite = TRUE, path = runs_path, quiet = TRUE, report = "none")
 
 ```
 
@@ -388,9 +388,9 @@ pta1b_2 <- PM_pta$new( # second creation method
 ```{r}
 #| eval: true
 #| echo: false
-pta1b_2$summary(at = 1) %>% 
-  dplyr::slice_head(n = 10) %>%
-  dplyr::mutate(across(where(is.numeric), ~ round(., 3))) %>%
+pta1b_2$summary(at = 1) |> 
+  dplyr::slice_head(n = 10) |>
+  dplyr::mutate(across(where(is.numeric), ~ round(., 3))) |>
   knitr::kable()
 ```
 

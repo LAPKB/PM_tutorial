@@ -23,8 +23,8 @@ gh_help <- function(name) {
 
 
 custom_table <- function(tab){
-  #system.file("extData", tab, package = "Pmetrics") %>%
-    read.csv(file.path("Data",tab), na.strings = ".") %>% gt() %>%
+  #system.file("extData", tab, package = "Pmetrics") |>
+    read.csv(file.path("Data",tab), na.strings = ".") |> gt() |>
     tab_style(
       style = list(
         cell_fill(color = "black"),
