@@ -21,7 +21,7 @@ book:
     - NPAG_cov.qmd
     - simulation.qmd
     - PTA.qmd
-    #- Validate.qmd
+    - Validate.qmd
     - plotly.qmd
     - Compare.qmd
   page-navigation: true

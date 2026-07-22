@@ -71,30 +71,38 @@ run2$validate(limits = c(0, 3))
 ```
 
 
-The default visual predictive check; ?plot.PM_valid for help
+Plot the default visual predictive check; `?plot.PM_valid` for help.
+
+```{r}
 run2$valid$plot()
+```
 
-or old S3
-plot(run2$valid)
-
-
-Generate a prediction-corrected visual predictive check; type ?plot.PMvalid in the R console for help.
+Generate a prediction-corrected visual predictive check.
+```{r}
 run2$valid$plot(type = "pcvpc")
+```
 
-Create an npde plot
+Create an npde plot.
+
+```{r}
 run2$valid$plot(type = "npde")
+```
 
 Here is another way to generate a visual predicive check...
-npc_2 <- run2$valid$simdata$plot(obs = run2$op, log = FALSE, binSize = 0.5)
 
-The jagged appearance of the plot when binSize=0 is because different subjects have
+```{r}
+npc_2 <- run2$valid$simdata$plot(obs = run2$op, log = FALSE, binSize = 0.5)
+```
+
+The plot can appear more jagged with smaller bin sizes because different subjects have
 different doses, covariates, and observation times, which are all combined in one simulation.
-Collapsing simulation times within 1 hour bins (binSize=1) smooths
+Collapsing simulation times within 1 hour bins (`binSize = 1`) smooths
 the plot, but can change the P-values in the numerical predictive check below.
 
+```{r}
 npc_2
- ...and here is a numerical predictive check
-P-values are binomial test of proportion of observations less than
-the respective quantile
+```
+ ...and here is a numerical predictive check. P-values are binomial test of proportion of observations less than
+the respective quantile.
 
 ## Citations
