@@ -5,7 +5,7 @@ project:
    # - Data/**
 
 book:
-  title: "Learn Pmetrics"
+  title: "Pmetrics in R"
   author: "Michael Neely"
   date: "July 20, 2026"
   chapters:

@@ -1,7 +1,8 @@
 # Quarto build outputs
 _site/
 _book/
-docs/          # ignore if you plan to publish from /docs (see Option B)
+# ignore docs/ if you plan to publish from /docs (see Option B)
+docs/
 # Quarto caches
 _freeze/
 # R/Posit clutter
@@ -18,3 +19,7 @@ Thumbs.db
 
 /.quarto/
 **/*.quarto_ipynb
+
+# Editor/IDE local settings
+.vscode/
+.posit/
