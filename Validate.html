@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>10&nbsp; More complex models – Pmetrics in R</title>
+<title>13&nbsp; Model Validation – Pmetrics in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -55,7 +55,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -65,8 +85,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./simulation.html" rel="next">
-<link href="./examine.html" rel="prev">
+<link href="./plotly.html" rel="next">
+<link href="./PTA.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -225,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./NPAG_cov.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">More complex models</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Validate.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Model Validation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -297,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./NPAG_cov.html" class="sidebar-item-text sidebar-link active">
+  <a href="./NPAG_cov.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">More complex models</span></span></a>
   </div>
 </li>
@@ -315,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Validate.html" class="sidebar-item-text sidebar-link">
+  <a href="./Validate.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Model Validation</span></span></a>
   </div>
 </li>
@@ -341,11 +361,9 @@ document.addEventListener('DOMContentLoaded', function () {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#set-up-the-tutorial-environment" id="toc-set-up-the-tutorial-environment" class="nav-link active" data-scroll-target="#set-up-the-tutorial-environment"><span class="header-section-number">10.1</span> Set up the tutorial environment</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">10.2</span> Introduction</a></li>
-  <li><a href="#model-with-covariates" id="toc-model-with-covariates" class="nav-link" data-scroll-target="#model-with-covariates"><span class="header-section-number">10.3</span> Model with covariates</a></li>
-  <li><a href="#add-compartments-to-a-model" id="toc-add-compartments-to-a-model" class="nav-link" data-scroll-target="#add-compartments-to-a-model"><span class="header-section-number">10.4</span> Add compartments to a model</a></li>
-  <li><a href="#differential-equations" id="toc-differential-equations" class="nav-link" data-scroll-target="#differential-equations"><span class="header-section-number">10.5</span> Differential equations</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">13.1</span> Introduction</a></li>
+  <li><a href="#simulation-based-internal-validation" id="toc-simulation-based-internal-validation" class="nav-link" data-scroll-target="#simulation-based-internal-validation"><span class="header-section-number">13.2</span> Simulation-based Internal Validation</a></li>
+  <li><a href="#citations" id="toc-citations" class="nav-link" data-scroll-target="#citations"><span class="header-section-number">13.3</span> Citations</a></li>
   </ul>
 </nav>
     </div>
@@ -354,7 +372,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">More complex models</span></h1>
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Model Validation</span></h1>
 </div>
 
 
@@ -371,8 +389,6 @@ document.addEventListener('DOMContentLoaded', function () {
 </header>
 
 
-<section id="set-up-the-tutorial-environment" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="set-up-the-tutorial-environment"><span class="header-section-number">10.1</span> Set up the tutorial environment</h2>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -383,203 +399,62 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Make sure you have run the <a href="./index.html#tutorial-setup">tutorial setup code</a> in your R session before copying, pasting and running example code here.</p>
+<p>It is essential that you understand <a href="./simulation.html">simulations</a> first.</p>
+<p>Also, make sure you have run the <a href="./index.html#tutorial-setup">tutorial setup code</a> in your R session before copying, pasting and running example code here.</p>
 </div>
 </div>
+<section id="introduction" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">13.1</span> Introduction</h2>
+<p>The fit of a model to the data generates various metrics of goodness-of-fit, such as the objective function value (OFV), Akaike information criterion (AIC), Bayesian information criterion (BIC), and log-likelihood. However, these metrics do not provide a complete picture of how well the model describes the data.</p>
+<p>Model validation techniques are used to assess the predictive performance of a model and its ability to generalize to new data. These techniques help identify potential issues with the model, such as overfitting or underfitting, and provide insights into areas where the model may need improvement.</p>
+<p>Broadly, two major types of model validation techniques exist: internal and external. External validation involves testing the model on an independent dataset that was not used during model development. Internal validation, on the other hand, uses the original dataset to assess the model’s performance through various resampling methods or simulation-based approaches.</p>
+<p>First we consider simulation-based, internal methods of model validation in <span style="color: #841010; font-family: 'Arial', Arial, sans-serif; font-weight: 900;">Pmetrics</span>.</p>
 </section>
-<section id="introduction" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="introduction"><span class="header-section-number">10.2</span> Introduction</h2>
-<p>Here we provide examples of adding covariates and compartments to models.</p>
+<section id="simulation-based-internal-validation" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="simulation-based-internal-validation"><span class="header-section-number">13.2</span> Simulation-based Internal Validation</h2>
+<p>Internal methods of validating include visual predictive check (VPC) <span class="citation" data-cites="holfordVPCVisualPredictive2005">(<a href="#ref-holfordVPCVisualPredictive2005" role="doc-biblioref">Holford 2005</a>)</span>, prediction-corrected visual predictive check (pcVPC) <span class="citation" data-cites="bergstrandPredictioncorrectedVisualPredictive2011">(<a href="#ref-bergstrandPredictioncorrectedVisualPredictive2011" role="doc-biblioref">Bergstrand et al. 2011</a>)</span>, numerical predictive check, and normalized prediction distribution errors (NPDE) <span class="citation" data-cites="cometsComputingNormalisedPrediction2008">(<a href="#ref-cometsComputingNormalisedPrediction2008" role="doc-biblioref">Comets, Brendel, and Mentré 2008</a>)</span>. These are all implemented in the <code>validate()</code> method of a <a href="https://lapkb.github.io/Pmetrics/reference/PM_result.html"><code>PM_result</code></a> object.</p>
+<p>The common idea is that we simulate many datasets from each subject the model building population and compare the distributions of the observed data and the simulated data. If the model is a good fit, the observed data should fall within the range of simulated data, similar in central tendency and dispersion.</p>
+<p>When executing the following code, choose <code>wt</code> as the covariate to bin. Accept all default bin sizes.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>run2<span class="sc">$</span><span class="fu">validate</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Plot the default visual predictive check; <code>?plot.PM_valid</code> for help.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>run2<span class="sc">$</span>valid<span class="sc">$</span><span class="fu">plot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Generate a prediction-corrected visual predictive check.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>run2<span class="sc">$</span>valid<span class="sc">$</span><span class="fu">plot</span>(<span class="at">type =</span> <span class="st">"pcvpc"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Create an npde plot.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>run2<span class="sc">$</span>valid<span class="sc">$</span><span class="fu">plot</span>(<span class="at">type =</span> <span class="st">"npde"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Here is another way to generate a visual predicive check…</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>npc_2 <span class="ot">&lt;-</span> run2<span class="sc">$</span>valid<span class="sc">$</span>simdata<span class="sc">$</span><span class="fu">plot</span>(<span class="at">obs =</span> run2<span class="sc">$</span>op, <span class="at">log =</span> <span class="cn">FALSE</span>, <span class="at">binSize =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The plot can appear more jagged with smaller bin sizes because different subjects have different doses, covariates, and observation times, which are all combined in one simulation. Collapsing simulation times within 1 hour bins (<code>binSize = 1</code>) smooths the plot, but can change the P-values in the numerical predictive check below.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>npc_2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>…and here is a numerical predictive check. P-values are binomial test of proportion of observations less than the respective quantile.</p>
 </section>
-<section id="model-with-covariates" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="model-with-covariates"><span class="header-section-number">10.3</span> Model with covariates</h2>
-<p>Let’s create another run object, this time using a model that include covariates.</p>
-<p>First, recall the model from the <a href="./NPAG.html">NPAG example</a>.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model with covariates declared but not used</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="fu">list</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ka =</span> <span class="fu">ab</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>),</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">ab</span>(<span class="fl">0.001</span>, <span class="fl">0.1</span>),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">K23 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">5</span>),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">K32 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">5</span>),</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">ab</span>(<span class="dv">30</span>, <span class="dv">120</span>),</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag1 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">4</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">list</span>(</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">wt =</span> <span class="fu">interp</span>(),</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">africa =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">interp</span>(),</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="fu">interp</span>()</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">eqn =</span> <span class="cf">function</span>(){</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    two_comp_bolus</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">lag =</span> <span class="cf">function</span>(){</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    lag[<span class="dv">1</span>] <span class="ot">=</span> lag1</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="cf">function</span>(){</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  Y[<span class="dv">1</span>] <span class="ot">=</span> X[<span class="dv">2</span>]<span class="sc">/</span>V</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">err =</span> <span class="fu">list</span>(</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">proportional</span>(<span class="dv">5</span>, <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="sc">-</span><span class="fl">0.0002</span>, <span class="dv">0</span>))</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Next, we update it to change <code>V</code> to an new variable called <code>V0</code> in the <code>PRI</code> list element. In the <code>OUT</code> list element, we include an equation that relates <code>V0</code> to normalized weight. <strong>Note</strong> that we could also have included the <code>V = V0 * (wt/70)</code> in a <code>SEC</code> block to globally define this relationship for any other model list block. In this case, we only use <code>V</code> in the <code>OUT</code> block, so we define it there locally.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># declare covariates AND use them in the model</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="fu">list</span>(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ka =</span> <span class="fu">ab</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">ab</span>(<span class="fl">0.001</span>, <span class="fl">0.1</span>),</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">K23 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">5</span>),</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">K32 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">5</span>),</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">V0 =</span> <span class="fu">ab</span>(<span class="dv">30</span>, <span class="dv">120</span>),</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag1 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">4</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">list</span>(</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">wt =</span> <span class="fu">interp</span>(),</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">africa =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">interp</span>(),</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="fu">interp</span>()</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">eqn =</span> <span class="cf">function</span>(){</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    two_comp_bolus</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">lag =</span> <span class="cf">function</span>(){</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    lag[<span class="dv">1</span>] <span class="ot">=</span> lag1</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="cf">function</span>(){</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    V <span class="ot">=</span> V0 <span class="sc">*</span> (wt<span class="sc">/</span><span class="dv">70</span>)</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    Y[<span class="dv">1</span>] <span class="ot">=</span> X[<span class="dv">2</span>]<span class="sc">/</span>V</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">err =</span> <span class="fu">list</span>(</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">proportional</span>(<span class="dv">5</span>, <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="sc">-</span><span class="fl">0.0002</span>, <span class="dv">0</span>))</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Ensure the data are loaded.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>exData <span class="ot">&lt;-</span> PM_data<span class="sc">$</span><span class="fu">new</span>(<span class="at">data =</span> <span class="st">"src/ex.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Now, run that new model.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>run2 <span class="ot">&lt;-</span> mod2<span class="sc">$</span><span class="fu">fit</span>(<span class="at">data =</span> exData, <span class="at">run =</span> <span class="dv">2</span>, <span class="at">path =</span> <span class="st">"Runs"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Right after the run, the results are in <code>run2</code>, but for future loading if you return to your script later, you can load it with <code>PM_load()</code>.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>run2 <span class="ot">&lt;-</span> <span class="fu">PM_load</span>(<span class="dv">2</span>, <span class="at">path =</span> <span class="st">"Runs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>You can examine the results as we’ve seen in previous chapters.</p>
-</section>
-<section id="add-compartments-to-a-model" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="add-compartments-to-a-model"><span class="header-section-number">10.4</span> Add compartments to a model</h2>
-<p>Now, let’s create a model with an additional compartment. We’ll add a peripheral compartment to the previous two-compartment bolus model.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model with covariates and an additional compartment</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="fu">list</span>(</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ka =</span> <span class="fu">ab</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>),</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">ab</span>(<span class="fl">0.001</span>, <span class="fl">0.1</span>),</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">V0 =</span> <span class="fu">ab</span>(<span class="dv">30</span>, <span class="dv">120</span>),</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">K23 =</span> <span class="fu">ab</span>(<span class="fl">0.001</span>, <span class="fl">0.5</span>),</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">K24 =</span> <span class="fu">ab</span>(<span class="fl">0.001</span>, <span class="fl">0.5</span>),</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">K32 =</span> <span class="fu">ab</span>(<span class="fl">0.001</span>, <span class="fl">0.5</span>),</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">K42 =</span> <span class="fu">ab</span>(<span class="fl">0.001</span>, <span class="fl">0.5</span>),</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag1 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">4</span>)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">list</span>(</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">wt =</span> <span class="fu">interp</span>(),</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">africa =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">interp</span>(),</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="fu">interp</span>()</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">eqn =</span> <span class="cf">function</span>(){</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    three_comp_bolus</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">lag =</span> <span class="cf">function</span>(){</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    lag[<span class="dv">1</span>] <span class="ot">=</span> lag1</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="cf">function</span>(){</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    V <span class="ot">=</span> V0 <span class="sc">*</span> (wt<span class="sc">/</span><span class="dv">70</span>)</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    Y[<span class="dv">1</span>] <span class="ot">=</span> X[<span class="dv">2</span>]<span class="sc">/</span>V</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">err =</span> <span class="fu">list</span>(</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">proportional</span>(<span class="dv">5</span>, <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="sc">-</span><span class="fl">0.0002</span>, <span class="dv">0</span>))</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>Notes:</strong></p>
-<ol type="1">
-<li>We used <a href="https://lapkb.github.io/Pmetrics/reference/model_lib.html"><code>model_lib</code></a> to check the name of the algebraic 3-compartment model and the required parameters that should be declared (Ka, Ke, K23, K24, K32, K42 and V).</li>
-<li>Don’t forget that you can simply type the name of the library model into the console to get information about it.</li>
-</ol>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># type the name to get information about the model</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>three_comp_bolus</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ol start="3" type="1">
-<li>Output is still in compartment 2.</li>
-</ol>
-<p>Now, run that new model.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run model with 3 compartments and covariates</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>run3 <span class="ot">&lt;-</span> mod3<span class="sc">$</span><span class="fu">fit</span>(<span class="at">data =</span> exData, <span class="at">run =</span> <span class="dv">3</span>, <span class="at">path =</span> <span class="st">"Runs"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Again, you can load it later with <code>PM_load()</code>.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>run3 <span class="ot">&lt;-</span> <span class="fu">PM_load</span>(<span class="dv">3</span>, <span class="at">path =</span> <span class="st">"Runs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="differential-equations" class="level2" data-number="10.5">
-<h2 data-number="10.5" class="anchored" data-anchor-id="differential-equations"><span class="header-section-number">10.5</span> Differential equations</h2>
-<p>Here is <code>mod3</code> again, but this time using differential equations instead of built-in compartmental models, just to show the structure of the ODEs.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ODE model with covariates and an additional compartment</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>mod3b <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="fu">list</span>(</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ka =</span> <span class="fu">ab</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>),</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">ab</span>(<span class="fl">0.001</span>, <span class="fl">0.1</span>),</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">V0 =</span> <span class="fu">ab</span>(<span class="dv">30</span>, <span class="dv">120</span>),</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">K12 =</span> <span class="fu">ab</span>(<span class="fl">0.001</span>, <span class="fl">0.5</span>),</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">K21 =</span> <span class="fu">ab</span>(<span class="fl">0.001</span>, <span class="fl">0.5</span>),</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag1 =</span> <span class="fu">ab</span>(<span class="dv">0</span>, <span class="dv">4</span>)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">list</span>(</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">wt =</span> <span class="fu">interp</span>(),</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">africa =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">interp</span>(),</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">interp</span>(<span class="st">"none"</span>),</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="fu">interp</span>()</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">eqn =</span> <span class="cf">function</span>(){</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    dX[<span class="dv">1</span>] <span class="ot">=</span> B[<span class="dv">1</span>] <span class="sc">-</span> Ka <span class="sc">*</span> X[<span class="dv">1</span>]</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    dX[<span class="dv">2</span>] <span class="ot">=</span> R[<span class="dv">1</span>] <span class="sc">+</span> Ka <span class="sc">*</span> X[<span class="dv">1</span>] <span class="sc">-</span> (K12 <span class="sc">+</span> Ke) <span class="sc">*</span> X[<span class="dv">2</span>] <span class="sc">+</span> K21 <span class="sc">*</span> X[<span class="dv">3</span>]</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    dX[<span class="dv">3</span>] <span class="ot">=</span> K12 <span class="sc">*</span> X[<span class="dv">2</span>] <span class="sc">-</span> K21 <span class="sc">*</span> X[<span class="dv">3</span>]</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">lag =</span> <span class="cf">function</span>(){</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    lag[<span class="dv">1</span>] <span class="ot">=</span> lag1</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="cf">function</span>(){</span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    V <span class="ot">=</span> V0 <span class="sc">*</span> (wt<span class="sc">/</span><span class="dv">70</span>)</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    Y[<span class="dv">1</span>] <span class="ot">=</span> X[<span class="dv">2</span>]<span class="sc">/</span>V</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">err =</span> <span class="fu">list</span>(</span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">proportional</span>(<span class="dv">5</span>, <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="sc">-</span><span class="fl">0.0002</span>, <span class="dv">0</span>))</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><strong>Notes:</strong></p>
-<ol type="1">
-<li>We have replaced <code>KCP</code> and <code>KPC</code> with <code>K12</code> and <code>K21</code>, to emphasize that ODE models do not require specifically named parameters in the <code>PRI</code> block.</li>
-<li>By including <code>R[1]</code> in the central compartment, <code>X[2]</code> in this model, we allow for infusions of drug 1 in addition to the bolus input for drug 1, <code>B[1]</code>. The equivalent algebraic model, <code>three_comp_bolus</code>, does the same.</li>
-</ol>
+<section id="citations" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="citations"><span class="header-section-number">13.3</span> Citations</h2>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-bergstrandPredictioncorrectedVisualPredictive2011" class="csl-entry" role="listitem">
+Bergstrand, Martin, Andrew C Hooker, Johan E Wallin, and Mats O Karlsson. 2011. <span>“Prediction-Corrected Visual Predictive Checks for Diagnosing Nonlinear Mixed-Effects Models.”</span> <em>The AAPS Journal</em> 13 (2): 143–51. <a href="https://doi.org/10.1208/s12248-011-9255-z">https://doi.org/10.1208/s12248-011-9255-z</a>.
+</div>
+<div id="ref-cometsComputingNormalisedPrediction2008" class="csl-entry" role="listitem">
+Comets, Emmanuelle, Karl Brendel, and France Mentré. 2008. <span>“Computing Normalised Prediction Distribution Errors to Evaluate Nonlinear Mixed-Effect Models: <span>The</span> Npde Add-on Package for <span>R</span>.”</span> <em>Computer Methods and Programs in Biomedicine</em> 90 (2): 154–66. <a href="https://doi.org/10.1016/j.cmpb.2007.12.002">https://doi.org/10.1016/j.cmpb.2007.12.002</a>.
+</div>
+<div id="ref-holfordVPCVisualPredictive2005" class="csl-entry" role="listitem">
+Holford, N. 2005. <span>“<span>VPC</span>, the Visual Predictive Check - Superiority to Standard Diagnostic (<span>Rorschach</span>) Plots.”</span> In <em>14th <span>Population Approach Group Europe</span> (<span>PAGE</span>)</em>, Abstract 738. Pamplona, Spain.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
@@ -990,13 +865,13 @@ Tip
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./examine.html" class="pagination-link" aria-label="Examine results">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Examine results</span></span>
+      <a href="./PTA.html" class="pagination-link" aria-label="Probability of Target Attainment (PTA)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Probability of Target Attainment (PTA)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./simulation.html" class="pagination-link" aria-label="Simulations">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Simulations</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./plotly.html" class="pagination-link" aria-label="Plotting Details">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Plotting Details</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
