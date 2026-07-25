@@ -446,7 +446,7 @@ Tip
 <h2 data-number="6.2" class="anchored" data-anchor-id="creating-models"><span class="header-section-number">6.2</span> Creating Models</h2>
 <p>There are three pathways to creating models in Pmetrics.</p>
 <ul>
-<li>Use the new Pmetrics Model Builder app, coming soon. The Shiny app is retired.</li>
+<li>Use the new Pmetrics Papir app, coming soon. The Shiny app is retired.</li>
 <li>Write a model list in R</li>
 <li>Load an existing model text file. This is for legacy purposes only; we strongly recommend using model lists in R for all new modeling work.</li>
 </ul>
@@ -478,7 +478,7 @@ You can supply a `PM_data` and/or a `PM_model` as optional arguments to the func
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># example only; do not execute</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># for primary parameters and covariates</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>block_name <span class="ot">=</span> <span class="fu">list</span>(     </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pri <span class="ot">=</span> <span class="fu">list</span>( <span class="co"># or cov = list(    </span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">var1 =</span> <span class="fu">creator</span>(), <span class="co"># var1 is the name of the parameter/covariate   </span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">var2 =</span> <span class="fu">creator</span>(),</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  ... <span class="co"># more variables</span></span>
@@ -498,7 +498,7 @@ You can supply a `PM_data` and/or a `PM_model` as optional arguments to the func
 <div data-code-copy="false">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># example only; do not execute</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>block_name <span class="ot">=</span> <span class="cf">function</span>() { </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sec <span class="ot">=</span> <span class="cf">function</span>() { <span class="co"># OR eqn = function() { OR lag = function() { OR fa = function() { OR ini = function() { OR out = function() {</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      <span class="co"># any valid R code </span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="co"># can use primary or secondary parameters and covariates</span></span>
@@ -612,7 +612,7 @@ Here you can choose from pre-existing models, either which you have created your
 In the snapshots, B is for bolus inputs, R is for Rate infusions (e.g. intravenous infusions), and Y is for observations. Arrows indicate the flow of drug. The grey compartment 0 is the environment.
 
 Once you choose a model, hit the "Select" button at the bottom to populate remaining model components. Similarly, if you load a Previous Model, model components will be appropriately populated. -->
-<p>You can access the Pmetrics Model Library programmatically using the <a href="https://lapkb.github.io/Pmetrics/reference/model_lib.html"><code>model_lib</code></a> function. This function returns a data frame of available models with their characteristics, including the model name to be used in the <code>EQN</code> block, number of compartments, number of inputs and outputs, and a brief description.</p>
+<p>You can access the Pmetrics Model Library programmatically using the <a href="https://lapkb.github.io/Pmetrics/reference/model_lib.html"><code>model_lib</code></a> function or <a href="https://lapkb.github.io/Pmetrics/reference/apps.html"><code>apps</code></a> for a listing of all available Pmetrics apps. The <a href="https://lapkb.github.io/Pmetrics/reference/model_lib.html"><code>model_lib</code></a> function returns a data frame of available models with their characteristics, including the model name to be used in the <code>EQN</code> block, number of compartments, number of inputs and outputs, and a brief description.</p>
 <p>All of the models are pre-loaded as R6 objects. You can get details of the model by simply typing its primary name from the table into the console. For example:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># see the library contents</span></span>
@@ -1068,11 +1068,12 @@ Y[1] = RES/VD</p>
 Coming soon. -->
 <section id="list-8" class="level4" data-number="6.3.10.1">
 <h4 data-number="6.3.10.1" class="anchored" data-anchor-id="list-8"><span class="header-section-number">6.3.10.1</span> List</h4>
-<p>The error list element is a list of creator functions. The two possible creator functions are <code>proportional</code> or <code>additive</code>. Each of these functions has the same arguments: <code>initial</code>, <code>coeff</code>, and <code>fixed</code>.</p>
+<p>The error list element is a list of creator functions. The two possible creator functions are <code>proportional</code> or <code>additive</code>. Each of these functions has the same arguments: <code>initial</code>, <code>coeff</code>, <code>fixed</code>, and <code>outeq</code>.</p>
 <ul>
 <li>The <code>initial</code> argument is the starting value for <span class="math inline">\(\gamma\)</span> in the <code>proportional()</code> creator function or <span class="math inline">\(\lambda\)</span> for the <code>additive()</code> creator function.</li>
 <li>For both creators, <code>coeff</code> is the vector of 4 numbers that defines a polynomial equation to permit calculation of the standard deviation of an observation, based on the noise of the assay (see <a href="https://lapkb.github.io/Pmetrics/reference/makeErrorPoly.html"><code>makeErrorPoly</code></a>).</li>
-<li>The final argument <code>fixed</code> is <code>FALSE</code> by default, which means that <span class="math inline">\(\gamma\)</span> or <span class="math inline">\(\lambda\)</span> will be estimated for each output equation as measures of additional noise in the data and/or model misspecification. If <code>fixed</code> is set to <code>TRUE</code>, then the value in <code>initial</code> will be held constant during estimation.</li>
+<li>The <code>fixed</code> argument is <code>FALSE</code> by default, which means that <span class="math inline">\(\gamma\)</span> or <span class="math inline">\(\lambda\)</span> will be estimated for each output equation as measures of additional noise in the data and/or model misspecification. If <code>fixed</code> is set to <code>TRUE</code>, then the value in <code>initial</code> will be held constant during estimation.</li>
+<li><code>outeq</code> specifies which output equation the error equation belongs to. The default is <code>outeq = 1</code>, so if you only have one output equation (e.g.&nbsp;only <code>Y[1]</code> in your <code>out</code> block), you don’t need to supply <code>outeq</code> here. If you have more than one output, you will need to specify that here.</li>
 </ul>
 <p>In the code snippet below, there are two output equations so there are two error models. The first is a <span class="math inline">\(\gamma\)</span> proportional model with starting value 1, which will be updated based on the model fit of the data, and assay polynomial coefficients of 0.15, 0.1, 0, and 0. The second is an additive <span class="math inline">\(\lambda\)</span> model with starting value 0.1, assay polynomial coefficients of 0.1, 0, 0, and 0, and because <code>fixed = TRUE</code>, it will not be estimated and will be held constant at 0.1.</p>
 <div data-code-copy="false">
@@ -1085,7 +1086,7 @@ Coming soon. -->
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  },</span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">err =</span> <span class="fu">list</span>(</span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">proportional</span>(<span class="dv">1</span>, <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>)),</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">additive</span>(<span class="fl">0.1</span>, <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">fixed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">additive</span>(<span class="fl">0.1</span>, <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">fixed =</span> <span class="cn">TRUE</span>, <span class="at">outeq =</span> <span class="dv">2</span>)</span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1369,23 +1370,23 @@ While incomplete models can be copied, a model can only be saved when it is comp
 <p>The following cannot be used as primary, covariate, or secondary variable names. They can be used in equations, however.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="qvyznpyezx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qvyznpyezx table {
+<div id="murxovbdfi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#murxovbdfi table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#qvyznpyezx thead, #qvyznpyezx tbody, #qvyznpyezx tfoot, #qvyznpyezx tr, #qvyznpyezx td, #qvyznpyezx th {
+#murxovbdfi thead, #murxovbdfi tbody, #murxovbdfi tfoot, #murxovbdfi tr, #murxovbdfi td, #murxovbdfi th {
   border-style: none;
 }
 
-#qvyznpyezx p {
+#murxovbdfi p {
   margin: 0;
   padding: 0;
 }
 
-#qvyznpyezx .gt_table {
+#murxovbdfi .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1411,12 +1412,12 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-left-color: #D3D3D3;
 }
 
-#qvyznpyezx .gt_caption {
+#murxovbdfi .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qvyznpyezx .gt_title {
+#murxovbdfi .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1428,7 +1429,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-width: 0;
 }
 
-#qvyznpyezx .gt_subtitle {
+#murxovbdfi .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1440,7 +1441,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-top-width: 0;
 }
 
-#qvyznpyezx .gt_heading {
+#murxovbdfi .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1452,13 +1453,13 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#qvyznpyezx .gt_bottom_border {
+#murxovbdfi .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qvyznpyezx .gt_col_headings {
+#murxovbdfi .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1473,7 +1474,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#qvyznpyezx .gt_col_heading {
+#murxovbdfi .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1493,7 +1494,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   overflow-x: hidden;
 }
 
-#qvyznpyezx .gt_column_spanner_outer {
+#murxovbdfi .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1505,15 +1506,15 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 4px;
 }
 
-#qvyznpyezx .gt_column_spanner_outer:first-child {
+#murxovbdfi .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qvyznpyezx .gt_column_spanner_outer:last-child {
+#murxovbdfi .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qvyznpyezx .gt_column_spanner {
+#murxovbdfi .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1525,11 +1526,11 @@ While incomplete models can be copied, a model can only be saved when it is comp
   width: 100%;
 }
 
-#qvyznpyezx .gt_spanner_row {
+#murxovbdfi .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#qvyznpyezx .gt_group_heading {
+#murxovbdfi .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1555,7 +1556,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   text-align: left;
 }
 
-#qvyznpyezx .gt_empty_group_heading {
+#murxovbdfi .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1570,15 +1571,15 @@ While incomplete models can be copied, a model can only be saved when it is comp
   vertical-align: middle;
 }
 
-#qvyznpyezx .gt_from_md > :first-child {
+#murxovbdfi .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qvyznpyezx .gt_from_md > :last-child {
+#murxovbdfi .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qvyznpyezx .gt_row {
+#murxovbdfi .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1597,7 +1598,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   overflow-x: hidden;
 }
 
-#qvyznpyezx .gt_stub {
+#murxovbdfi .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1610,7 +1611,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#qvyznpyezx .gt_stub_row_group {
+#murxovbdfi .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1624,15 +1625,15 @@ While incomplete models can be copied, a model can only be saved when it is comp
   vertical-align: top;
 }
 
-#qvyznpyezx .gt_row_group_first td {
+#murxovbdfi .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qvyznpyezx .gt_row_group_first th {
+#murxovbdfi .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#qvyznpyezx .gt_summary_row {
+#murxovbdfi .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1642,16 +1643,16 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#qvyznpyezx .gt_first_summary_row {
+#murxovbdfi .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qvyznpyezx .gt_first_summary_row.thick {
+#murxovbdfi .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qvyznpyezx .gt_last_summary_row {
+#murxovbdfi .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1661,7 +1662,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-color: #D3D3D3;
 }
 
-#qvyznpyezx .gt_grand_summary_row {
+#murxovbdfi .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1671,7 +1672,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#qvyznpyezx .gt_first_grand_summary_row {
+#murxovbdfi .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1681,7 +1682,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-top-color: #D3D3D3;
 }
 
-#qvyznpyezx .gt_last_grand_summary_row_top {
+#murxovbdfi .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1691,11 +1692,11 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-color: #D3D3D3;
 }
 
-#qvyznpyezx .gt_striped {
+#murxovbdfi .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qvyznpyezx .gt_table_body {
+#murxovbdfi .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1704,7 +1705,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-bottom-color: #D3D3D3;
 }
 
-#qvyznpyezx .gt_footnotes {
+#murxovbdfi .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1718,7 +1719,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#qvyznpyezx .gt_footnote {
+#murxovbdfi .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1727,7 +1728,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#qvyznpyezx .gt_sourcenotes {
+#murxovbdfi .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1741,7 +1742,7 @@ While incomplete models can be copied, a model can only be saved when it is comp
   border-right-color: #D3D3D3;
 }
 
-#qvyznpyezx .gt_sourcenote {
+#murxovbdfi .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1749,72 +1750,72 @@ While incomplete models can be copied, a model can only be saved when it is comp
   padding-right: 5px;
 }
 
-#qvyznpyezx .gt_left {
+#murxovbdfi .gt_left {
   text-align: left;
 }
 
-#qvyznpyezx .gt_center {
+#murxovbdfi .gt_center {
   text-align: center;
 }
 
-#qvyznpyezx .gt_right {
+#murxovbdfi .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qvyznpyezx .gt_font_normal {
+#murxovbdfi .gt_font_normal {
   font-weight: normal;
 }
 
-#qvyznpyezx .gt_font_bold {
+#murxovbdfi .gt_font_bold {
   font-weight: bold;
 }
 
-#qvyznpyezx .gt_font_italic {
+#murxovbdfi .gt_font_italic {
   font-style: italic;
 }
 
-#qvyznpyezx .gt_super {
+#murxovbdfi .gt_super {
   font-size: 65%;
 }
 
-#qvyznpyezx .gt_footnote_marks {
+#murxovbdfi .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#qvyznpyezx .gt_asterisk {
+#murxovbdfi .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qvyznpyezx .gt_indent_1 {
+#murxovbdfi .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qvyznpyezx .gt_indent_2 {
+#murxovbdfi .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qvyznpyezx .gt_indent_3 {
+#murxovbdfi .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qvyznpyezx .gt_indent_4 {
+#murxovbdfi .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qvyznpyezx .gt_indent_5 {
+#murxovbdfi .gt_indent_5 {
   text-indent: 25px;
 }
 
-#qvyznpyezx .katex-display {
+#murxovbdfi .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#qvyznpyezx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#murxovbdfi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
