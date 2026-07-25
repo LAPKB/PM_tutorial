@@ -101,11 +101,9 @@ mod2 <- PM_model$new(
   quiet = TRUE
 )
 
-runs_path <- file.path(tempdir(), "tutorial-runs")
-dir.create(runs_path, showWarnings = FALSE, recursive = TRUE)
+run1 <- PM_load(run = 1, path = "Data/Runs")
+run2 <- PM_load(run = 2, path = "Data/Runs")
 
-run1 <- mod1$fit(data = exData, run = 1, overwrite = TRUE, path = runs_path, quiet = TRUE, report = "none")
-run2 <- mod2$fit(data = exData, run = 2, overwrite = TRUE, path = runs_path, quiet = TRUE, report = "none")
 
 ```
 
@@ -666,7 +664,7 @@ pta6_2 <- PM_pta$new(
 ```{r}
 #| eval: true
 #| echo: false
-p <- pta6_2$plot(ylab = "Proportion with C3/MIC of at least 1", grid = TRUE, legend = list(x = .3, y = 0.1))
+p <- pta6_2$plot(ylab = "Proportion with C3/MIC of at least 1", grid = TRUE)
 plotly::plotly_build(p)
 ```
 

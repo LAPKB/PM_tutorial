@@ -66,7 +66,7 @@ Make sure you have run the [tutorial setup code](index.qmd#tutorial-setup) in yo
 
 There are three pathways to creating models in Pmetrics.
 
--   Use the new Pmetrics Model Builder app, coming soon. The Shiny app is retired.
+-   Use the new Pmetrics Papir app, coming soon. The Shiny app is retired.
 -   Write a model list in R
 -   Load an existing model text file. This is for legacy purposes only; we strongly recommend using model lists in R for all new modeling work.
 
@@ -106,7 +106,7 @@ The list elements are the building blocks for the model. Building blocks are of 
 # example only; do not execute
 
 # for primary parameters and covariates
-block_name = list(     
+pri = list( # or cov = list(    
   var1 = creator(), # var1 is the name of the parameter/covariate   
   var2 = creator(),
   ... # more variables
@@ -129,7 +129,7 @@ err = list(
 ```{r}
 #| label: mod-block-func
 # example only; do not execute
-block_name = function() { 
+sec = function() { # OR eqn = function() { OR lag = function() { OR fa = function() { OR ini = function() { OR out = function() {
 
       # any valid R code 
       # can use primary or secondary parameters and covariates
@@ -239,7 +239,7 @@ In the snapshots, B is for bolus inputs, R is for Rate infusions (e.g. intraveno
 
 Once you choose a model, hit the "Select" button at the bottom to populate remaining model components. Similarly, if you load a Previous Model, model components will be appropriately populated. -->
 
-You can access the Pmetrics Model Library programmatically using the `r gh_help("model_lib")` function. This function returns a data frame of available models with their characteristics, including the model name to be used in the `EQN` block, number of compartments, number of inputs and outputs, and a brief description.
+You can access the Pmetrics Model Library programmatically using the `r gh_help("model_lib")` function or `r gh_help("apps")` for a listing of all available Pmetrics apps. The `r gh_help("model_lib")` function returns a data frame of available models with their characteristics, including the model name to be used in the `EQN` block, number of compartments, number of inputs and outputs, and a brief description.
 
 All of the models are pre-loaded as R6 objects. You can get details of the model by simply typing its primary name from the table into the console. For example:
 ```{r}
@@ -769,11 +769,12 @@ Coming soon. -->
 
 #### List
 
-The error list element is a list of creator functions. The two possible creator functions are `proportional` or `additive`. Each of these functions has the same arguments: `initial`, `coeff`, and `fixed`.
+The error list element is a list of creator functions. The two possible creator functions are `proportional` or `additive`. Each of these functions has the same arguments: `initial`, `coeff`, `fixed`, and `outeq`.
 
 * The `initial` argument is the starting value for $\gamma$ in the `proportional()` creator function or $\lambda$ for the `additive()` creator function. 
 * For both creators, `coeff` is the vector of 4 numbers that defines a polynomial equation to permit calculation of the standard deviation of an observation, based on the noise of the assay (see `r gh_help("makeErrorPoly")`). 
-* The final argument `fixed` is `FALSE` by default, which means that $\gamma$ or $\lambda$ will be estimated for each output equation as measures of additional noise in the data and/or model misspecification. If `fixed` is set to `TRUE`, then the value in `initial` will be held constant during estimation.
+* The `fixed` argument is `FALSE` by default, which means that $\gamma$ or $\lambda$ will be estimated for each output equation as measures of additional noise in the data and/or model misspecification. If `fixed` is set to `TRUE`, then the value in `initial` will be held constant during estimation.
+* `outeq` specifies which output equation the error equation belongs to. The default is `outeq = 1`, so if you only have one output equation (e.g. only `Y[1]` in your `out` block), you don't need to supply `outeq` here. If you have more than one output, you will need to specify that here.
 
 In the code snippet below, there are two output equations so there are two error models. The first is a $\gamma$ proportional model with starting value 1, which will be updated based on the model fit of the data, and assay polynomial coefficients of 0.15, 0.1, 0, and 0.  The second is an additive $\lambda$ model with starting value 0.1, assay polynomial coefficients of 0.1, 0, 0, and 0, and because `fixed = TRUE`, it will not be estimated and will be held constant at 0.1.
 
@@ -788,7 +789,7 @@ mod <- PM_model$new(
   },
   err = list(
     proportional(1, c(0.15, 0.1, 0, 0)),
-    additive(0.1, c(0.1, 0, 0, 0), fixed = TRUE)
+    additive(0.1, c(0.1, 0, 0, 0), fixed = TRUE, outeq = 2)
   )
 )
 ```

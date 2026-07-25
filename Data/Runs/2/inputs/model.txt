@@ -1,0 +1,15 @@
+name = two_comp_bolus
+kind = analytical
+params = ka, ke, k23, k32, v0, lag1
+covariates = wt, africa@carry_forward, age, gender@carry_forward, height
+structure = two_compartments_with_absorption
+states = x1, x2, x3
+outputs = outeq_1
+
+bolus(input_1) -> x1
+
+kcp = k23
+kpc = k32
+v = v0 * (wt / 70.0)
+
+out(outeq_1) = x2 / v

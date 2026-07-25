@@ -88,6 +88,8 @@ memory leaks and crashes. This makes it a more reliable choice for high-performa
 Additionally, Rust has a growing ecosystem of libraries and tools that make it easier to work with
 data and perform complex computations and a more flexible choice for a wide range of applications.
 
+**As of v. 3.2**, `r pmetrics()` uses a just in time (JIT) Rust compiler and direct symbolic language (DSL) under the hood, which means that users can enjoy the speed of compiled models without having to install Rust on their systems. This is a major breakthrough not available in most other pharmacometric software tools, which typically require complex installations of Fortran or other backend languages.
+
 ## Software engines
 
 There are three main software engines that `r pmetrics()` controls currently.
